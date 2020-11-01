@@ -10,7 +10,8 @@ import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 
 // COMPONENT
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/layoutV2/Navbar';
+import Footer from './components/layoutV2/Footer';
 // import Landing from './components/layout/Landing';
 import RouterList from './components/layout/RouterList';
 // import Footer from './components/layout/Footer';
@@ -41,9 +42,12 @@ function App() {
         <Router>
           <Fragment>
             {/* <Navbar /> */}
-            {/* <RouterList /> */}
-            <HomePage/>
+          <Navbar />
+
+            <RouterList />
               {/* <Footer /> */}
+        <Footer />
+
           </Fragment>
         </Router>
       </PersistGate>
