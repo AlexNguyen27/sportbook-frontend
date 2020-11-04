@@ -84,20 +84,22 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
 
   return (
     <Fragment>
-      <Landing />
-      <Grid container justify="center">
-        <Grid item xs={12} sm={4}>
-          <form onSubmit={(e) => onSubmit(e)}>
+      {/* <Landing /> */}
+      <Grid container justify="center" className="login">
+        <Grid item xs={10} sm={4} md={3}>
             <PageTitle title="Create an account" center="true" />
+          <form onSubmit={(e) => onSubmit(e)}>
             <TextFieldInputWithHeader
-              header="Username"
+              header="Email"
               name="username"
               className="mt-0"
               fullWidth
               value={username}
               onChange={onChange}
               error={errors.username}
-              placeholder="Enter Username"
+              placeholder="Enter Your Email"
+              variant="outlined"
+
             />
             {/* <TextFieldInputWithHeader
               header="Email"
@@ -120,6 +122,8 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               className="mt-0"
               fullWidth
               onChange={onChange}
+              variant="outlined"
+
             />
 
             <TextFieldInputWithHeader
@@ -132,10 +136,12 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               className="mt-0"
               fullWidth
               onChange={onChange}
+              variant="outlined"
+
             />
             <div className="text-center">
               <Button
-                className="mt-3 mr-2"
+                className="mt-3 mr-2 w-100"
                 variant="contained"
                 color="primary"
                 type="submit"

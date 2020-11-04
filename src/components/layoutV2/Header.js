@@ -1,6 +1,7 @@
 import React from 'react';
 import alternative from '../../images/header-teamwork.svg';
 import header from '../../images/background-header.png';
+// import landing from '../../images/landing-img.png';
 
 const Header = () => {
 
@@ -18,7 +19,7 @@ const Header = () => {
                     </div>
                     <div className="col-lg-6">
                         <div className="image-container">
-                            <img className="img-fluid" src={alternative} alt="alternative" />
+                            <img width="450px" height="450px" className="img-fluid" src={alternative} alt="alternative" />
                         </div>
                     </div>
                 </div>

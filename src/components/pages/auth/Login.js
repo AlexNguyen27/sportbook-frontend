@@ -31,6 +31,7 @@ const Login = ({
   // Click button Login
   const onSubmit = (e) => {
     e.preventDefault();
+    history.push('/user/info')
     const error = {};
 
     Object.keys(formData).map((key) => {
@@ -76,13 +77,34 @@ const Login = ({
 
   return (
     <Fragment>
-      <Landing />
-      <Grid container justify="center">
-        <Grid item xs={12} sm={4}>
+      <Grid container justify="center" className="login">
+        <Grid item xs={10} sm={4} md={3}>
+          <PageTitle title="Login to continue" center="true" />
+          <Grid container type="flex" spacing={2}>
+            <Grid item xs={6}>
+              <Button
+                className="mt-3 w-100"
+                variant="contained"
+                style={{ backgroundColor: '#3f72af', color: 'white' }}
+                type="submit"
+              >
+                Facebook
+                    </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                className="mt-3 w-100"
+                variant="contained"
+                type="submit"
+                style={{ backgroundColor: '#ec524b', color: 'white' }}
+              >
+                Google
+                </Button>
+            </Grid>
+          </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
-            <PageTitle title="Login" center="true" />
             <TextFieldInputWithHeader
-              header="Username"
+              header="Email"
               name="username"
               className="mt-0"
               fullWidth
@@ -90,6 +112,7 @@ const Login = ({
               onChange={onChange}
               error={errors.username || errors.message}
               placeholder="Enter Username"
+              variant="outlined"
             />
 
             <TextFieldInputWithHeader
@@ -102,23 +125,25 @@ const Login = ({
               className="mt-0"
               fullWidth
               onChange={onChange}
+              variant="outlined"
             />
-            <Grid container justify="center" spacing={4}>
-              <Grid item>
-                <Button
-                  className="mt-3"
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                >
-                  Login
+            {/* <Grid container justify="center" spacing={4}> */}
+            {/* <Grid item> */}
+            <Button
+              className="mt-3 w-100"
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Login
                 </Button>
-              </Grid>
-            </Grid>
+
+            {/* </Grid> */}
+            {/* </Grid> */}
           </form>
           <div className="text-center">
             <p
-              style={{ color: "blue", cursor: "pointer" }}
+              style={{ color: "#00bfd8", cursor: "pointer" }}
               className="mt-3 text-decoration-underline"
               onClick={() => history.push('reset-password')}
             >

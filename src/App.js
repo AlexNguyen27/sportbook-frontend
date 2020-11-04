@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 // import { connect } from 'react-redux'
+// import Helmet from 'react-helmet';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // import jwt_decode from 'jwt-decode';
@@ -21,7 +22,7 @@ import './css/index.css';
 
 import { BASE_URL } from './store/actions/types';
 import { globalOptions } from 'hera-js';
-import HomePage from './components/pagesV2/homePage/HomePage';
+// import HomePage from './components/pagesV2/homePage/HomePage';
 globalOptions.url = BASE_URL;
 // import { BASE_URL } from './store/actions/types';
 
@@ -41,13 +42,11 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Fragment>
-            {/* <Navbar /> */}
-          <Navbar />
-
-            <RouterList />
-              {/* <Footer /> */}
-        <Footer />
-
+            <div className="content">
+              <Navbar />
+              <RouterList />
+            </div>
+              <Footer />
           </Fragment>
         </Router>
       </PersistGate>

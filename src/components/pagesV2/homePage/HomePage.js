@@ -9,7 +9,6 @@ import Checkout from '../../layoutV2/Checkout';
 import Testimonial from '../../layoutV2/Testimonial';
 import About from '../../layoutV2/About';
 import Contact from '../../layoutV2/Contact';
-import Footer from '../../layoutV2/Footer';
 
 const HomePage = () => {
     return <div data-spy="scroll" data-target=".fixed-top">

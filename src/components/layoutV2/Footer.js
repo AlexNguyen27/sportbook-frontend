@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
-  return (<>
-    <div className="footer">
+    const currentYear = new Date().getFullYear();
+    const [className, setClassName] = useState('');
+
+    useEffect(() => {
+        if (window.location.pathname === "/") {
+            // console.log(window.location);
+            setClassName('');
+        }else {
+            // setClassName('footer-fixed');
+        }
+    }, [window.location.pathname])
+    return (<>
+        <footer className={['footer mt-4', className].join(' ')}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-4">
@@ -64,18 +74,19 @@ function Footer() {
                     </div>
                 </div>
             </div>
-        </div>
-        <div className="copyright">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <p className="p-small">Copyright ©  {currentYear} <a href="https://inovatik.com">Inovatik</a> - All rights reserved</p>
+            <div className="copyright">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <hr/>
+                            <p className="p-large">Copyright ©  {currentYear} <a href="https://inovatik.com">Inovatik</a> - All rights reserved</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     </>
-  );
+    );
 }
 
 export default Footer;

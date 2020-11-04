@@ -12,13 +12,15 @@ import DashBoard from "../pages/DashBoard";
 import ProtectedRoute from "../custom/ProtectedRoute";
 import ResetPassword from "../pages/auth/ResetPassword";
 import HomePage from "../pagesV2/homePage/HomePage";
+import User from "../pagesV2/user/User";
 
 const RouterList = (props) => {
   return (
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login} />
-        {/* <Route exact path="/signup" component={Signup} /> */}
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/user/info" component={User} />
         {/* <Route exact path="/reset-password" component={ResetPassword} /> */}
         {/* Admin */}
         {/* <ProtectedRoute exact path="/edit-user/:userId" component={DashBoard} /> */}
