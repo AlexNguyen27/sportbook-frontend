@@ -639,7 +639,7 @@ const DashBoard = ({
         }}
       >
         <div className={classes.drawerHeader}>
-          <strong>DEV TROOPS</strong>
+          <strong>Love Sports</strong>
           {/* <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />

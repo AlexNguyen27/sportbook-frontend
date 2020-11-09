@@ -11,16 +11,20 @@ import Signup from "../pages/auth/Signup";
 import DashBoard from "../pages/DashBoard";
 import ProtectedRoute from "../custom/ProtectedRoute";
 import ResetPassword from "../pages/auth/ResetPassword";
-import HomePage from "../pagesV2/homePage/HomePage";
+import HomePageUser from "../pagesV2/homePage/HomePageUser";
+import HomePageOwner from "../pagesV2/homePage/HomePageOwner";
 import User from "../pagesV2/user/User";
+import SearchGround from "../pagesV2/ground/SearchGround";
 
 const RouterList = (props) => {
   return (
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={HomePageUser} />
+        <Route exact path="/business" component={HomePageOwner} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/user/info" component={User} />
+        <Route exact path="/find-ground-online" component={SearchGround} />
         {/* <Route exact path="/reset-password" component={ResetPassword} /> */}
         {/* Admin */}
         {/* <ProtectedRoute exact path="/edit-user/:userId" component={DashBoard} /> */}

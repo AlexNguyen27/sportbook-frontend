@@ -42,7 +42,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Fragment>
-            <div className="content">
+            <div className="content" style={{ position: 'relative', minHeight: '64vh' }}>
               <Navbar />
               <RouterList />
             </div>

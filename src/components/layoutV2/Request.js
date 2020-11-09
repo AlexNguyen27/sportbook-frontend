@@ -35,25 +35,25 @@ function Request(props) {
                             <form id="requestForm" data-toggle="validator" data-focus="false">
                                 <div className="form-group">
                                     <input type="text" className="form-control-input" id="rname" name="rname" required />
-                                    <label className="label-control" for="rname">Full name</label>
+                                    <label className="label-control" htmlFor="rname">Full name</label>
                                     <div className="help-block with-errors"></div>
                                 </div>
                                 <div className="form-group">
                                     <input type="email" className="form-control-input" id="remail" name="remail" required />
-                                    <label className="label-control" for="remail">Email</label>
+                                    <label className="label-control" htmlFor="remail">Email</label>
                                     <div className="help-block with-errors"></div>
                                 </div>
                                 <div className="form-group">
                                     <input type="text" className="form-control-input" id="rphone" name="rphone" required />
-                                    <label className="label-control" for="rphone">Phone</label>
+                                    <label className="label-control" htmlFor="rphone">Phone</label>
                                     <div className="help-block with-errors"></div>
                                 </div>
                                 <div className="form-group">
                                     <select className="form-control-select" id="rselect" required>
-                                        <option className="select-option" value="" disabled selected>Interested in...</option>
-                                        <option className="select-option" value="Personal Loan">Starter</option>
-                                        <option className="select-option" value="Car Loan">Medium</option>
-                                        <option className="select-option" value="House Loan">Complete</option>
+                                        <option className="select-option" defaultValue="" disabled selected>Interested in...</option>
+                                        <option className="select-option" defaultValue="Personal Loan">Starter</option>
+                                        <option className="select-option" defaultValue="Car Loan">Medium</option>
+                                        <option className="select-option" defaultValue="House Loan">Complete</option>
                                     </select>
                                     <div className="help-block with-errors"></div>
                                 </div>

@@ -1462,12 +1462,9 @@ input[type='checkbox'] {
 .footer {
 	padding-top: 3.625rem;
 	background-color: #f6f6f6;
-	/* padding-bottom: 0.5rem; */
-	/* position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	text-align: center; */
+	position:absolute;
+	left:0;
+	right:0;
 }
 
 .footer .footer-col {

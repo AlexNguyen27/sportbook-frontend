@@ -10,7 +10,8 @@ import Testimonial from '../../layoutV2/Testimonial';
 import About from '../../layoutV2/About';
 import Contact from '../../layoutV2/Contact';
 
-const HomePage = () => {
+//  OWNER PAGE
+const HomePageOwner = () => {
     return <div data-spy="scroll" data-target=".fixed-top">
         <Header />
 
@@ -35,4 +36,4 @@ const HomePage = () => {
     </div>
 }
 
-export default HomePage;
+export default HomePageOwner;

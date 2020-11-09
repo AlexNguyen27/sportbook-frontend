@@ -12,7 +12,8 @@ const Navbar = ({ logoutUser }) => {
   const isAuthenticated = true;
   const [activeClass, setActiveClass] = useState('');
 
-  const isHomePage = window.location.pathname === '/';
+  console.log(window.location)
+  const isHomePage = window.location.pathname === '/' || !window.location.pathname;
 
   useEffect(() => {
     if (isHomePage) {
@@ -84,6 +85,7 @@ const Navbar = ({ logoutUser }) => {
   
   const loginNavLink = () => {
     const isLogin = window.location.pathname.includes('login');
+    console.log('r------------------------', window.location);
     return  <>
       {
         !isAuthenticated ? <>
@@ -99,7 +101,7 @@ const Navbar = ({ logoutUser }) => {
          </li>
           </> : <>
          <li className="nav-item">
-         <NavLink className="nav-link page-scroll" activeClassName="activeLink" to="/owner">
+         <NavLink className="nav-link page-scroll" activeClassName="activeLink" to="/business">
            Create a business
        </NavLink>
        </li>
@@ -138,7 +140,7 @@ const Navbar = ({ logoutUser }) => {
                 <li className="nav-item">
                   <a className="nav-link page-scroll" href="#header">Home <span className="sr-only">(current)</span></a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <a className="nav-link page-scroll" href="#services">Services</a>
                 </li>
                 <li className="nav-item">
@@ -146,24 +148,24 @@ const Navbar = ({ logoutUser }) => {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link page-scroll" href="#request">Request</a>
-                </li>
+                </li> */}
 
                 {/* <!-- Dropdown Menu -->           */}
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle page-scroll" href="#about" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">About</a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a className="dropdown-item" href="terms-conditions.html"><span className="item-text">Terms Conditions</span></a>
                     <div className="dropdown-items-divide-hr"></div>
                     <a className="dropdown-item" href="privacy-policy.html"><span className="item-text">Privacy Policy</span></a>
                   </div>
-                </li>
+                </li> */}
                 {/* <!-- end of dropdown menu --> */}
 
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <a className="nav-link page-scroll" href="#contact">Contact</a>
-                </li>
+                </li> */}
                 <li className="nav-item">
-                  <NavLink className="nav-link page-scroll" activeClassName="activeLink" to="/owner">
+                  <NavLink className="nav-link page-scroll" activeClassName="activeLink" to="/business" onClick={() => history.push('/business')}>
                     Create a business
               </NavLink>
                 </li>
