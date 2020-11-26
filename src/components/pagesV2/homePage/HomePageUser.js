@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from '../../layoutV2/Header';
-import Branch from '../../layoutV2/Branch';
+// import Branch from '../../layoutV2/Branch';
 import Service from '../../layoutV2/Service';
 import Planning from '../../layoutV2/Planning';
 import Pricing from '../../layoutV2/Pricing';
@@ -16,18 +16,21 @@ const HomePageUser = (props) => {
     <Header />
 
     {/* TODO FIX LATER */}
-    <Branch />
+    {/* <Branch /> */}
 
     <Service />
 
     <Planning />
 
+{/* GROUND LIST */}
     <Pricing />
 
+{/* CRAETE CONTACT FORM */}
     <Request />
 
-    <Checkout />
+    {/* <Checkout /> */}
 
+{/* LOYAL CUSTOMERS */}
     <Testimonial />
 
     <About />

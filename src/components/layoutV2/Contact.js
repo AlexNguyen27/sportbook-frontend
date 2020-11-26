@@ -9,9 +9,9 @@ function Contact(props) {
                         <h2>Contact Information</h2>
                         <ul className="list-unstyled li-space-lg">
                             <li className="address">Don't hesitate to give us a call or send us a contact form message</li>
-                            <li><i className="fas fa-map-marker-alt"></i>22 Innovative Area, San Francisco, CA 94043, US</li>
-                            <li><i className="fas fa-phone"></i><a className="turquoise" href="tel:003024630820">+81 720 2212</a></li>
-                            <li><i className="fas fa-envelope"></i><a className="turquoise" href="mailto:office@evolo.com">office@evolo.com</a></li>
+                            <li><i className="fas fa-map-marker-alt"></i>97 Man Thien Street, Hiep Phu, District 9, Ho Chi Minh City, Viet Nam</li>
+                            <li><i className="fas fa-phone"></i><a className="turquoise" href="tel:003024630820">028 3730 6600</a></li>
+                            <li><i className="fas fa-envelope"></i><a className="turquoise" href="mailto:office@evolo.com">lovesport@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -40,7 +40,7 @@ function Contact(props) {
                                 <div className="help-block with-errors"></div>
                             </div>
                             <div className="form-group checkbox">
-                                <input type="checkbox" id="cterms" value="Agreed-to-Terms" required />I have read and agree with Evolo's stated <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms-conditions.html">Terms Conditions</a>
+                                <input type="checkbox" id="cterms" value="Agreed-to-Terms" required />I have read and agree with Love Sport's stated <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms-conditions.html">Terms Conditions</a>
                                 <div className="help-block with-errors"></div>
                             </div>
                             <div className="form-group">
