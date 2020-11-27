@@ -83,7 +83,6 @@ export const logoutUser = () => (dispatch) => {
 export const signUpUser = (isAuthenticated, history, userData) => async (
   dispatch
 ) => {
-  console.log("herer-------------------------------");
   const { email, password } = userData;
   const { data, errors } = await hera({
     options: {

@@ -77,7 +77,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
   return (
     <Fragment>
       <Grid container justify="center" className={classes.login}>
-        <Grid item xs={10} sm={4} md={3}>
+        <Grid item xs={11} sm={6} md={4}>
           <PageTitle title="Create new account" center="true" />
           <Grid container type="flex" spacing={2}>
             <Grid item xs={6}>
@@ -111,6 +111,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               onChange={onChange}
               error={errors.email}
               placeholder="Enter Your Email"
+              variant="outlined"
             />
 
             <TextFieldInputWithHeader
@@ -123,6 +124,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               className="mt-0"
               fullWidth
               onChange={onChange}
+              variant="outlined"
             />
 
             <TextFieldInputWithHeader
@@ -134,6 +136,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               error={errors.confirmPassword}
               className="mt-0"
               fullWidth
+              variant="outlined"
               onChange={onChange}
             />
             <Col xs={12} sm={8} md={4} style={{ margin: "auto" }}>

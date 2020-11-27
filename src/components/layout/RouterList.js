@@ -33,14 +33,14 @@ const RouterList = (props) => {
         path="/signup"
         component={() => <Main children={<Signup />} />}
       />
-      <Route
+      <ProtectedRoute
         exact
         path="/user/info"
         component={() => <Main children={<User />} />}
       />
-      <Route
+      <ProtectedRoute
         exact
-        path="/find-ground-online"
+        path="/playground"
         component={() => <Main children={<SearchGround />} />}
       />
       <ProtectedRoute component={() => <NotFound center />} />
