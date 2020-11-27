@@ -19,7 +19,7 @@ const ProtectedRoute = ({
     "/categories-list",
   ];
   const page = (props) => {
-    isAuthenticated = true; // todo fix later
+    console.log(isAuthenticated, "d------------------");
     if (isAuthenticated) {
       isAdmin = true; //todo fix later
       if (isAdmin || (isUser && !teacherUnauthorized.includes(path))) {
@@ -33,7 +33,7 @@ const ProtectedRoute = ({
         />
       );
     }
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   };
 
   return (

@@ -2,8 +2,30 @@ import React from "react";
 import { connect } from "react-redux";
 import Footer from "../layout/Footer";
 import Navbar from "../layout/Navbar";
+import Swal from "sweetalert2";
+import { logoutUser } from "../../store/actions/auth";
+import { useHistory } from "react-router-dom";
 
-const Main = ({ children, isHome, auth }) => {
+const Main = ({ children, isHome, auth, logoutUser }) => {
+  const history = useHistory();
+  const logout = () => {
+    Swal.fire({
+      title: `Are you sure to logout?`,
+      text: "",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sure",
+    }).then((result) => {
+      if (result.value) {
+        console.log("herer000000000000000000");
+        logoutUser();
+        history.push("/");
+      }
+    });
+  };
+
   const navLinksAuth = [
     {
       name: "Home",
@@ -31,6 +53,13 @@ const Main = ({ children, isHome, auth }) => {
         },
       ],
     },
+    {
+      name: "Log out",
+      to: "/",
+      onClick: () => {
+        logout();
+      },
+    },
   ];
 
   const navLinks = [
@@ -47,13 +76,12 @@ const Main = ({ children, isHome, auth }) => {
     {
       name: "Login",
       to: "/login",
-      onClick: () => {},
+      onClick: () => history.push('/login'),
     },
     {
       name: "Sign up",
-      onClick: () => {},
-
       to: "/signup",
+      onClick: () => {},
     },
   ];
 
@@ -63,7 +91,7 @@ const Main = ({ children, isHome, auth }) => {
       <Navbar
         navLinks={isAuthenticated ? navLinksAuth : navLinks}
         isHome={isHome}
-      />s
+      />
       {children}
       <Footer />
     </div>
@@ -73,4 +101,4 @@ const Main = ({ children, isHome, auth }) => {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps, null)(Main);
+export default connect(mapStateToProps, { logoutUser })(Main);

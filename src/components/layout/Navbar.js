@@ -25,23 +25,7 @@ const Navbar = ({ logoutUser, navLinks = [], isHome }) => {
     }
   }, [isHome]);
 
-  const logout = () => {
-    Swal.fire({
-      title: `Are you sure to logout?`,
-      text: "",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Sure",
-    }).then((result) => {
-      if (result.value) {
-        logoutUser();
-        history.push("/login");
-      }
-    });
-  };
-
+  
   return (
     <>
       <nav
