@@ -9,7 +9,7 @@ export default {
   view: "#0b8457",
   green: "#06623b",
   statusBar: "#bb596b",
-  light_blue: "#f8b24f",
+  light_blue: "#00bfd8",
   purple: "#40356F",
   light_purple: "#dcd6f7",
   white: "white",
@@ -20,4 +20,5 @@ export default {
   background: '#fafafa',
   statistic: '#a6dcef',
   report: '#421b9b'
+
 };

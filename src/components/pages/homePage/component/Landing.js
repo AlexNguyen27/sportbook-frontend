@@ -1,5 +1,5 @@
 import React from "react";
-import white_logo from "../../images/facebook_cover_photo_1.png";
+import white_logo from "../../../../images/facebook_cover_photo_1.png";
 
 const Landing = () => {
   return (

@@ -3,30 +3,40 @@ import { connect, useDispatch } from "react-redux";
 import { Redirect, withRouter, matchPath } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import { Button, Container } from "@material-ui/core";
+import { validateEmail } from "../../../utils/commonFunction";
 
 // COMPONENT
 import PageTitle from "../../custom/PageTitle";
 import TextFieldInputWithHeader from "../../custom/TextFieldInputWithheader";
-import Landing from "../../layout/Landing";
+import { makeStyles } from "@material-ui/core/styles";
 
 // ACTION
 import { loginUser } from "../../../store/actions/auth";
 import { GET_ERRORS } from "../../../store/actions/types";
+
+const useStyles = makeStyles((theme) => ({
+  login: {
+    paddingTop: "100px",
+    minHeight: "594px",
+  },
+}));
+
 const Login = ({
   errors,
   history,
   loginUser,
-  auth: { isAuthenticated, isAdmin },
+  auth: { isAuthenticated, isUser },
   match,
 }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   // FORM DATA STATE
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
-  const { username, password } = formData;
+  const { email, password } = formData;
 
   // Click button Login
   const onSubmit = (e) => {
@@ -34,16 +44,18 @@ const Login = ({
     const error = {};
 
     Object.keys(formData).map((key) => {
-      // console.log("-------------------", formData);
-      // console.log(key);
       if (!formData[key] || (formData[key] && formData[key].trim() === "")) {
         error[key] = "This field is required";
       }
 
-      // if (!error[key] && key === "email" && !validateEmail(formData[key])) {
-      //   error[key] = "Email is invalid";
-      // }
+      if (!error[key] && key === "email" && !validateEmail(formData[key])) {
+        error[key] = "Email is invalid";
+      }
     });
+
+    if (JSON.stringify(error) === "{}" && !validateEmail(email)) {
+      error.email = "Email is invalid!";
+    }
 
     dispatch({
       type: GET_ERRORS,
@@ -51,8 +63,8 @@ const Login = ({
     });
 
     if (JSON.stringify(error) === "{}") {
-      const { username, password } = formData;
-      loginUser({ username, password });
+      const { email, password } = formData;
+      loginUser({ email, password });
     }
   };
 
@@ -64,63 +76,76 @@ const Login = ({
     });
   };
 
-  if (isAuthenticated) {
-    if (isAdmin) {
-      return <Redirect to="/users-list" />;
-    }
-    if (match.path === "/news-feed") {
-      return <Redirect to="/news-feed" />;
-    }
-    return <Redirect to="/news-feed" />;
+  if (isAuthenticated && isUser) {
+    return <Redirect to="/user/info" />;
   }
 
   return (
     <Fragment>
-      <Landing />
-      <Grid container justify="center">
-        <Grid item xs={12} sm={4}>
+      <Grid container justify="center" className={classes.login}>
+        <Grid item xs={11} sm={6} md={4}>
+          <PageTitle title="Login to continue" center="true" />
+          <Grid container type="flex" spacing={2}>
+            <Grid item xs={6}>
+              <Button
+                className="mt-3 w-100"
+                variant="contained"
+                style={{ backgroundColor: "#3f72af", color: "white" }}
+                type="submit"
+              >
+                Facebook
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                className="mt-3 w-100"
+                variant="contained"
+                type="submit"
+                style={{ backgroundColor: "#ec524b", color: "white" }}
+              >
+                Google
+              </Button>
+            </Grid>
+          </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
-            <PageTitle title="Login" center="true" />
             <TextFieldInputWithHeader
-              header="Username"
-              name="username"
+              header="Email"
+              name="email"
               className="mt-0"
               fullWidth
-              value={username}
+              value={email}
               onChange={onChange}
-              error={errors.username || errors.message}
-              placeholder="Enter Username"
+              error={errors.email || errors.message}
+              placeholder="Enter your email address"
+              variant="outlined"
             />
 
             <TextFieldInputWithHeader
               header="Password"
               name="password"
-              placeholder="Enter Password"
+              placeholder="Enter password"
               type="password"
               value={password}
               error={errors.password || errors.message}
               className="mt-0"
               fullWidth
               onChange={onChange}
+              variant="outlined"
             />
-            <Grid container justify="center" spacing={4}>
-              <Grid item>
-                <Button
-                  className="mt-3"
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                >
-                  Login
-                </Button>
-              </Grid>
-            </Grid>
+            <Button
+              className="mt-3 w-100"
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Login
+            </Button>
           </form>
           <div className="text-center">
             <p
-              style={{ color: "blue", cursor: "pointer" }}
+              style={{ color: "#00bfd8", cursor: "pointer" }}
               className="mt-3 text-decoration-underline"
-              onClick={() => history.push('reset-password')}
+              onClick={() => history.push("reset-password")}
             >
               Forgot password?
             </p>

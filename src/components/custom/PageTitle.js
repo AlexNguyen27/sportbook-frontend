@@ -12,7 +12,7 @@ const PageTitle = ({ title, center, editMode, onChange, onBlur, style }) => {
               html={title}
               disabled={false}
               onChange={onChange}
-              tagName="h1"
+              tagName="h2"
               onBlur={onBlur}
               style={style}
             />

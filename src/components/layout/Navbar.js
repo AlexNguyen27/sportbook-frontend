@@ -1,95 +1,99 @@
-import React, { Fragment } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import Colors from "../../constants/Colors";
 import { logoutUser } from "../../store/actions/auth";
+// import logo from '../../images/logo.svg';
 
-import Landing from "./Landing";
+import Landing from "../pages/homePage/component/Landing";
+import Swal from "sweetalert2";
 
-const Navbar = ({ logoutUser }) => {
-  const isAuthenticated = true;
-  // const logoutButton = (
-  //   <ul className="navbar-nav">
-  //     <li className="nav-item">
-  //       <Link
-  //         className="nav-link"
-  //         to=""
-  //         onClick={() => {
-  //           logoutUser();
-  //         }}
-  //       >
-  //         Log out
-  //       </Link>
-  //     </li>
-  //   </ul>
-  // );
+const Navbar = ({ logoutUser, navLinks = [], isHome }) => {
+  const history = useHistory();
+  const [activeClass, setActiveClass] = useState("");
 
-  // const loginButton = (
-  //   <ul className="navbar-nav">
-  //     <li className="nav-item">
-  //       <Link className="nav-link" to="/staffLogin">
-  //         Login
-  //       </Link>
-  //     </li>
-  //   </ul>
-  // );
+  useEffect(() => {
+    if (isHome) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 10) {
+          setActiveClass("top-nav-collapse mb-16");
+        } else {
+          setActiveClass("");
+        }
+      });
+    } else {
+      setActiveClass("top-nav-collapse");
+    }
+  }, [isHome]);
 
-  const signUpButton = (
-    <ul className="navbar-nav">
-      <li className="nav-item">
-        <Link className="nav-link" to="/signup">
-          Sign up
-        </Link>
-      </li>
-    </ul>
-  );
+  const logout = () => {
+    Swal.fire({
+      title: `Are you sure to logout?`,
+      text: "",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sure",
+    }).then((result) => {
+      if (result.value) {
+        logoutUser();
+        history.push("/login");
+      }
+    });
+  };
 
   return (
     <>
       <nav
-        className="navbar navbar-expand-md navbar-dark"
-        style={{ background: Colors.purple }}
+        style={{ position: "fixed " }}
+        className={[
+          "navbar navbar-expand-lg navbar-dark navbar-custom fixed-top",
+          activeClass,
+        ].join(" ")}
       >
-        <Link className="navbar-brand" to="/login">
-          Dev Troops
-        </Link>
+        <a className="navbar-brand logo-image" href="#header">
+          <NavLink
+            className="navbar-brand logo-image front-size-16"
+            style={{ color: "black", textDecoration: "none" }}
+            activeClassName="activeLink"
+            to="/"
+          >
+            <span className="turquoise">Love</span> <span>Sport</span>
+          </NavLink>
+        </a>
 
+        {/* <!-- Mobile Menu Toggle Button --> */}
         <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
-          data-target="#collapsibleNavbar"
+          data-target="#navbarsExampleDefault"
+          aria-controls="navbarsExampleDefault"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" />
+          <span className="navbar-toggler-awesome fas fa-bars"></span>
+          <span className="navbar-toggler-awesome fas fa-times"></span>
         </button>
+        {/* <!-- end of mobile menu toggle button --> */}
 
-        <div className="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul className="navbar-nav mr-auto">
-            {/* Login */}
-            <Fragment>
+        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul className="navbar-nav ml-auto">
+            {navLinks.map((item) => (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
+                <NavLink
+                  className="nav-link page-scroll"
+                  activeClassName="activeLink"
+                  to={item.to}
+                  onClick={item.onClick}
+                >
+                  {item.name}
                 </NavLink>
               </li>
-              {/* <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Admin
-              </NavLink>
-            </li> */}
-              {/* <li className="nav-item">
-              <NavLink className="nav-link" to="/studentLogin">
-                Student
-              </NavLink>
-            </li> */}
-            </Fragment>
+            ))}
           </ul>
-          {/* {loginButton} */}
-          {signUpButton}
-          {/* {logoutButton} */}
         </div>
       </nav>
-      {!isAuthenticated && <Landing />}
     </>
   );
 };

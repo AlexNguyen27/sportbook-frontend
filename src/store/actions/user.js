@@ -6,20 +6,19 @@ import {
   EDIT_USER,
   BASE_URL,
   GET_USER_PROFILE,
-  GET_FRIEND_PROFILE,
   EDIT_USER_INFO,
-  GET_GITHUB_AVATAR,
-  GET_CURRENT_USER_AVATAR,
-  BASE_IMAGE_URL,
+  UPLOAD_AVATAR,
 } from "./types";
 import { arrayToObject } from "../../utils/commonFunction";
 import { hera } from "hera-js";
 import Swal from "sweetalert2";
 import logoutDispatch from "../../utils/logoutDispatch";
-import Axios from "axios";
+import { ROLE } from "../../utils/common";
 
-// GET majors data
-export const getUsers = (setLoading) => async (dispatch, getState) => {
+export const getUsers = ({ role }, setLoading) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
   const { data, errors } = await hera({
@@ -32,38 +31,29 @@ export const getUsers = (setLoading) => async (dispatch, getState) => {
     },
     query: `
           query {
-            getUsers{
+            users(role: $role){
               id
-              username
-              firstName,
-              lastName,
-              email,
-              quote, 
-              phone,
-              address,
-              imageUrl,
-              githubUsername,
-              role,
-              createdAt,
-              updatedAt,
-              posts{
-                id
-                title
-                view
-                reactions {
-                  userId
-                  postId
-                  reactionTypeId
-                }
-              }
+              email
+              firstName
+              lastName
+              phone
+              role
+              gender
+              address
+              dob
+              avatar
+              favoriteFoot
+              playRole
             }
           }
         `,
-    variables: {},
+    variables: {
+      role,
+    },
   });
 
   if (!errors) {
-    const usersListObj = arrayToObject(data.getUsers);
+    const usersListObj = arrayToObject(data.users);
 
     dispatch({
       type: GET_USERS,
@@ -82,14 +72,17 @@ export const getUsers = (setLoading) => async (dispatch, getState) => {
 };
 
 // GET majors data
-export const getUserProfile = (userId, setLoading) => async (
-  dispatch,
-  getState
-) => {
+export const getUserInfo = (id, setLoading) => async (dispatch, getState) => {
   const {
     token,
-    user: { id: authUserId },
+    user: { id: authUserId, role },
   } = getState().auth;
+
+  let userId = id;
+  // manager role
+  if (role === ROLE.owner) {
+    userId = authUserId;
+  }
 
   const { data, errors } = await hera({
     options: {
@@ -101,86 +94,27 @@ export const getUserProfile = (userId, setLoading) => async (
     },
     query: `
           query {
-            getUserProfile(userId: $userId) {
-              id
-              username
+            getUserById(id: $id) {
+              id,
+              email,
               firstName,
               lastName,
-              quote
               email,
+              gender,
               phone,
               address,
-              githubUsername,
-              imageUrl
-              totalFollowers
-              posts {
-                id
-                title,
-                description
-                status
-                userId
-                view
-                user {
-                  id
-                  username
-                  imageUrl
-                  firstName
-                  lastName
-                  githubUsername
-                }
-                categoryId
-                createdAt
-                updatedAt
-                comments {
-                  id
-                  comment
-                  userId
-                  parentId
-                  createdAt
-                  updatedAt
-                }
-                reactions {
-                  userId
-                  reactionTypeId
-                  postId
-                }
-              }
-              followed {
-                fromUserId,
-                toUserId
-                createdAt
-              }
-              userFavoritePosts {
-                id
-                userId
-                categoryId
-                title
-                view
-                user {
-                  id
-                  imageUrl
-                  firstName
-                  lastName
-                  githubUsername
-                }
-                description
-                reactions {
-                  userId
-                  reactionTypeId
-                  postId
-                }
-                comments {
-                  id
-                  comment
-                  userId
-                  parentId
-                }
-              }
-            }
+              dob,
+              avatar,
+              role,
+              favoriteFoot
+              playRole
+              createdAt,
+              updatedAt
+            }   
           }
         `,
     variables: {
-      userId,
+      id: userId,
     },
   });
 
@@ -189,11 +123,6 @@ export const getUserProfile = (userId, setLoading) => async (
       dispatch({
         type: GET_USER_PROFILE,
         user_profile: data.getUserProfile,
-      });
-    } else {
-      dispatch({
-        type: GET_FRIEND_PROFILE,
-        friend_profile: data.getUserProfile,
       });
     }
 
@@ -234,7 +163,7 @@ export const updatePassword = (
     query: `
         mutation {
           changePassword(
-            ${userId ? `userId: ${userId}` : ""} 
+            ${userId ? `id: ${userId}` : ""} 
             currentPassword: $currentPassword, 
             newPassword: $newPassword, 
             confirmPassword: $confirmPassword
@@ -293,7 +222,7 @@ export const updatePassword = (
   }
 };
 
-export const editUserInfo = (setLoading, userData) => async (
+export const editUserInfo = (setLoading, userData, userId) => async (
   dispatch,
   getState
 ) => {
@@ -301,23 +230,24 @@ export const editUserInfo = (setLoading, userData) => async (
   const {
     auth: {
       token,
-      user: { id: userId },
+      user: { id: authId },
     },
   } = state;
-  const { user } = state;
-  let gitHubInfo = {};
-  let imageUrl = BASE_IMAGE_URL;
-  try {
-    gitHubInfo = await Axios.get(
-      `https://api.github.com/users/${userData.githubUsername}/repos?per_page=5&sort=created:asc`
-    );
-    if (gitHubInfo.data.length > 0) {
-      imageUrl = gitHubInfo.data[0].owner.avatar_url;
-    }
-  } catch (error) {
-    console.log(error);
-  }
 
+  const {
+    firstName,
+    lastName,
+    address,
+    dob,
+    email,
+    favoriteFoot,
+    phone,
+    playRole,
+    gender,
+    regionCode,
+    districtCode,
+    wardCode,
+  } = userData;
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -327,29 +257,52 @@ export const editUserInfo = (setLoading, userData) => async (
       },
     },
     query: `
-        mutation {
-          updateUser(info: $info) {
-            id
-            username
-            firstName,
-            lastName,
-            email,
-            phone,
-            address,
-            imageUrl,
-            githubUsername,
-            createdAt,
-            updatedAt,
-            quote
+          mutation {
+            updateUser(
+              id: $id,
+              firstName: $firstName,
+              lastName: $lastName,
+              phone: $phone, 
+              email: $email,
+              dob: $dob,
+              address: $address
+              playRole: $playRole
+              regionCode: $regionCode,
+              districtCode: $districtCode, 
+              wardCode: $wardCode
+              favoriteFoot: $favoriteFoot
+              gender: $gender
+              ) {
+                id
+                email
+                firstName
+                lastName
+                phone
+                gender
+                address
+                dob
+                favoriteFoot
+                avatar
+                playRole
+                createdAt
+                updatedAt
+            }
           }
-        }
-      `,
+        `,
     variables: {
-      info: {
-        id: user.current_user ? user.current_user.id : userId,
-        ...userData,
-        imageUrl,
-      },
+      id: userId,
+      firstName,
+      lastName,
+      phone,
+      dob,
+      address,
+      playRole,
+      email,
+      regionCode,
+      districtCode,
+      wardCode,
+      favoriteFoot,
+      gender,
     },
   });
 
@@ -360,7 +313,8 @@ export const editUserInfo = (setLoading, userData) => async (
       selectedId: res.id,
       newUser: res,
     });
-    if (res.id === userId) {
+    console.log(authId, userId);
+    if (authId === userId) {
       dispatch({
         type: EDIT_USER_INFO,
         newUser: res,
@@ -379,6 +333,7 @@ export const editUserInfo = (setLoading, userData) => async (
       timer: 1500,
     });
   } else {
+    console.log(errors);
     const error = errors[0].extensions.payload
       ? errors[0].extensions.payload
       : errors[0].message;
@@ -396,7 +351,7 @@ export const editUserInfo = (setLoading, userData) => async (
   }
 };
 
-// DELETE GROUP
+//
 export const deleteUser = (setLoading, userId) => async (
   dispatch,
   getState
@@ -452,33 +407,64 @@ export const deleteUser = (setLoading, userId) => async (
   }
 };
 
-export const getGithubProfile = (userId, githubUsername) => async (
+//
+export const uploadAvatar = (setLoading, avatar, userId) => async (
   dispatch,
   getState
 ) => {
-  try {
-    const state = getState();
-    const gitHubInfo = await Axios.get(
-      `https://api.github.com/users/${githubUsername}/repos?per_page=5&sort=created:asc`
-    );
+  const { token } = getState().auth;
 
-    if (gitHubInfo.data.length > 0) {
-      if (state.auth.user.id === userId) {
-        dispatch({
-          type: GET_GITHUB_AVATAR,
-          imageUrl: gitHubInfo.data[0].owner.avatar_url,
-        });
-      }
-      // UPDATE CURRENT USER DATA
-      if (state.auth.isAdmin) {
-        dispatch({
-          type: GET_CURRENT_USER_AVATAR,
-          imageUrl: gitHubInfo.data[0].owner.avatar_url,
-        });
-      }
-    }
-    console.log(gitHubInfo);
-  } catch (error) {
-    console.log(error);
+  const { data, errors } = await hera({
+    options: {
+      url: BASE_URL,
+      headers: {
+        token,
+        "Content-Type": "application/json",
+      },
+    },
+    query: `
+          mutation {
+            uploadAvatar(
+              avatar: $avatar
+              userId: $userId
+            ) {
+              id
+              avatar
+            }
+          }
+        `,
+    variables: {
+      avatar,
+      userId,
+    },
+  });
+
+  if (!errors) {
+    dispatch({
+      type: UPLOAD_AVATAR,
+      uploadData: {
+        userId,
+        avatar,
+      },
+    });
+
+    dispatch({
+      type: CLEAR_ERRORS,
+    });
+
+    setLoading(false);
+    Swal.fire({
+      position: "center",
+      type: "success",
+      title: "Uploaded successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } else {
+    logoutDispatch(dispatch, errors);
+    dispatch({
+      type: GET_ERRORS,
+      errors: errors[0].message,
+    });
   }
 };
