@@ -1,0 +1,67 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "max-len": [
+            2,
+            {
+                "code": 150,
+                "tabWidth": 4,
+                "ignoreUrls": true
+            }
+        ],
+        "comma-dangle": [
+            "off",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "ignore"
+            }
+        ],
+        "no-sequences": "warn",
+        "global-require": "off",
+        "new-cap": "off",
+        "no-shadow": "warn",
+        "consistent-return": "off",
+        "semi": [
+            "off",
+            "always"
+        ],
+        "class-methods-use-this": "off",
+        "max-classes-per-file": "off",
+        "require-await": "error",
+        "no-useless-constructor": "warn",
+        "camelcase": "warn",
+        "arrow-parens": "warn",
+        "lines-between-class-members": [
+            "error",
+            "always"
+        ],
+        "prefer-destructuring": "warn",
+        "import/no-mutable-exports": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
+        "import/no-named-default": "off",
+        "import/no-dynamic-require": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    }
+}

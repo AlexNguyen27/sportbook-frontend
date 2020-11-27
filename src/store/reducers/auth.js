@@ -3,13 +3,14 @@ import {
   UNAUTHENTICATE,
   EDIT_USER_INFO,
   GET_GITHUB_AVATAR,
+  UPLOAD_AVATAR,
   //   AUTHENTICATE_TEACHER,
 } from "../actions/types";
 import setAuthToken from "../../utils/setAuthToken";
 
 const initialState = {
   isAuthenticated: false,
-  isUser: false,
+  isManager: false,
   isAdmin: false,
   token: null,
   user: {},
@@ -24,11 +25,10 @@ export default function (state = initialState, action) {
       //Save Token to Local Storage
       localStorage.setItem("token", token);
 
-      const { isAdmin, isUser, userInfo } = user;
+      const { isUser, userInfo } = user;
       return {
         isAuthenticated: true,
         isUser,
-        isAdmin,
         token,
         user: userInfo,
       };
@@ -49,6 +49,18 @@ export default function (state = initialState, action) {
           imageUrl: action.imageUrl,
         },
       };
+    case UPLOAD_AVATAR:
+      const { userId, avatar } = action.uploadData;
+      if (userId === state.user.id) {
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            avatar: avatar,
+          },
+        };
+      }
+      return { ...state };
     case UNAUTHENTICATE:
       // Remove Token in Auth header
       setAuthToken(false);

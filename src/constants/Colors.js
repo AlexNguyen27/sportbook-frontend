@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   primary: "#f96d80",
   accent: "#f0a500",

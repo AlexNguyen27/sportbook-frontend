@@ -1,20 +1,36 @@
 import logoutDispatch from "../../utils/logoutDispatch";
 import {
   GET_ERRORS,
-  CLEAR_ERRORS,
   BASE_URL,
-  GET_CATEGORIES,
-  ADD_CATEGORY,
-  DELETE_CATEGORY,
-  EDIT_CATEGORY,
+  CLEAR_ERRORS,
+  GET_SUB_GROUNDS,
+  ADD_SUB_GROUND,
+  DELETE_SUB_GROUND,
+  EDIT_SUB_GROUND,
 } from "./types";
 import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 import Swal from "sweetalert2";
 
-export const getCategories = (setLoading) => async (dispatch, getState) => {
+export const getSubGrounds = (setLoading, groundId) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
+  let subGroundQuery = "";
+  let variables = {};
+  if (groundId) {
+    variables = { ...variables, groundId };
+    subGroundQuery += "groundId: $groundId";
+  }
+
+  if (subGroundQuery.length > 0) {
+    subGroundQuery = `(${subGroundQuery})`;
+  }
+
+  console.log("valirad-----------------", variables);
+  console.log("valirad-----------sdsdsd------", subGroundQuery);
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -23,27 +39,27 @@ export const getCategories = (setLoading) => async (dispatch, getState) => {
         "Content-Type": "application/json",
       },
     },
-    query: `
-            query {
-                categories {
-                    id, 
-                    name,
-                    createdAt,
-                    grounds {
-                      id
-                      title
-                    }
-                  }
+      query: `
+          query {
+            subGrounds${subGroundQuery} {
+              id
+              name
+              numberOfPlayers
+              groundId
+              createdAt
             }
-        `,
-    variables: {},
+          }
+      `,
+    variables: {
+      ...variables,
+    },
   });
   if (!errors) {
-    const categories = arrayToObject(data.categories);
+    const subGrounds = arrayToObject(data.subGrounds);
 
     dispatch({
-      type: GET_CATEGORIES,
-      categories,
+      type: GET_SUB_GROUNDS,
+      subGrounds,
     });
     setLoading(false);
   } else {
@@ -55,9 +71,11 @@ export const getCategories = (setLoading) => async (dispatch, getState) => {
   }
 };
 
-export const addCategory = (setLoading, name) => async (dispatch, getState) => {
+export const addSubGround = (setLoading, subGroundData) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
-
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -67,16 +85,22 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
       },
     },
     query: `
-      mutation {
-        createCategory(name: $name) {
-          id, 
-          name,
-          createdAt
-        }
-      } 
-    `,
+          mutation {
+            createSubGround(
+                 name: $name,
+                 numberOfPlayers: $numberOfPlayers
+                 groundId: $groundId
+              ) {
+                id
+                name
+                numberOfPlayers
+                groundId
+                createdAt
+              }
+          } 
+        `,
     variables: {
-      name,
+      ...subGroundData,
     },
   });
 
@@ -86,8 +110,8 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: ADD_CATEGORY,
-      category: data.createCategory,
+      type: ADD_SUB_GROUND,
+      subGround: data.createSubGround,
     });
     setLoading(false);
     Swal.fire({
@@ -98,12 +122,12 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
       timer: 1500,
     });
   } else {
-    console.log(errors);
     logoutDispatch(dispatch, errors);
+    setLoading(false);
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "Name must be unique",
+      title: "An error occurred!",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -114,7 +138,10 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
   }
 };
 
-export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
+export const deleteSubGround = (setLoading, id) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
   const { data, errors } = await hera({
     options: {
@@ -125,13 +152,13 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
       },
     },
     query: `
-      mutation {
-        deleteCategory(id: $id) {
-          status,
-          message
-        }
-      } 
-    `,
+        mutation {
+          deleteSubGround(id: $id) {
+            status,
+            message
+          }
+        } 
+      `,
     variables: {
       id,
     },
@@ -142,7 +169,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: DELETE_CATEGORY,
+      type: DELETE_SUB_GROUND,
       selectedId: id,
     });
     Swal.fire({
@@ -159,7 +186,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "Can't delete this category cuz it has posts!",
+      title: "Can't delete this ground cuz it has sub ground!",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -170,7 +197,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
   }
 };
 
-export const updateCategory = (setLoading, name, id) => async (
+export const updateSubGround = (setLoading, subGroundData) => async (
   dispatch,
   getState
 ) => {
@@ -185,16 +212,22 @@ export const updateCategory = (setLoading, name, id) => async (
     },
     query: `
       mutation {
-        updateCategory(id: $id, name: $name) {
-          id
-          name
-          createdAt
+       updateSubGround(
+         id: $id
+         name: $name
+         groundId: $groundId
+         numberOfPlayers: $numberOfPlayers
+       ) {
+        id
+        name
+        numberOfPlayers
+        groundId
+        createdAt
         }
       } 
     `,
     variables: {
-      id,
-      name,
+      ...subGroundData,
     },
   });
   if (!errors) {
@@ -203,8 +236,8 @@ export const updateCategory = (setLoading, name, id) => async (
     });
 
     dispatch({
-      type: EDIT_CATEGORY,
-      category: data.updateCategory,
+      type: EDIT_SUB_GROUND,
+      subGround: data.updateSubGround,
     });
     setLoading(false);
     Swal.fire({

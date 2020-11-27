@@ -12,6 +12,7 @@ import Landing from "../../layout/Landing";
 // ACTION
 import { loginUser } from "../../../store/actions/auth";
 import { GET_ERRORS } from "../../../store/actions/types";
+import { validateEmail } from "../../../utils/commonFunction";
 const ResetPassword = ({
   errors,
   history,
@@ -26,11 +27,6 @@ const ResetPassword = ({
   });
 
   const { email } = formData;
-
-  const validateEmail = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
 
   // Click button Login
   const onSubmit = (e) => {

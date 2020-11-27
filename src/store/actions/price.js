@@ -1,20 +1,24 @@
 import logoutDispatch from "../../utils/logoutDispatch";
 import {
   GET_ERRORS,
-  CLEAR_ERRORS,
   BASE_URL,
-  GET_CATEGORIES,
-  ADD_CATEGORY,
-  DELETE_CATEGORY,
-  EDIT_CATEGORY,
+  CLEAR_ERRORS,
+  GET_PRICES,
+  ADD_PRICE,
+  DELETE_PRICE,
+  EDIT_PRICE,
 } from "./types";
 import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 import Swal from "sweetalert2";
 
-export const getCategories = (setLoading) => async (dispatch, getState) => {
+export const getPrices = (setLoading, subGroundId) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
+  console.log(subGroundId, "d--------------------");
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -24,26 +28,29 @@ export const getCategories = (setLoading) => async (dispatch, getState) => {
       },
     },
     query: `
-            query {
-                categories {
-                    id, 
-                    name,
-                    createdAt,
-                    grounds {
-                      id
-                      title
-                    }
+                query {
+                  prices(subGroundId: $subGroundId) {
+                    id
+                    price
+                    discount
+                    endTime
+                    startTime
+                    status
+                    subGroundId
+                    createdAt
                   }
-            }
-        `,
-    variables: {},
+                }
+            `,
+    variables: {
+      subGroundId,
+    },
   });
   if (!errors) {
-    const categories = arrayToObject(data.categories);
+    const prices = arrayToObject(data.prices);
 
     dispatch({
-      type: GET_CATEGORIES,
-      categories,
+      type: GET_PRICES,
+      prices,
     });
     setLoading(false);
   } else {
@@ -55,9 +62,11 @@ export const getCategories = (setLoading) => async (dispatch, getState) => {
   }
 };
 
-export const addCategory = (setLoading, name) => async (dispatch, getState) => {
+export const addPrice = (setLoading, priceData) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
-
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -67,16 +76,27 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
       },
     },
     query: `
-      mutation {
-        createCategory(name: $name) {
-          id, 
-          name,
-          createdAt
-        }
-      } 
-    `,
+          mutation {
+            createPrice(
+                price: $price
+                discount: $discount
+                startTime: $startTime
+                endTime: $endTime
+                subGroundId: $subGroundId
+              ) {
+                id
+                price
+                discount
+                endTime
+                startTime
+                status
+                subGroundId
+                createdAt
+              }
+          } 
+        `,
     variables: {
-      name,
+      ...priceData,
     },
   });
 
@@ -86,8 +106,8 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: ADD_CATEGORY,
-      category: data.createCategory,
+      type: ADD_PRICE,
+      price: data.createPrice,
     });
     setLoading(false);
     Swal.fire({
@@ -98,12 +118,12 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
       timer: 1500,
     });
   } else {
-    console.log(errors);
     logoutDispatch(dispatch, errors);
+    setLoading(false);
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "Name must be unique",
+      title: "An error occurred!",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -114,7 +134,7 @@ export const addCategory = (setLoading, name) => async (dispatch, getState) => {
   }
 };
 
-export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
+export const deletePrice = (setLoading, id) => async (dispatch, getState) => {
   const { token } = getState().auth;
   const { data, errors } = await hera({
     options: {
@@ -125,13 +145,13 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
       },
     },
     query: `
-      mutation {
-        deleteCategory(id: $id) {
-          status,
-          message
-        }
-      } 
-    `,
+        mutation {
+        deletePrice(id: $id) {
+            status,
+            message
+          }
+        } 
+      `,
     variables: {
       id,
     },
@@ -142,7 +162,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
     });
 
     dispatch({
-      type: DELETE_CATEGORY,
+      type: DELETE_PRICE,
       selectedId: id,
     });
     Swal.fire({
@@ -159,7 +179,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "Can't delete this category cuz it has posts!",
+      title: "Can't delete this ground cuz it has sub ground!",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -170,7 +190,7 @@ export const deleteCatgory = (setLoading, id) => async (dispatch, getState) => {
   }
 };
 
-export const updateCategory = (setLoading, name, id) => async (
+export const updatePrice = (setLoading, priceData) => async (
   dispatch,
   getState
 ) => {
@@ -185,16 +205,27 @@ export const updateCategory = (setLoading, name, id) => async (
     },
     query: `
       mutation {
-        updateCategory(id: $id, name: $name) {
-          id
-          name
-          createdAt
+        updatePrice(
+         id: $id
+         price: $price
+         discount: $discount
+         startTime: $startTime
+         endTime: $endTime
+         subGroundId: $subGroundId
+       ) {
+            id
+            price
+            discount
+            endTime
+            startTime
+            status
+            subGroundId
+            createdAt
         }
       } 
     `,
     variables: {
-      id,
-      name,
+      ...priceData,
     },
   });
   if (!errors) {
@@ -203,8 +234,8 @@ export const updateCategory = (setLoading, name, id) => async (
     });
 
     dispatch({
-      type: EDIT_CATEGORY,
-      category: data.updateCategory,
+      type: EDIT_PRICE,
+      price: data.updatePrice,
     });
     setLoading(false);
     Swal.fire({
@@ -224,6 +255,8 @@ export const updateCategory = (setLoading, name, id) => async (
       showConfirmButton: false,
       timer: 1500,
     });
+    setLoading(false);
+
     logoutDispatch(dispatch, errors);
     dispatch({
       type: GET_ERRORS,

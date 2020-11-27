@@ -1,20 +1,28 @@
 import { combineReducers } from "redux";
 import errors from "./errors";
 import auth from "./auth";
-import user_profile from "./user_profile";
 import user from "./user";
-import post from "./post";
 import category from "./category";
-import report from "./report";
-import reactionType from "./reactionType";
+import benefit from "./benefit";
+import ground from "./ground";
+import subGround from "./subGround";
+import price from "./price";
+import order from "./order";
+import loyalCustomer from "./loyalCustomer";
+import statistic from "./statistic";
+import history from "./history";
 
 export default combineReducers({
   errors,
   auth,
-  post,
-  category,
   user,
-  report,
-  user_profile,
-  reactionType,
+  benefit,
+  category,
+  ground,
+  subGround,
+  price,
+  order,
+  loyalCustomer,
+  statistic,
+  history,
 });

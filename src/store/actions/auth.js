@@ -1,13 +1,11 @@
-// import axios from "axios";
 import logoutDispatch from "../../utils/logoutDispatch";
 import { GET_ERRORS, CLEAR_ERRORS, AUTHENTICATE, BASE_URL } from "./types";
 import { hera } from "hera-js";
-import axios from "axios";
-// import jwt_decode from "jwt-decode";
 
 import Swal from "sweetalert2";
+import { ROLE } from "../../utils/common";
 //LOGIN User
-export const loginUser = ({ username, password }) => async (dispatch) => {
+export const loginUser = ({ email, password }) => async (dispatch) => {
   // try {
   // const res = await axios.post('', data: {});
   const { data, errors } = await hera({
@@ -16,25 +14,28 @@ export const loginUser = ({ username, password }) => async (dispatch) => {
     },
     query: `
         query {
-          login(username: $username, password: $password) {
+          login(email: $email, password: $password) {
             id,
             token,
-            username,
+            email,
             firstName,
             lastName,
             email,
+            gender,
             phone,
             address,
-            imageUrl,
-            githubUsername,
+            dob,
+            avatar,
             role,
+            favoriteFoot
+            playRole
             createdAt,
             updatedAt
           }
         }
       `,
     variables: {
-      username,
+      email,
       password,
     },
   });
@@ -48,37 +49,24 @@ export const loginUser = ({ username, password }) => async (dispatch) => {
     });
   } else {
     const resData = data.login;
-    const { token, githubUsername } = resData;
-
-    // const decoded = jwt_decode(token);
-
+    const { token } = resData;
     const userData = { ...resData };
     delete userData.token;
-
-    if (resData.role === "user") {
-      userData.isUser = true;
+    if (resData.role !== ROLE.user) {
+      logoutDispatch(dispatch);
+      // Set errors
+      dispatch({
+        type: GET_ERRORS,
+        errors: { message: "Email or password is incorrect!" },
+      });
+      return;
     }
-    if (resData.role === "admin") {
-      userData.isAdmin = true;
-    }
 
-    try {
-      const gitHubInfo = await axios.get(
-        `https://api.github.com/users/${githubUsername}/repos?per_page=5&sort=created:asc`
-      );
-
-      if (gitHubInfo.data.length > 0) {
-        userData.imageUrl = gitHubInfo.data[0].owner.avatar_url;
-      }
-    } catch (error) {
-      console.log(error);
-    }
     dispatch({
       type: AUTHENTICATE,
       user: {
         userInfo: userData,
-        isUser: userData.isUser || false,
-        isAdmin: userData.isAdmin || false,
+        isUser: true,
       },
       token,
     });
@@ -95,50 +83,46 @@ export const logoutUser = () => (dispatch) => {
 export const signUpUser = (isAuthenticated, history, userData) => async (
   dispatch
 ) => {
-  // await axios.post("api/auth/signup", userData, {
-  //   headers: { Authorization: localStorage.token },
-  // });
-
-  const { username, password } = userData;
+  console.log("herer-------------------------------");
+  const { email, password } = userData;
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
     },
     query: `
         mutation {
-          register(username: $username, password: $password, role: $role ) {
+          createUser(email: $email, password: $password, role: $role ) {
             id,
-            username,
-            password,
+            email,
+            firstName,
+            lastName,
             phone,
-            password,
-            imageUrl,
-            githubUsername,
+            gender,
+            address,
+            dob,
+            avatar,
             role,
+            favoriteFoot
+            playRole
             createdAt,
             updatedAt
           }
         }
       `,
     variables: {
-      username,
+      email,
       password,
       role: "user",
     },
   });
-
-  console.log(data);
   if (errors) {
-    // console.log('error---------', errors);
-    // logoutUser(dispatch, errors);
-
     const formatedError = {};
     const error = errors[0].message;
     if (error.includes("Password")) {
       formatedError.password = error;
     }
-    if (error.includes("Username")) {
-      formatedError.username = error;
+    if (error.includes("Email")) {
+      formatedError.email = error;
     }
 
     dispatch({
