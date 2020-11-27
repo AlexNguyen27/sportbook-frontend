@@ -35,7 +35,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Order History",
       to: "/",
-      onClick: () => window.open("http://localhost:3001/signup"),
+      onClick: () => history.push('/user/info'),
     },
     {
       name: "Your Account",
