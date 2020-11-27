@@ -14,6 +14,7 @@ import HomePageUser from "../pages/homePage/HomePageUser";
 import User from "../pages/user/User";
 import SearchGround from "../pages/ground/SearchGround";
 import Main from "../pages/Main";
+import Ground from "../pages/ground/Ground";
 
 const RouterList = (props) => {
   return (
@@ -42,6 +43,11 @@ const RouterList = (props) => {
         exact
         path="/playground"
         component={() => <Main children={<SearchGround />} />}
+      />
+      <ProtectedRoute
+        exact
+        path="/ground/:id"
+        component={() => <Main children={<Ground />} />}
       />
       <ProtectedRoute component={() => <NotFound center />} />
     </Switch>

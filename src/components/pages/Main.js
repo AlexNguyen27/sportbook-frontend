@@ -40,18 +40,18 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Your Account",
       to: "/login",
-      children: [
-        {
-          name: "Your account",
-          to: "/your-account",
-          onClick: () => {},
-        },
-        {
-          name: "Order management",
-          to: "/your-account",
-          onClick: () => {},
-        },
-      ],
+      // children: [
+      //   {
+      //     name: "Your account",
+      //     to: "/your-account",
+      //     onClick: () => {},
+      //   },
+      //   {
+      //     name: "Order management",
+      //     to: "/your-account",
+      //     onClick: () => {},
+      //   },
+      // ],
     },
     {
       name: "Log out",
@@ -93,7 +93,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
         isHome={isHome}
       />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

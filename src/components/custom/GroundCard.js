@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PlaceRoundedIcon from "@material-ui/icons/PlaceRounded";
 import Colors from "../../constants/Colors";
 import { deleteGround } from "../../store/actions/ground";
+import { useHistory } from "react-router-dom";
 
 const DEFAULT_GROUND_IMAGE =
   "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const GroundCard = ({ ground, onDelete, onEdit }) => {
   const classes = useStyles();
 
+  const history = useHistory();
   const {
     title,
     description,
@@ -46,7 +48,10 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
   } = ground;
   const formatImages = JSON.parse(image);
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      onClick={() => history.push(`/ground/${ground.id}`)}
+    >
       <CardHeader
         avatar={
           <Avatar aria-label="icon" className={classes.avatar}>
@@ -69,7 +74,6 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
           Created at: {moment(createdAt).format("DD/MM/YYYY HH:MM:ss")}
         </Typography>
       </CardContent> */}
-
     </Card>
   );
 };
