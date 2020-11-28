@@ -80,8 +80,12 @@ const History = () => {
           </MuiPickersUtilsProvider>
         </Col>
       </Row>
-      <Row>
-        <HistoryTable />
+      <Row style={{ justifyContent: "center" }}>
+        <HistoryTable
+          status={orderStatus}
+          fromDate={selectedStartDate}
+          toDate={selectedEndDate}
+        />
       </Row>
     </div>
   );

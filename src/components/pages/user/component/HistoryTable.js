@@ -29,7 +29,10 @@ import { Alert } from "reactstrap";
 import Colors from "../../../../constants/Colors";
 import PageLoader from "../../../custom/PageLoader";
 import { capitalizeFirstLetter } from "../../../../utils/commonFunction";
-import { getOrders, updateOrderStatus } from "../../../../store/actions/order";
+import {
+  getOrderHistory,
+  updateOrderStatus,
+} from "../../../../store/actions/order";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -62,7 +65,13 @@ const colorStatus = {
   approved: "success",
 };
 
-const HistoryTable = ({ getOrders, orders }) => {
+const HistoryTable = ({
+  getOrderHistory,
+  orders,
+  status,
+  fromDate,
+  toDate,
+}) => {
   const history = useHistory();
   const [state, setState] = useState({
     columns: [
@@ -149,10 +158,10 @@ const HistoryTable = ({ getOrders, orders }) => {
     ],
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getOrders(setLoading);
-  }, []);
+    getOrderHistory(setLoading, status, fromDate, toDate);
+  }, [status, fromDate, toDate]);
 
   const getDateTime = (date) => moment(date).format(DATE_TIME);
   const orderArr = Object.keys(orders).map((orderId) => ({
@@ -170,7 +179,7 @@ const HistoryTable = ({ getOrders, orders }) => {
           overflowX: "auto",
           width: "100%",
         }}
-        className='history-table'
+        className="history-table"
       >
         <MaterialTable
           icons={tableIcons}
@@ -195,6 +204,6 @@ const HistoryTable = ({ getOrders, orders }) => {
 const mapStateToProps = (state) => ({
   orders: state.order.orders,
 });
-export default connect(mapStateToProps, { getOrders, updateOrderStatus })(
+export default connect(mapStateToProps, { getOrderHistory, updateOrderStatus })(
   withRouter(HistoryTable)
 );

@@ -11,7 +11,10 @@ import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 import Swal from "sweetalert2";
 
-export const getOrders = (setLoading) => async (dispatch, getState) => {
+export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
   const { data, errors } = await hera({
@@ -24,7 +27,11 @@ export const getOrders = (setLoading) => async (dispatch, getState) => {
     },
     query: `
                 query {
-                  orders {
+                  orders(
+                    status: $status, 
+                    fromDate: $fromDate, 
+                    toDate: $toDate
+                  ) {
                     id
                     subGroundId
                     userId
@@ -48,7 +55,11 @@ export const getOrders = (setLoading) => async (dispatch, getState) => {
                   }
                 }
             `,
-    variables: {},
+    variables: {
+      status,
+      fromDate,
+      toDate,
+    },
   });
   if (!errors) {
     const orders = arrayToObject(data.orders);

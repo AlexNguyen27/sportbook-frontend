@@ -33,9 +33,9 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       onClick: () => {},
     },
     {
-      name: "Order History",
+      name: "Create a business",
       to: "/",
-      onClick: () => history.push('/user/info'),
+      onClick: () => window.open("http://localhost:3001/signup"),
     },
     {
       name: "Your Account",
@@ -53,6 +53,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       //   },
       // ],
     },
+  
     {
       name: "Log out",
       to: "/",
