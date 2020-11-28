@@ -1,39 +1,29 @@
 import {
   UNAUTHENTICATE,
   GET_GROUNDS,
-  EDIT_GROUND,
-  ADD_GROUND,
-  DELETE_GROUND,
+  SAVE_SELECTED_GROUND,
 } from "../actions/types";
 
 const initialState = {
   grounds: {},
+  selected_ground: {},
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
-  const { type, grounds, selectedId } = action;
+  const { type, grounds } = action;
   switch (type) {
     case GET_GROUNDS:
       return {
         grounds: { ...grounds },
+        selected_ground: {},
       };
-    case EDIT_GROUND:
-    case ADD_GROUND:
-      const ground = action.ground;
+    case SAVE_SELECTED_GROUND:
       return {
         ...state,
-        grounds: {
-          ...state.grounds,
-          [ground.id]: ground,
-        },
+        selected_ground: action.selected_ground,
       };
-    case DELETE_GROUND:
-      const newGrounds = state.grounds;
-      delete newGrounds[selectedId];
-      return {
-        ...state,
-        grounds: newGrounds,
-      };
+
     case UNAUTHENTICATE:
       return initialState;
     default:
