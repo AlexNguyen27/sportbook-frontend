@@ -14,7 +14,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlaceRoundedIcon from "@material-ui/icons/PlaceRounded";
 import Colors from "../../constants/Colors";
-import { deleteGround } from "../../store/actions/ground";
 import { useHistory } from "react-router-dom";
 
 const DEFAULT_GROUND_IMAGE =
@@ -78,4 +77,4 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
   );
 };
 
-export default connect(null, { deleteGround })(GroundCard);
+export default connect(null, {})(GroundCard);

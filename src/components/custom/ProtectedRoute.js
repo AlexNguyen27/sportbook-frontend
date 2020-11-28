@@ -1,37 +1,18 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import NotFound from "../layout/NotFound";
 
 const ProtectedRoute = ({
   component: Component,
   authorized,
-  auth: { isAuthenticated, isUser, isAdmin },
+  auth: { isAuthenticated },
   dispatch,
   path,
   ...rest
 }) => {
-  const teacherUnauthorized = [
-    "/users-list",
-    "/edit-user/:userId",
-    "/posts-list",
-    "/reports-list",
-    "/categories-list",
-  ];
   const page = (props) => {
-    console.log(isAuthenticated, "d------------------");
     if (isAuthenticated) {
-      isAdmin = true; //todo fix later
-      if (isAdmin || (isUser && !teacherUnauthorized.includes(path))) {
-        return <Component {...props} dispatch={dispatch} />;
-      }
-
-      return (
-        <NotFound
-          alertText="Unauthorized"
-          descriptionText="Sorry, you are not allowed to see this page"
-        />
-      );
+      return <Component {...props} dispatch={dispatch} />;
     }
     return <Redirect to="/" />;
   };
