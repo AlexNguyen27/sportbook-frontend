@@ -11,7 +11,7 @@ import About from "./component/About";
 import Contact from "./component/Contact";
 // import { Nav, Navbar } from 'reactstrap';
 import Navbar from "../../layout/Navbar";
-import Pricing from "./component/Pricing";
+import GroundList from "./component/GroundList";
 import Request from "./component/Request";
 
 const HomePageUser = (props) => {
@@ -21,13 +21,13 @@ const HomePageUser = (props) => {
 
       {/* TODO FIX LATER */}
       {/* <Branch /> */}
+      {/* GROUND LIST */}
+      <GroundList />
 
       <Service />
 
       <Planning />
 
-      {/* GROUND LIST */}
-      <Pricing />
 
       {/* CRAETE CONTACT FORM */}
       <Request />

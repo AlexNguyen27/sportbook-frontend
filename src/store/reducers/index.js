@@ -9,13 +9,13 @@ import subGround from "./subGround";
 import price from "./price";
 import order from "./order";
 import loyalCustomer from "./loyalCustomer";
-import statistic from "./statistic";
+// import statistic from "./statistic";
 import history from "./history";
 
 export default combineReducers({
   errors,
   auth,
-  user,
+  user, // todo: remove user here
   benefit,
   category,
   ground,
@@ -23,6 +23,5 @@ export default combineReducers({
   price,
   order,
   loyalCustomer,
-  statistic,
   history,
 });

@@ -33,26 +33,27 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       onClick: () => {},
     },
     {
-      name: "Order History",
+      name: "Create a business",
       to: "/",
       onClick: () => window.open("http://localhost:3001/signup"),
     },
     {
       name: "Your Account",
       to: "/login",
-      children: [
-        {
-          name: "Your account",
-          to: "/your-account",
-          onClick: () => {},
-        },
-        {
-          name: "Order management",
-          to: "/your-account",
-          onClick: () => {},
-        },
-      ],
+      // children: [
+      //   {
+      //     name: "Your account",
+      //     to: "/your-account",
+      //     onClick: () => {},
+      //   },
+      //   {
+      //     name: "Order management",
+      //     to: "/your-account",
+      //     onClick: () => {},
+      //   },
+      // ],
     },
+  
     {
       name: "Log out",
       to: "/",
@@ -93,7 +94,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
         isHome={isHome}
       />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

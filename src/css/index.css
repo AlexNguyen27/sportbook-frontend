@@ -1,39 +1,37 @@
-
-
 /* .login {
     padding-top: 100px;
 } */
 
-.MuiOutlinedInput-input {
-    padding: 11.5px 14px !important;
-}
-
 .MuiButton-containedPrimary {
-    background-color: #00bfd8 !important;
+  background-color: #00bfd8 !important;
 }
 
 .footer-fixed {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 button:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 .image-wrapper {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin: 0 auto;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
 }
 
 .image-wrapper .image {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.history-table .MuiToolbar-gutters {
+  display: none !important;
 }
