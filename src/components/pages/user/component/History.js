@@ -35,6 +35,7 @@ const History = () => {
             fullWidth
             label="Order status"
             value={orderStatus.toString()}
+            size="small"
             options={orderStatusArr || []}
             valueBasedOnProperty="key"
             displayProperty="value"
@@ -48,6 +49,7 @@ const History = () => {
               className="mt-0"
               variant="inline"
               style={{ width: "100%" }}
+              size="small"
               format="MM/dd/yyyy"
               margin="normal"
               id="date-picker-inline"
@@ -65,6 +67,7 @@ const History = () => {
             <KeyboardDatePicker
               disableToolbar
               className="mt-0"
+              size="small"
               variant="inline"
               format="MM/dd/yyyy"
               style={{ width: "100%" }}

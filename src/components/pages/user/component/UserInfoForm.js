@@ -403,7 +403,7 @@ const UserInfoForm = ({
                 </Paper>
               </Col>
               <Col xs="9">
-                <h4 className="text-center">User Information</h4>
+                <h4 className="text-center mb-4">User Information</h4>
                 <form onSubmit={(e) => onSubmit(e)}>
                   <Row>
                     <Col xs={6}>
@@ -417,6 +417,7 @@ const UserInfoForm = ({
                         placeHolder="Enter first name"
                         error={errors.firstName}
                         variant="outlined"
+                        size="small"
                       />
                     </Col>
                     <Col xs={6}>
@@ -429,6 +430,7 @@ const UserInfoForm = ({
                         onChange={onChange}
                         placeHolder="Enter last name"
                         error={errors.lastName}
+                        size="small"
                         variant="outlined"
                       />
                     </Col>
@@ -438,6 +440,7 @@ const UserInfoForm = ({
                         name="email"
                         label="Email"
                         fullWidth
+                        size="small"
                         value={email}
                         onChange={onChange}
                         className="mt-4"
@@ -453,6 +456,7 @@ const UserInfoForm = ({
                         value={selectedGenderKey.toString()}
                         options={genderArr || []}
                         valueBasedOnProperty="key"
+                        size="small"
                         displayProperty="value"
                         onChange={(genderKey) => onSelectGender(genderKey)}
                         error={errors.gender || ""}
@@ -467,6 +471,7 @@ const UserInfoForm = ({
                         name="phone"
                         label="Phone"
                         fullWidth
+                        size="small"
                         value={phone}
                         onChange={onChange}
                         placeHolder="Enter Phone"
@@ -482,6 +487,7 @@ const UserInfoForm = ({
                           format="dd/MM/yyyy"
                           margin="normal"
                           id="date-picker-inline"
+                          size="small"
                           label="Date of birth"
                           value={selectedDate}
                           onChange={(date) => setSelectedDate(date)}
@@ -497,6 +503,7 @@ const UserInfoForm = ({
                     <Col xs={4}>
                       <DropdownV2
                         fullWidth
+                        size="small"
                         label="City / Province / Region"
                         value={selectedRegionCode.toString()}
                         options={regionArr || []}
@@ -509,6 +516,7 @@ const UserInfoForm = ({
                       <DropdownV2
                         fullWidth
                         label="District"
+                        size="small"
                         value={selectedDistrictCode.toString()}
                         options={getDistricts() || []}
                         valueBasedOnProperty="code"
@@ -523,6 +531,7 @@ const UserInfoForm = ({
                         value={selectedWardCode.toString()}
                         options={getWards() || []}
                         valueBasedOnProperty="code"
+                        size="small"
                         displayProperty="name"
                         onChange={(code) => onChangeWard(code)}
                       />
@@ -533,6 +542,7 @@ const UserInfoForm = ({
                         name="address"
                         label="Address"
                         fullWidth
+                        size="small"
                         value={address}
                         onChange={onChange}
                         error={errors.address}
@@ -548,6 +558,7 @@ const UserInfoForm = ({
                         fullWidth
                         label="Farovite Foot"
                         variant="outlined"
+                        size="small"
                         disabledPlaceholder="None"
                         value={selectedFavoriteFootKey.toString()}
                         options={favoriteFootArr || []}
@@ -564,6 +575,7 @@ const UserInfoForm = ({
                         label="Play role"
                         fullWidth
                         value={playRole}
+                        size="small"
                         onChange={onChange}
                         placeHolder="Enter play role"
                         error={errors.playRole}
@@ -579,6 +591,7 @@ const UserInfoForm = ({
                         label="Created Date"
                         fullWidth
                         value={createdAt}
+                        size="small"
                         placeHolder="Enter created at"
                         error={errors.createdAt}
                         InputProps={{
@@ -594,6 +607,7 @@ const UserInfoForm = ({
                         name="updatedAt"
                         label="Latest update At"
                         fullWidth
+                        size="small"
                         disabled
                         InputProps={{
                           readOnly: true,
@@ -609,6 +623,7 @@ const UserInfoForm = ({
                   <Button
                     variant="contained"
                     color="primary"
+                    size="small"
                     onClick={(e) => onSubmit(e)}
                   >
                     <SaveIcon className="mr-2" /> Save
@@ -616,6 +631,7 @@ const UserInfoForm = ({
                   <Button
                     variant="contained"
                     className="ml-4"
+                    size="small"
                     onClick={() => onCancel()}
                   >
                     <RotateLeftIcon className="mr-2" /> Cancel

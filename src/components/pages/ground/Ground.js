@@ -22,6 +22,7 @@ import RoomIcon from "@material-ui/icons/Room";
 import MultipleCarousel from "../../custom/MultipleCarousel";
 import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -40,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DEFAULT_GROUND_IMAGE =
-  "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
 const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -59,15 +58,27 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
         getBenefits(setLoading);
       });
       console.log("hsitroy=------------------------", history);
-      document.getElementById(
-        "test-image"
-      ).style.background = `url('${getImageUrls()[0] ||  DEFAULT_GROUND_IMAGE}')`;
+      document.getElementById("test-image").style.background = `url('${
+        getImageUrls()[0] || DEFAULT_GROUND_IMAGE
+      }')`;
       document.getElementById("test-image").style.backgroundPosition = "center";
       document.getElementById("test-image").style.backgroundRepeat =
         "no-repeat";
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
   }, []);
+
+  useEffect(() => {
+    if (ground && loading === false) {
+      document.getElementById("test-image").style.background = `url('${
+        getImageUrls()[0] || DEFAULT_GROUND_IMAGE
+      }')`;
+      document.getElementById("test-image").style.backgroundPosition = "center";
+      document.getElementById("test-image").style.backgroundRepeat =
+        "no-repeat";
+      document.getElementById("test-image").style.backgroundSize = "cover";
+    }
+  }, [ground, loading]);
 
   console.log("ground", ground);
   const getAddress = () => {

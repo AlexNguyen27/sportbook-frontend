@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import {
-  Row,
-  Col,
-  Form,
-} from "reactstrap";
+import { Row, Col, Form } from "reactstrap";
 import Button from "@material-ui/core/Button";
 import TextFieldInputWithHeader from "../../../custom/TextFieldInputWithheader";
 import { GET_ERRORS } from "../../../../store/actions/types";
@@ -97,6 +93,7 @@ const ChangePassword = ({
                   value={currentPassword}
                   onChange={onChange}
                   error={errors.currentPassword}
+                  size="small"
                   variant="outlined"
                 />
               </Col>
@@ -108,6 +105,7 @@ const ChangePassword = ({
                   type="password"
                   value={newPassword}
                   fullWidth
+                  size="small"
                   onChange={onChange}
                   variant="outlined"
                   error={errors.newPassword}
@@ -121,19 +119,26 @@ const ChangePassword = ({
                   name="confirmPassword"
                   value={confirmPassword}
                   fullWidth
+                  size="small"
                   onChange={onChange}
                   variant="outlined"
                   error={errors.confirmPassword}
                 />
               </Col>
             </Row>
-            <Col item xs={12} className="text-center mt-4" >
-              <Button variant="contained" color="primary" type="submit">
+            <Col item xs={12} className="text-center mt-4">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                size="small"
+              >
                 <SaveIcon className="mr-2" /> CONFIRM
               </Button>
               <Button
                 variant="contained"
                 className="ml-4"
+                size="small"
                 onClick={() => closeModal()}
               >
                 <RotateLeftIcon className="mr-2" /> Cancel

@@ -21,10 +21,7 @@ const Header = () => {
                   Easily book online playgrounds, open playgrounds and manage
                   online playgrounds quickly and easily
                 </p>
-                <a
-                  className="btn-solid-lg page-scroll"
-                  href="/find-ground-online"
-                >
+                <a className="btn-solid-lg page-scroll" href="/playground">
                   SEACHING FOR PLAYGROUND
                 </a>
               </div>

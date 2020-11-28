@@ -92,6 +92,7 @@ const Login = ({
                 variant="contained"
                 style={{ backgroundColor: "#3f72af", color: "white" }}
                 type="submit"
+                size="small"
               >
                 Facebook
               </Button>
@@ -102,6 +103,7 @@ const Login = ({
                 variant="contained"
                 type="submit"
                 style={{ backgroundColor: "#ec524b", color: "white" }}
+                size="small"
               >
                 Google
               </Button>
@@ -118,6 +120,7 @@ const Login = ({
               error={errors.email || errors.message}
               placeholder="Enter your email address"
               variant="outlined"
+              size="small"
             />
 
             <TextFieldInputWithHeader
@@ -131,12 +134,14 @@ const Login = ({
               fullWidth
               onChange={onChange}
               variant="outlined"
+              size="small"
             />
             <Button
               className="mt-3 w-100"
               variant="contained"
               color="primary"
               type="submit"
+              size="small"
             >
               Login
             </Button>
