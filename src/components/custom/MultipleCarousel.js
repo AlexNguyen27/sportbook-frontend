@@ -20,7 +20,6 @@ const responsive = {
   },
 };
 const MultipleCarousel = ({ dataSource , deviceType = 'desktop'}) => {
-  console.log("hrere------------------------");
   return (
     <Carousel
     additionalTransfrom={0}
@@ -38,6 +37,7 @@ const MultipleCarousel = ({ dataSource , deviceType = 'desktop'}) => {
     minimumTouchDrag={80}
     renderButtonGroupOutside={false}
     renderDotsOutside={false}
+    showDots
     responsive={{
       desktop: {
         breakpoint: {
