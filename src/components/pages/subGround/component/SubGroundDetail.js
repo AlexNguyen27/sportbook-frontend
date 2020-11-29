@@ -52,9 +52,9 @@ const SubGroundDetail = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography className={classes.heading}>General settings</Typography>
+          <Typography className={classes.heading}>Sub ground 1</Typography>
           <Typography className={classes.secondaryHeading}>
-            I am an accordion
+            Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -92,9 +92,9 @@ const SubGroundDetail = () => {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography className={classes.heading}>Users</Typography>
+          <Typography className={classes.heading}>Sub ground 2</Typography>
           <Typography className={classes.secondaryHeading}>
-            You are currently not an owner
+          Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -132,9 +132,9 @@ const SubGroundDetail = () => {
           aria-controls="panel3bh-content"
           id="panel3bh-header"
         >
-          <Typography className={classes.heading}>Advanced settings</Typography>
+          <Typography className={classes.heading}>Sub ground 3</Typography>
           <Typography className={classes.secondaryHeading}>
-            Filtering has been entirely disabled for whole web server
+          Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -172,7 +172,7 @@ const SubGroundDetail = () => {
           aria-controls="panel4bh-content"
           id="panel4bh-header"
         >
-          <Typography className={classes.heading}>Personal data</Typography>
+          <Typography className={classes.heading}>Sub ground 4</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Row>
