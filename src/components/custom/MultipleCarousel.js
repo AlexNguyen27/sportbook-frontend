@@ -4,69 +4,49 @@ import "react-multi-carousel/lib/styles.css";
 import GroundCard from "./GroundCard";
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: {
+      max: 3000,
+      min: 1024
+    },
     items: 4,
-    slidesToSlide: 4, // optional, default to 1.
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 3,
-    slidesToSlide: 3, // optional, default to 1.
+    partialVisibilityGutter: 20
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: {
+      max: 464,
+      min: 0
+    },
     items: 1,
-    slidesToSlide: 1, // optional, default to 1.
+    partialVisibilityGutter: 30
   },
+  tablet: {
+    breakpoint: {
+      max: 1024,
+      min: 464
+    },
+    items: 2,
+    partialVisibilityGutter: 30
+  }
 };
-const MultipleCarousel = ({ dataSource , deviceType = 'desktop'}) => {
+const MultipleCarousel = ({ dataSource}) => {
   return (
     <Carousel
     additionalTransfrom={0}
-    arrows
-    autoPlaySpeed={3000}
+    autoPlaySpeed={4000}
     centerMode={false}
-    className=""
     containerClass="container-with-dots"
-    dotListClass=""
     draggable
+    autoPlay
     focusOnSelect={false}
     infinite
-    itemClass=""
+    partialVisible
     keyBoardControl
     minimumTouchDrag={80}
-    renderButtonGroupOutside={false}
-    renderDotsOutside={false}
-    showDots
-    responsive={{
-      desktop: {
-        breakpoint: {
-          max: 3000,
-          min: 1024
-        },
-        items: 4,
-        partialVisibilityGutter: 20
-      },
-      mobile: {
-        breakpoint: {
-          max: 464,
-          min: 0
-        },
-        items: 1,
-        partialVisibilityGutter: 30
-      },
-      tablet: {
-        breakpoint: {
-          max: 1024,
-          min: 464
-        },
-        items: 3,
-        partialVisibilityGutter: 30
-      }
-    }}
-    showDots={false}
+    renderDotsOutside={true}
+    responsive={responsive}
+    showDots={true}
     sliderClass=""
-    slidesToSlide={1}
+    slidesToSlide={3}
     swipeable
     >
       {dataSource.map((item) => (

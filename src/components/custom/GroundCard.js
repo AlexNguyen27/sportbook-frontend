@@ -13,8 +13,12 @@ import Typography from "@material-ui/core/Typography";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlaceRoundedIcon from "@material-ui/icons/PlaceRounded";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import Colors from "../../constants/Colors";
 import { useHistory } from "react-router-dom";
+import RoomIcon from "@material-ui/icons/Room";
+import { getAddress } from "../../utils/commonFunction";
+import { truncateMultilineString } from "../../utils/formatString";
 
 const DEFAULT_GROUND_IMAGE =
   "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
@@ -23,8 +27,10 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
   },
   media: {
-    height: 0,
+    // height: 0,
     paddingTop: "56.25%", // 16:9
+    minHeight: 200
+
   },
   expand: {
     marginLeft: "auto",
@@ -46,12 +52,14 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
     image = "[]",
   } = ground;
   const formatImages = JSON.parse(image);
+
   return (
     <Card
       className={classes.root}
       onClick={() => history.push(`/ground/${ground.id}`)}
+      elevation={3}
     >
-      <CardHeader
+      {/* <CardHeader
         avatar={
           <Avatar aria-label="icon" className={classes.avatar}>
             <PlaceRoundedIcon />
@@ -59,20 +67,21 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
         }
         title={title}
         subheader={`Category: ${name}`}
-      />
+      /> */}
       <CardMedia
         className={classes.media}
         image={(formatImages && formatImages[0]) || DEFAULT_GROUND_IMAGE}
         title="Paella dish"
       />
-      {/* <CardContent>
+      <CardContent>
         <Typography variant="body2" component="p">
-          {description}
+          {truncateMultilineString(description, 38)}
         </Typography>
         <Typography variant="caption" color="textSecondary" component="p">
-          Created at: {moment(createdAt).format("DD/MM/YYYY HH:MM:ss")}
+          <RoomIcon className="mr-1" />
+          {truncateMultilineString(getAddress(ground.address), 70)}
         </Typography>
-      </CardContent> */}
+      </CardContent>
     </Card>
   );
 };

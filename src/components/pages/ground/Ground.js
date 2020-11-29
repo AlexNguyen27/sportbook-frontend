@@ -23,6 +23,7 @@ import MultipleCarousel from "../../custom/MultipleCarousel";
 import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
+import { getAddress } from "../../../utils/commonFunction";
 import Colors from "../../../constants/Colors";
 import Review from "./component/Review";
 import Comment from "./component/Comment";
@@ -84,16 +85,16 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
   }, [ground, loading]);
 
   console.log("ground", ground);
-  const getAddress = () => {
-    if (ground.address) {
-      const formatAddress = JSON.parse(ground.address);
-      console.log("addd----------------------", formatAddress);
-      const { address, regionCode, districtCode, wardCode } = formatAddress;
-      return `${address}, ${WARDS[wardCode].name_with_type}, ${
-        DISTRICTS[districtCode].name_with_type
-      }, ${REGIONS[regionCode].name_with_type || ""}`;
-    }
-  };
+  // const getAddress ground.address= () => {
+  //   if (ground.address) {
+  //     const formatAddress = JSON.parse(ground.address);
+  //     console.log("addd----------------------", formatAddress);
+  //     const { address, regionCode, districtCode, wardCode } = formatAddress;
+  //     return `${address}, ${WARDS[wardCode].name_with_type}, ${
+  //       DISTRICTS[districtCode].name_with_type
+  //     }, ${REGIONS[regionCode].name_with_type || ""}`;
+  //   }
+  // };
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
@@ -118,7 +119,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <h2 className="text-capitalize" style={{ color: "#db6400" }}>
                 {title}
               </h2>
-              <h5 style={{ color: "#eeeded" }}>{getAddress()}</h5>
+              <h5 style={{ color: "#eeeded" }}>{getAddress(ground.address)}</h5>
               <h5>
                 {[...Array(4)].map((item) => (
                   <StarIcon size="small" style={{ color: "#f0a500" }} />
@@ -216,7 +217,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
             <h5>Reviews & Comments</h5>
             <Review />
             <hr />
-           
+
             <Comment />
           </Paper>
           {/* List comment */}
@@ -247,7 +248,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
             </p>
             <p>
               <RoomIcon className="mr-2" />
-              {getAddress()}
+              {getAddress(ground.address)}
             </p>
           </Paper>
         </Col>
@@ -261,7 +262,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       <Row style={{ justifyContent: "center" }}>
         <Col xs={9}>
           <PageLoader loading={loading}>
-            <Row style={{ justifyContent: "center" }}>
+            <Row style={{ justifyContent: "center" }} className="mb-4">
               <Col xs={12}>
                 <MultipleCarousel dataSource={groundArr} />
               </Col>
