@@ -8,9 +8,6 @@ import PageLoader from "../../custom/PageLoader";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { Paper } from "@material-ui/core";
-import REGIONS from "../../locales/regions.json";
-import DISTRICTS from "../../locales/districts.json";
-import WARDS from "../../locales/wards.json";
 import ShareIcon from "@material-ui/icons/Share";
 import StarIcon from "@material-ui/icons/Star";
 import ReportIcon from "@material-ui/icons/Report";
@@ -27,6 +24,10 @@ import { getAddress } from "../../../utils/commonFunction";
 import Colors from "../../../constants/Colors";
 import Review from "./component/Review";
 import Comment from "./component/Comment";
+import moment from "moment";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { Form } from "reactstrap";
+import SubGround from "../subGround/SubGround";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -84,7 +85,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
     }
   }, [ground, loading]);
 
-  console.log("ground", ground);
+  // console.log("ground", ground);
   // const getAddress ground.address= () => {
   //   if (ground.address) {
   //     const formatAddress = JSON.parse(ground.address);
@@ -157,15 +158,14 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       {/* ground info */}
       <Row style={{ justifyContent: "center" }}>
         <Col xs={6}>
-          <Paper elevation={3} className={classes.paper}>
-            <h5>This ground do not support booking online</h5>
-            <p>Please check the contact information below</p>
-          </Paper>
+          {/* SubGround */}
+          <SubGround />
 
           <Paper elevation={3} className={classes.paper}>
             <h5>Description</h5>
             <p>{description}</p>
           </Paper>
+
           <hr></hr>
           <h5>Benefits</h5>
           <div>
@@ -188,6 +188,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7836.983714026452!2d106.78194775393679!3d10.850144971186923!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb838977f3d419d!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCBWaeG7hW4gdGjDtG5nIEPGoSBT4bufIFThuqFpIFRQLiBI4buTIENow60gTWluaMK3!5e0!3m2!1svi!2s!4v1604223922437!5m2!1svi!2s"
             allowFullScreen
+            title="t"
           ></iframe>
           <hr />
           <h5>Playground Images</h5>
