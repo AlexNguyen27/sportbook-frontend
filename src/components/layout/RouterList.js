@@ -15,6 +15,7 @@ import User from "../pages/user/User";
 import SearchGround from "../pages/ground/SearchGround";
 import Main from "../pages/Main";
 import Ground from "../pages/ground/Ground";
+import Order from "../pages/order/Order";
 
 const RouterList = (props) => {
   return (
@@ -43,6 +44,11 @@ const RouterList = (props) => {
         exact
         path="/playground"
         component={() => <Main children={<SearchGround />} />}
+      />
+      <Route
+        exact
+        path="/order"
+        component={() => <Main children={<Order />} />}
       />
       <ProtectedRoute
         exact

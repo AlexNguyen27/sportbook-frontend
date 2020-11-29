@@ -75,6 +75,17 @@ const SubGround = () => {
             <SearchSubGround />
           </Col>
         </Row>
+        <Row style={{ justifyContent: "center", marginTop: '10px' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            size="small"
+            className={classes.button}
+          >
+           BOOK A GROUND
+          </Button>
+        </Row>
       </Paper>
     </div>
   );

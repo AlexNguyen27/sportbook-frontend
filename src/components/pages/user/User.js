@@ -71,7 +71,7 @@ const User = ({ user }) => {
   return (
     <Row className={classes.top} style={{ justifyContent: "center" }}>
       <Col xs={2}>
-        <Paper className={classes.root}>
+        <Paper className={classes.root} elevation={3}>
           <Row style={{ justifyContent: "center", paddingTop: "10px" }}>
             <Col xs={3}>
               <Avatar

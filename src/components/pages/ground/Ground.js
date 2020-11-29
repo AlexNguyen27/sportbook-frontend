@@ -51,18 +51,18 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  const pathName = history.location.pathname.split("/");
 
   useEffect(() => {
     // getGroundById(setLoading, match);
-    const pathName = history.location.pathname.split("/");
     if (pathName && pathName[2]) {
       const groundId = pathName[2];
       setLoading(true);
       getGroundById(setLoading, groundId).then(() => {
         setLoading(true);
         getBenefits(setLoading);
+        console.log("hsitroy=------------------------", history);
       });
-      console.log("hsitroy=------------------------", history);
       document.getElementById("test-image").style.background = `url('${
         getImageUrls()[0] || DEFAULT_GROUND_IMAGE
       }')`;
@@ -71,7 +71,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
         "no-repeat";
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
-  }, []);
+  }, [pathName[2]]);
 
   useEffect(() => {
     if (ground && loading === false) {
@@ -84,18 +84,6 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
   }, [ground, loading]);
-
-  // console.log("ground", ground);
-  // const getAddress ground.address= () => {
-  //   if (ground.address) {
-  //     const formatAddress = JSON.parse(ground.address);
-  //     console.log("addd----------------------", formatAddress);
-  //     const { address, regionCode, districtCode, wardCode } = formatAddress;
-  //     return `${address}, ${WARDS[wardCode].name_with_type}, ${
-  //       DISTRICTS[districtCode].name_with_type
-  //     }, ${REGIONS[regionCode].name_with_type || ""}`;
-  //   }
-  // };
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
@@ -120,12 +108,12 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <h2 className="text-capitalize" style={{ color: "#db6400" }}>
                 {title}
               </h2>
-              <h5 style={{ color: "#eeeded" }}>{getAddress(ground.address)}</h5>
+              <h5 style={{ color: "#f0a500" }}>{getAddress(ground.address)}</h5>
               <h5>
                 {[...Array(4)].map((item) => (
                   <StarIcon size="small" style={{ color: "#f0a500" }} />
                 ))}
-                <span style={{ color: "#03c4a1" }}>Reviews</span>
+                <span style={{ color: "#f0a500", fontSize: '16px' }}>Reviews</span>
               </h5>
               {/* <h5>
                 <ReportIcon size="small" style={{ color: "#f56a79" }} />
@@ -155,10 +143,9 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
           </Row>
         </div>
       </div>
-      {/* ground info */}
       <Row style={{ justifyContent: "center" }}>
         <Col xs={6}>
-          {/* SubGround */}
+          {/* SUB GROUND AND PRICING */}
           <SubGround />
 
           <Paper elevation={3} className={classes.paper}>

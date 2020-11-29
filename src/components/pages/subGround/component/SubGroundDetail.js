@@ -5,8 +5,9 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,8 @@ const SubGroundDetail = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const history = useHistory();
+
   return (
     <div className={classes.root}>
       <Accordion
@@ -52,32 +55,37 @@ const SubGroundDetail = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography className={classes.heading}>General settings</Typography>
+          <Typography className={classes.heading}>Sub ground 1</Typography>
           <Typography className={classes.secondaryHeading}>
-            I am an accordion
+            Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Row>
             {[...Array(9)].map((item) => (
               <Col xs={3} md={2} className="text-center">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className="mb-3"
-                  size="small"
-                >
-                  <div>
-                    <p className={classes.noMargin}>10:00 - 12:00</p>
-                    <p className={classes.text}>Ready</p>
-                    <p className={classes.noMargin}>
-                      190.000${" "}
-                      <span style={{ fontSize: "12px", fontWeight: "normal" }}>
-                        -10%
-                      </span>
-                    </p>
-                  </div>
-                </Button>
+                <Tooltip title="Book this time">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className="mb-3"
+                    size="small"
+                    onClick={() => history.push("/order")}
+                  >
+                    <div>
+                      <p className={classes.noMargin}>10:00 - 12:00</p>
+                      <p className={classes.text}>Ready</p>
+                      <p className={classes.noMargin}>
+                        190.000${" "}
+                        <span
+                          style={{ fontSize: "12px", fontWeight: "normal" }}
+                        >
+                          -10%
+                        </span>
+                      </p>
+                    </div>
+                  </Button>
+                </Tooltip>
               </Col>
             ))}
           </Row>
@@ -92,9 +100,9 @@ const SubGroundDetail = () => {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography className={classes.heading}>Users</Typography>
+          <Typography className={classes.heading}>Sub ground 2</Typography>
           <Typography className={classes.secondaryHeading}>
-            You are currently not an owner
+            Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -132,9 +140,9 @@ const SubGroundDetail = () => {
           aria-controls="panel3bh-content"
           id="panel3bh-header"
         >
-          <Typography className={classes.heading}>Advanced settings</Typography>
+          <Typography className={classes.heading}>Sub ground 3</Typography>
           <Typography className={classes.secondaryHeading}>
-            Filtering has been entirely disabled for whole web server
+            Maxium 5 people here
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -172,7 +180,7 @@ const SubGroundDetail = () => {
           aria-controls="panel4bh-content"
           id="panel4bh-header"
         >
-          <Typography className={classes.heading}>Personal data</Typography>
+          <Typography className={classes.heading}>Sub ground 4</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Row>
