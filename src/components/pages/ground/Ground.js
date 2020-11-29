@@ -113,7 +113,9 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
                 {[...Array(4)].map((item) => (
                   <StarIcon size="small" style={{ color: "#f0a500" }} />
                 ))}
-                <span style={{ color: "#f0a500", fontSize: '16px' }}>Reviews</span>
+                <span style={{ color: "#f0a500", fontSize: "16px" }}>
+                  Reviews
+                </span>
               </h5>
               {/* <h5>
                 <ReportIcon size="small" style={{ color: "#f56a79" }} />
@@ -232,11 +234,11 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
             </p>
             <p>
               <PhoneIcon className="mr-2" />
-              {phone}
+              {phone || "No phone"}
             </p>
             <p>
               <RoomIcon className="mr-2" />
-              {getAddress(ground.address)}
+              {getAddress(ground.address) || "No address"}
             </p>
           </Paper>
         </Col>
