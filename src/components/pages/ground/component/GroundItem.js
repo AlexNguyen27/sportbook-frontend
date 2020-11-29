@@ -16,9 +16,13 @@ const GroundItem = ({ ground }) => {
             height="100%"
             src={DEFAULT_GROUND_IMAGE}
             alt={""}
+            onClick={() => {}}
           />
         </Col>
-        <Col xs={7} style={{ alignSelf: "center" }}>
+        <Col
+          xs={7}
+          style={{ alignSelf: "center", borderRight: "1px solid #888" }}
+        >
           <h5 className="text-capitalize">San bogn dai hojc nong lam</h5>
           <p>
             <RoomIcon className="mr-2" /> tp ho chi minh

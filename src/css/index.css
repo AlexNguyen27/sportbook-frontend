@@ -1,11 +1,3 @@
-/* .login {
-    padding-top: 100px;
-} */
-/* 
-.MuiButton-containedPrimary {
-  background-color: #00bfd8 !important;
-} */
-
 .footer-fixed {
   position: fixed;
   left: 0;
@@ -34,4 +26,8 @@ button:focus {
 
 .history-table .MuiToolbar-gutters {
   display: none !important;
+}
+
+.react-multi-carousel-item {
+  height: 320px !important;
 }

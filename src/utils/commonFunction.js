@@ -1,5 +1,9 @@
 import moment from "moment";
 import { DATE_TIME } from "./common";
+import REGIONS from "../components/locales/regions.json";
+import DISTRICTS from "../components/locales/districts.json";
+import WARDS from "../components/locales/wards.json";
+
 export const arrayToObject = (array) => {
   return array.reduce((obj, item) => {
     if (item.id) {
@@ -44,3 +48,14 @@ export const getFullname = (firstname, lastname) => {
 };
 
 export const getDateTime = (date) => moment(date).format(DATE_TIME);
+
+export const getAddress = (data) => {
+  if (data) {
+    const formatAddress = JSON.parse(data);
+    const { address, regionCode, districtCode, wardCode } = formatAddress;
+    return `${address}, ${WARDS[wardCode].name_with_type}, ${
+      DISTRICTS[districtCode].name_with_type
+    }, ${REGIONS[regionCode].name_with_type || ""}`;
+  }
+  return "";
+};
