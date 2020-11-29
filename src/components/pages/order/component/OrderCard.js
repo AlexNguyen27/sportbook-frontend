@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Row } from "reactstrap";
 import { useState } from "react";
 import TextFieldInput from "../../../custom/TextFieldInputWithheader";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Alert from "@material-ui/lab/Alert";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -12,6 +12,8 @@ import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
+import { SAVE_PAYMENT_METHOD } from "../../../../store/actions/types";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const OrderCard = ({ errors }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: "",
     phone: "",
@@ -34,12 +37,15 @@ const OrderCard = ({ errors }) => {
       [e.target.name]: e.target.value,
     });
   };
-  const [value, setValue] = React.useState("");
+  const [paymentMethod, setPaymentMethod] = React.useState("online");
   const [error, setError] = React.useState(false);
-  const [helperText, setHelperText] = React.useState("Choose wisely");
 
   const handleRadioChange = (event) => {
-    setValue(event.target.value);
+    setPaymentMethod(event.target.value);
+    dispatch({
+      type: SAVE_PAYMENT_METHOD,
+      paymentMethod: event.target.value,
+    });
     // setHelperText(" ");
     // setError(false);
   };
@@ -108,23 +114,22 @@ const OrderCard = ({ errors }) => {
               <RadioGroup
                 aria-label="paymentType"
                 name="paymentType"
-                value={value}
+                value={paymentMethod}
                 onChange={handleRadioChange}
               >
                 <FormControlLabel
-                    className="mb-0"
+                  className="mb-0"
                   value="online"
                   control={<Radio />}
                   label="Online"
-                  
                 />
                 <FormHelperText>
                   Wait for confirmation from the owner and cannot be guaranteed
                   by Love Sport if any dispute arises
                 </FormHelperText>
                 <FormControlLabel
-                    className="mb-0"
-                    value="offline"
+                  className="mb-0"
+                  value="offline"
                   control={<Radio />}
                   label="Offline"
                 />
