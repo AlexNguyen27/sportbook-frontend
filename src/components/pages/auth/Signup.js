@@ -86,6 +86,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
                 variant="contained"
                 style={{ backgroundColor: "#3f72af", color: "white" }}
                 type="submit"
+                size="small"
               >
                 Facebook
               </Button>
@@ -96,6 +97,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
                 variant="contained"
                 type="submit"
                 style={{ backgroundColor: "#ec524b", color: "white" }}
+                size="small"
               >
                 Google
               </Button>
@@ -112,6 +114,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               error={errors.email}
               placeholder="Enter Your Email"
               variant="outlined"
+              size="small"
             />
 
             <TextFieldInputWithHeader
@@ -124,6 +127,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               className="mt-0"
               fullWidth
               onChange={onChange}
+              size="small"
               variant="outlined"
             />
 
@@ -137,6 +141,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               className="mt-0"
               fullWidth
               variant="outlined"
+              size="small"
               onChange={onChange}
             />
             <Col xs={12} sm={8} md={4} style={{ margin: "auto" }}>
@@ -145,6 +150,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
                 variant="contained"
                 color="primary"
                 type="submit"
+                size="small"
               >
                 REGISTER
               </Button>

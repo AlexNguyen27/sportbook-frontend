@@ -39,3 +39,6 @@ export const ORDER_STATUS = {
   cancelled: 'Cancelled',
   approved: 'Approved',
 };
+
+export const DEFAULT_GROUND_IMAGE =
+  "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";

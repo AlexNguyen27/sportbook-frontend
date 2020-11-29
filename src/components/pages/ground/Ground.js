@@ -22,6 +22,10 @@ import RoomIcon from "@material-ui/icons/Room";
 import MultipleCarousel from "../../custom/MultipleCarousel";
 import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
+import Colors from "../../../constants/Colors";
+import Review from "./component/Review";
+import Comment from "./component/Comment";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -40,8 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DEFAULT_GROUND_IMAGE =
-  "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
 const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -59,15 +61,27 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
         getBenefits(setLoading);
       });
       console.log("hsitroy=------------------------", history);
-      document.getElementById(
-        "test-image"
-      ).style.background = `url('${getImageUrls()[0] ||  DEFAULT_GROUND_IMAGE}')`;
+      document.getElementById("test-image").style.background = `url('${
+        getImageUrls()[0] || DEFAULT_GROUND_IMAGE
+      }')`;
       document.getElementById("test-image").style.backgroundPosition = "center";
       document.getElementById("test-image").style.backgroundRepeat =
         "no-repeat";
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
   }, []);
+
+  useEffect(() => {
+    if (ground && loading === false) {
+      document.getElementById("test-image").style.background = `url('${
+        getImageUrls()[0] || DEFAULT_GROUND_IMAGE
+      }')`;
+      document.getElementById("test-image").style.backgroundPosition = "center";
+      document.getElementById("test-image").style.backgroundRepeat =
+        "no-repeat";
+      document.getElementById("test-image").style.backgroundSize = "cover";
+    }
+  }, [ground, loading]);
 
   console.log("ground", ground);
   const getAddress = () => {
@@ -118,6 +132,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <Button
                 variant="contained"
                 color="primary"
+                size="small"
                 className={classes.button}
                 endIcon={<ShareIcon />}
               >
@@ -128,6 +143,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <Button
                 variant="contained"
                 color="secondary"
+                size="small"
                 className={classes.button}
                 endIcon={<CreditCardIcon />}
               >
@@ -156,7 +172,8 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <>
                 {benefits[key] ? (
                   <>
-                    <CheckCircleIcon /> {benefits[key].title}{" "}
+                    <CheckCircleIcon style={{ color: "#61b15a" }} />{" "}
+                    {benefits[key].title}{" "}
                   </>
                 ) : (
                   ""
@@ -174,25 +191,34 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
           <hr />
           <h5>Playground Images</h5>
           {/*list ground image  */}
-          <Row>
-            {getImageUrls().map((url) => (
-              <Col xs={6}>
-                <img
-                  style={{ position: "relative" }}
-                  width="100%"
-                  height="100%"
-                  src={url}
-                  alt={""}
-                />
+
+          <Row className="text-center">
+            {getImageUrls().length > 0 ? (
+              getImageUrls().map((url) => (
+                <Col xs={6}>
+                  <img
+                    style={{ position: "relative" }}
+                    width="100%"
+                    height="100%"
+                    src={url}
+                    alt={""}
+                  />
+                </Col>
+              ))
+            ) : (
+              <Col className="text-center">
+                <p>No image data</p>
               </Col>
-            ))}
+            )}
           </Row>
           <hr />
-          <h5>Review</h5>
-          {/* List review */}
-          <hr />
-
-          <h5>Comments</h5>
+          <Paper elevation={3} className={classes.paper}>
+            <h5>Reviews & Comments</h5>
+            <Review />
+            <hr />
+           
+            <Comment />
+          </Paper>
           {/* List comment */}
           <hr />
         </Col>
@@ -203,13 +229,14 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               color="secondary"
               style={{ width: "100%" }}
               className={classes.button}
+              size="small"
               endIcon={<CreditCardIcon />}
             >
               Price
             </Button>
           </div>
           <Paper elevation={3} className={classes.paper}>
-            <h6>{title}</h6>
+            <h6>CONTACT</h6>
             <p>
               <GroupWorkIcon className="mr-2" />
               {ground?.category?.name}
