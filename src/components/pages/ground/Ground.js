@@ -51,18 +51,18 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  const pathName = history.location.pathname.split("/");
 
   useEffect(() => {
     // getGroundById(setLoading, match);
-    const pathName = history.location.pathname.split("/");
     if (pathName && pathName[2]) {
       const groundId = pathName[2];
       setLoading(true);
       getGroundById(setLoading, groundId).then(() => {
         setLoading(true);
         getBenefits(setLoading);
+        console.log("hsitroy=------------------------", history);
       });
-      console.log("hsitroy=------------------------", history);
       document.getElementById("test-image").style.background = `url('${
         getImageUrls()[0] || DEFAULT_GROUND_IMAGE
       }')`;
@@ -71,7 +71,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
         "no-repeat";
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
-  }, []);
+  }, [pathName[2]]);
 
   useEffect(() => {
     if (ground && loading === false) {

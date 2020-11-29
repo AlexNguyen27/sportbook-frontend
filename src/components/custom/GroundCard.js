@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     // height: 0,
     paddingTop: "56.25%", // 16:9
-    minHeight: 200
-
+    minHeight: "240px",
   },
   expand: {
     marginLeft: "auto",
@@ -56,7 +55,7 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
   return (
     <Card
       className={classes.root}
-      onClick={() => history.push(`/ground/${ground.id}`)}
+      onClick={() => window.open(`/ground/${ground.id}`)}
       elevation={3}
     >
       {/* <CardHeader
@@ -74,12 +73,20 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
         title="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" component="p">
-          {truncateMultilineString(description, 38)}
+        <Typography
+          variant="body2"
+          component="p"
+          style={{ fontWeight: "bold" }}
+        >
+          {title}
         </Typography>
+        {/* <Typography variant="body2" component="p">
+          {truncateMultilineString(description, 38) }
+        </Typography> */}
         <Typography variant="caption" color="textSecondary" component="p">
           <RoomIcon className="mr-1" />
-          {truncateMultilineString(getAddress(ground.address), 70)}
+          {truncateMultilineString(getAddress(ground.address), 70) ||
+            "No address"}
         </Typography>
       </CardContent>
     </Card>

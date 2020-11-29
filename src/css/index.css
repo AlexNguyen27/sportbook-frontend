@@ -29,5 +29,9 @@ button:focus {
 }
 
 .react-multi-carousel-item {
-  height: 320px !important;
+  height: 400px !important;
+}
+
+.no-margin {
+  margin: 0 !important;
 }

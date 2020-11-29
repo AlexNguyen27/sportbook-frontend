@@ -78,7 +78,7 @@ const ChangePassword = ({
 
   return (
     <PageLoader loading={loading} noPadding>
-      <h4 className="text-center"> Change my password</h4>
+      <h4 className="text-center mt-4"> Change my password</h4>
       <Row style={{ justifyContent: "center" }}>
         <Col xs="6">
           <Form onSubmit={(e) => onSubmit(e)}>

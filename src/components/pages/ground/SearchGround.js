@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Row, Col } from "reactstrap";
 import Paper from "@material-ui/core/Paper";
@@ -12,6 +13,10 @@ import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Button } from "@material-ui/core";
+import { connect } from "react-redux";
+import { getBenefits } from "../../../store/actions/benefit";
+import { getGrounds } from "../../../store/actions/ground";
+import PageLoader from "../../custom/PageLoader";
 
 const GreenRadio = withStyles({
   root: {
@@ -34,8 +39,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchGround = (props) => {
+const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getGrounds(setLoading).then(() => {
+      setLoading(true);
+      getBenefits(setLoading);
+    });
+  }, []);
+  const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
   return (
     <>
@@ -100,7 +115,7 @@ const SearchGround = (props) => {
                     variant="contained"
                     size="small"
                     style={{ width: "100%" }}
-                    color="primary"
+                    color="secondary"
                     className={classes.margin}
                     startIcon={<SearchIcon />}
                   >
@@ -149,13 +164,16 @@ const SearchGround = (props) => {
               />
             </Col>
           </Row>
-          <Row>
-            {[...Array(6)].map((item) => (
-              <GroundItem />
-            ))}
-          </Row>
+          <PageLoader loading={loading}>
+            <Row>
+              {groundArr.map((item) => (
+                <GroundItem key={item.id} ground={item} />
+              ))}
+            </Row>
+          </PageLoader>
         </Col>
       </Row>
+
       {/* AUTO COMPLATE GROUND NAME */}
 
       {/* OPEN TIME */}
@@ -167,4 +185,9 @@ const SearchGround = (props) => {
   );
 };
 
-export default SearchGround;
+const mapStateToProps = (state) => ({
+  grounds: state.ground.grounds,
+});
+export default connect(mapStateToProps, { getBenefits, getGrounds })(
+  SearchGround
+);

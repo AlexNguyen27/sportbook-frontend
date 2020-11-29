@@ -38,6 +38,10 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       onClick: () => window.open("http://localhost:3001/signup"),
     },
     {
+      name: "Playground",
+      to: "/playground",
+    },
+    {
       name: "Your Account",
       to: "/login",
       // children: [
