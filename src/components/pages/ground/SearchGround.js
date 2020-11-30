@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import _ from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
 import { Row, Col } from "reactstrap";
 import Paper from "@material-ui/core/Paper";
@@ -17,6 +17,11 @@ import { connect } from "react-redux";
 import { getBenefits } from "../../../store/actions/benefit";
 import { getGrounds } from "../../../store/actions/ground";
 import PageLoader from "../../custom/PageLoader";
+import Pagination from "@material-ui/lab/Pagination";
+import REGIONS from "../../locales/regions.json";
+import DISTRICTS from "../../locales/districts.json";
+import WARDS from "../../locales/wards.json";
+import TextFieldInput from "../../custom/TextFieldInputWithheader";
 
 const GreenRadio = withStyles({
   root: {
@@ -42,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
 const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
+  const [onShowAll, setOnShowAll] = useState(false);
+  const [groundData, setGroundData] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -50,71 +57,176 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
       getBenefits(setLoading);
     });
   }, []);
+
+  const [selectedDropdownData, setSelectedDropdownData] = useState({
+    selectedRegionCode: "",
+    selectedDistrictCode: "",
+    selectedWardCode: "",
+  });
+
+  const {
+    selectedRegionCode,
+    selectedDistrictCode,
+    selectedWardCode,
+  } = selectedDropdownData;
+
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
+  const regionArr = Object.keys(REGIONS).map((key) => ({
+    code: REGIONS[key].code,
+    name: REGIONS[key].name_with_type,
+  }));
+
+  const getDistricts = () => {
+    let districts = [];
+    if (!selectedRegionCode.trim()) {
+      return districts;
+    }
+
+    const districtArray = _.map(DISTRICTS, (district) => {
+      const newDistrict = {
+        code: district.code,
+        name: district.name_with_type,
+        parent_code: district.parent_code,
+      };
+      return newDistrict;
+    });
+
+    districts = _.filter(districtArray, ["parent_code", selectedRegionCode]);
+    return districts;
+  };
+
+  const getWards = () => {
+    let wards = [];
+    if (!selectedDistrictCode.trim()) {
+      return wards;
+    }
+    const wardArray = _.map(WARDS, (ward) => {
+      const newWard = {
+        code: ward.code,
+        name: ward.name_with_type,
+        parent_code: ward.parent_code,
+      };
+      return newWard;
+    });
+    wards = _.filter(wardArray, ["parent_code", selectedDistrictCode]);
+    return wards;
+  };
+
+  const onChangeRegion = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedRegionCode: code,
+      selectedWardCode: "",
+      selectedDistrictCode: "",
+    });
+  };
+
+  const onChangeDistrict = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedDistrictCode: code,
+      selectedWardCode: "",
+    });
+  };
+
+  const onChangeWard = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedWardCode: code,
+    });
+  };
 
   return (
     <>
       <Row className={classes.wrapper}>
         <Col xs={8}>
-          <Row>
+          <Row style={{ justifyContent: "center" }}>
             <Paper
               elevation={3}
-              style={{ width: "100%", padding: "20px 10px 20px 10px" }}
+              style={{ width: "100%", padding: "20px 20px 20px 20px" }}
             >
               <Row style={{ justifyContent: "center" }}>
-                <Col xs={3} style={{ alignSelf: "center" }}>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={[]}
-                    size="small"
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Combo box"
+                <Col xs={10}>
+                  <Row style={{ justifyContent: "center" }}>
+                    <Col xs={8} style={{ alignSelf: "center" }}>
+                      <Autocomplete
+                        id="combo-box-demo"
+                        options={groundArr || []}
+                        size="small"
+                        getOptionLabel={(option) => option.title}
+                        onChange={(event, newValue) => {
+                          setGroundData(newValue);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Enter ground name"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    </Col>
+                    <Col xs={4} style={{ alignSelf: "center" }}>
+                      <TextFieldInput
+                        id="outlined-multiline-flexible"
+                        name="phone"
+                        label="Phone"
+                        fullWidth
+                        value={groundData?.phone || ""}
+                        placeHolder="Phone"
+                        variant="outlined"
+                        size="small"
+                        disabled
+                      />
+                    </Col>
+                  </Row>
+                  <Row style={{ justifyContent: "center", marginTop: "16px" }}>
+                    <Col xs={4}>
+                      <DropdownV2
+                        fullWidth
+                        size="small"
+                        label="City / Province / Region"
+                        value={selectedRegionCode.toString()}
+                        options={regionArr || []}
+                        valueBasedOnProperty="code"
+                        displayProperty="name"
+                        onChange={(code) => onChangeRegion(code)}
                         variant="outlined"
                       />
-                    )}
-                  />
-                </Col>
-                <Col xs={3}>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    size="small"
-                    options={[]}
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Combo box"
+                    </Col>
+                    <Col xs={4}>
+                      <DropdownV2
+                        fullWidth
                         variant="outlined"
+                        label="District"
+                        size="small"
+                        value={selectedDistrictCode.toString()}
+                        options={getDistricts() || []}
+                        valueBasedOnProperty="code"
+                        displayProperty="name"
+                        onChange={(code) => onChangeDistrict(code)}
                       />
-                    )}
-                  />
-                </Col>
-                <Col xs={3}>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={[]}
-                    size="small"
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Combo box"
+                    </Col>
+                    <Col xs={4}>
+                      <DropdownV2
+                        fullWidth
+                        label="Ward"
                         variant="outlined"
+                        value={selectedWardCode.toString()}
+                        options={getWards() || []}
+                        valueBasedOnProperty="code"
+                        size="small"
+                        displayProperty="name"
+                        onChange={(code) => onChangeWard(code)}
                       />
-                    )}
-                  />
+                    </Col>
+                  </Row>
                 </Col>
-                <Col
-                  xs={2}
-                  style={{ alignSelf: "center", textAlign: "center" }}
-                >
+                <Col xs={2}>
                   <Button
                     variant="contained"
                     size="small"
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", alignSelf: "center" }}
                     color="secondary"
                     className={classes.margin}
                     startIcon={<SearchIcon />}
@@ -127,9 +239,8 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
           </Row>
           <Row>
             <GreenRadio
-              checked={true}
-              onChange={() => {}}
-              value="c"
+              checked={onShowAll}
+              onChange={() => setOnShowAll(!onShowAll)}
               name="radio-button-demo"
               inputProps={{ label: "C" }}
             />
@@ -171,16 +282,11 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
               ))}
             </Row>
           </PageLoader>
+          <Col xs={12} style={{ alignSelf: "center" }}>
+            <Pagination count={10} color="primary" />
+          </Col>
         </Col>
       </Row>
-
-      {/* AUTO COMPLATE GROUND NAME */}
-
-      {/* OPEN TIME */}
-
-      {/* AVAILABLE GROUND */}
-
-      {/* MAP WITH ADDRESS */}
     </>
   );
 };

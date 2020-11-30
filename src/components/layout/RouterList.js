@@ -40,7 +40,7 @@ const RouterList = (props) => {
         path="/user/info"
         component={() => <Main children={<User />} />}
       />
-      <ProtectedRoute
+      <Route
         exact
         path="/playground"
         component={() => <Main children={<SearchGround />} />}
@@ -50,7 +50,7 @@ const RouterList = (props) => {
         path="/order"
         component={() => <Main children={<Order />} />}
       />
-      <ProtectedRoute
+      <Route
         exact
         path="/ground/:id"
         component={() => <Main children={<Ground />} />}

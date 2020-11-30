@@ -21,7 +21,7 @@ export const getGrounds = (setLoading) => async (dispatch, getState) => {
     },
     query: `
               query {
-                grounds {
+                getAllGrounds {
                     id
                     title 
                     description
@@ -41,7 +41,7 @@ export const getGrounds = (setLoading) => async (dispatch, getState) => {
     variables: {},
   });
   if (!errors) {
-    const grounds = arrayToObject(data.grounds);
+    const grounds = arrayToObject(data.getAllGrounds);
 
     dispatch({
       type: GET_GROUNDS,
