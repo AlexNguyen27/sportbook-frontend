@@ -14,7 +14,6 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
   const {
     groundName,
     groundAddress,
-    subGroundId,
     startDate,
     startTime,
     endTime,
@@ -24,6 +23,19 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
     numberOfPlayers,
     groundBenefit = [],
   } = orderData;
+
+  const getDiffDate = () => {
+    const diff = moment(startDate).diff(moment());
+    if (diff) {
+      return `${moment(startDate).diff(moment(), "days")} days from now`;
+    } else {
+      return `${moment(startTime, "HH:mm:ss").diff(
+        moment(),
+        "hours"
+      )} hours from now`;
+    }
+  };
+
   return (
     <Paper elevation={3} className="p-4">
       <h5>{groundName}</h5>
@@ -64,14 +76,16 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
         <ArrowForwardIcon fontSize="small" />
         {` To ${moment(endTime, "HH:mm:ss").format("HH:mm")}`}
       </p>
-              <p>{moment(startDate).format('dddd, DD-MM-YYYY')} (12 phút nữa)</p>
+      <p>
+        {moment(startDate).format("dddd, DD-MM-YYYY")} ({getDiffDate()})
+      </p>
       <hr />
       <Row>
         <Col xs={6}>
           <p>Price </p>
         </Col>
         <Col xs={6}>
-          <p style={{ textDecoration: "line-through" }}>1000000 VND </p>
+          <p style={{ textDecoration: "line-through" }}>{price} $ </p>
         </Col>
       </Row>
       <Row>
@@ -79,7 +93,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
           <p>Discount</p>
         </Col>
         <Col xs={6}>
-          <p> 11000 VND</p>
+          <p> {(price * discount) / 100} $</p>
         </Col>
       </Row>
       <hr />
@@ -88,7 +102,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
           <p className="font-weight-bold">Total payment</p>
         </Col>
         <Col xs={6}>
-          <p className="font-weight-bold">100,000 VND</p>
+          <p className="font-weight-bold">{(price * (100 - discount)) / 100} $</p>
         </Col>
       </Row>
       <hr />

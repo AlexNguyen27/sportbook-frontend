@@ -141,7 +141,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       <Row style={{ justifyContent: "center" }}>
         <Col xs={6}>
           {/* SUB GROUND AND PRICING */}
-          {!ground.subGrounds.length ? (
+          {!ground?.subGrounds?.length ? (
             <Paper elevation={3} className={classes.paper}>
               <h5>This ground do not support booking online</h5>
               <p>Please check the contact information below</p>
