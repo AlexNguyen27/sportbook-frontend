@@ -1,16 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import StepOne from "./component/StepOne";
+import { connect } from "react-redux";
 import StepTwo from "./component/StepTwo";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Row, Col } from "reactstrap";
-import CustomizedProgress from "../../custom/CustomizedProgress";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Steps, { Step } from "rc-steps";
 import "rc-steps/assets/index.css";
+import { useDispatch } from "react-redux";
+import { GET_ERRORS } from "../../../store/actions/types";
+import { addOrder } from "../../../store/actions/order";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -27,11 +31,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Order = () => {
+const Order = ({
+  payment,
+  user: { phone },
+  order: { orderData },
+  addOrder,
+  errors,
+}) => {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [onStep, setOnStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const onContinue = () => {
+    console.log(payment.paymentMethod);
+    const error = {};
+    if (!payment.paymentMethod.trim()) {
+      error.paymentMethod = "Please select a payment method!";
+    }
+
+    if (!phone) {
+      error.phone = "true";
+    }
+    dispatch({
+      type: GET_ERRORS,
+      errors: {
+        ...error,
+      },
+    });
+
+    if (JSON.stringify(error) === "{}") {
+      // TODO : call function to save order payment type
+      setLoading(true);
+      const data = {
+        subGroundId: orderData.subGroundId,
+        startDay: orderData.startDay,
+        startTime: orderData.startTime,
+        endTime: orderData.endTime,
+        paymentType: payment.paymentMethod,
+        price: orderData.price,
+        discount: Number(orderData.discount),
+      };
+      addOrder(setLoading, data, setOnStep);
+    }
+  };
 
   return (
     <Row className={classes.wrapper}>
@@ -70,10 +115,13 @@ const Order = () => {
                   size="small"
                   color="secondary"
                   endIcon={<NavigateNextIcon />}
-                  onClick={() => setOnStep(2)}
+                  onClick={() => onContinue()}
                 >
                   Continue
                 </Button>
+                {loading ? (
+                  <CircularProgress color="secondary" size="small" />
+                ) : null}
               </>
             ),
             2: (
@@ -82,7 +130,7 @@ const Order = () => {
                 size="small"
                 color="default"
                 startIcon={<ArrowBackIosIcon />}
-                onClick={() => history.push("/")}
+                onClick={() => history.goBack()}
               >
                 Back to home
               </Button>
@@ -94,4 +142,10 @@ const Order = () => {
   );
 };
 
-export default Order;
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+  user: state.auth.user,
+  payment: state.payment,
+  order: state.order,
+});
+export default connect(mapStateToProps, { addOrder })(Order);

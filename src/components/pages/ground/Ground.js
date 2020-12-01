@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import { getGroundById } from "../../../store/actions/ground";
 import PageLoader from "../../custom/PageLoader";
@@ -10,10 +9,8 @@ import { Col, Row } from "reactstrap";
 import { Paper } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import StarIcon from "@material-ui/icons/Star";
-import ReportIcon from "@material-ui/icons/Report";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
 import PhoneIcon from "@material-ui/icons/Phone";
 import RoomIcon from "@material-ui/icons/Room";
 import MultipleCarousel from "../../custom/MultipleCarousel";
@@ -21,12 +18,8 @@ import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
 import { getAddress } from "../../../utils/commonFunction";
-import Colors from "../../../constants/Colors";
 import Review from "./component/Review";
 import Comment from "./component/Comment";
-import moment from "moment";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { Form } from "reactstrap";
 import SubGround from "../subGround/SubGround";
 
 const useStyles = makeStyles((theme) => ({
@@ -148,7 +141,14 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       <Row style={{ justifyContent: "center" }}>
         <Col xs={6}>
           {/* SUB GROUND AND PRICING */}
-          <SubGround />
+          {!ground.subGrounds.length ? (
+            <Paper elevation={3} className={classes.paper}>
+              <h5>This ground do not support booking online</h5>
+              <p>Please check the contact information below</p>
+            </Paper>
+          ) : (
+            <SubGround />
+          )}
 
           <Paper elevation={3} className={classes.paper}>
             <h5>Description</h5>
@@ -223,7 +223,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               size="small"
               endIcon={<CreditCardIcon />}
             >
-              Price
+              Contact
             </Button>
           </div>
           <Paper elevation={3} className={classes.paper}>

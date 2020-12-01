@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -7,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Button, Tooltip } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
+import moment from "moment";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubGroundDetail = () => {
+const SubGroundDetail = ({ ground: { subGrounds = [] } }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -45,52 +47,65 @@ const SubGroundDetail = () => {
 
   return (
     <div className={classes.root}>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-        elevation={3}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+      {subGrounds.map((item) => (
+        <Accordion
+          expanded={subGrounds.length === 1 ? item.id : expanded === item.id}
+          onChange={handleChange(item.id)}
+          elevation={3}
         >
-          <Typography className={classes.heading}>Sub ground 1</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Maxium 5 people here
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Row>
-            {[...Array(9)].map((item) => (
-              <Col xs={3} md={2} className="text-center">
-                <Tooltip title="Book this time">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className="mb-3"
-                    size="small"
-                    onClick={() => history.push("/order")}
-                  >
-                    <div>
-                      <p className={classes.noMargin}>10:00 - 12:00</p>
-                      <p className={classes.text}>Ready</p>
-                      <p className={classes.noMargin}>
-                        190.000${" "}
-                        <span
-                          style={{ fontSize: "12px", fontWeight: "normal" }}
-                        >
-                          -10%
-                        </span>
-                      </p>
-                    </div>
-                  </Button>
-                </Tooltip>
-              </Col>
-            ))}
-          </Row>
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography className={classes.heading}>{item.name}</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Maxium {item.numberOfPlayers} players
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Row>
+              {item.prices.map((price) => (
+                <Col xs={3} md={2} className="text-center">
+                  <Tooltip title="Book this time">
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className="mb-3"
+                      size="small"
+                      style={{ minWidth: "112px" }}
+                      onClick={() => history.push("/order")}
+                    >
+                      <div>
+                        <p className={classes.noMargin}>{`${moment(
+                          price.startTime,
+                          "HH:mm:ss"
+                        ).format("HH:mm")} - ${moment(
+                          price.endTime,
+                          "HH:mm:ss"
+                        ).format("HH:mm")}`}</p>
+                        <p className={classes.text}>{price.status}</p>
+                        <p className={classes.noMargin}>
+                          {price.price}$
+                          {price.discount > 0 ? (
+                            <span
+                              style={{ fontSize: "12px", fontWeight: "normal" }}
+                            >
+                              -{price.discount}%
+                            </span>
+                          ) : null}
+                        </p>
+                      </div>
+                    </Button>
+                  </Tooltip>
+                </Col>
+              ))}
+            </Row>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+
+      {/*       
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}
@@ -207,9 +222,12 @@ const SubGroundDetail = () => {
             ))}
           </Row>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 };
 
-export default SubGroundDetail;
+const mapStateToProps = (state) => ({
+  ground: state.ground.selected_ground,
+});
+export default connect(mapStateToProps, {})(SubGroundDetail);

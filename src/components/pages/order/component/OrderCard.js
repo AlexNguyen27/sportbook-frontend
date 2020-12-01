@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Row } from "reactstrap";
 import { useState } from "react";
 import TextFieldInput from "../../../custom/TextFieldInputWithheader";
 import { connect, useDispatch } from "react-redux";
@@ -10,10 +9,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import FormLabel from "@material-ui/core/FormLabel";
-import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
-import { SAVE_PAYMENT_METHOD } from "../../../../store/actions/types";
+import {
+  SAVE_PAYMENT_METHOD,
+  CLEAR_ERRORS,
+} from "../../../../store/actions/types";
+import Colors from "../../../../constants/Colors";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -23,22 +24,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OrderCard = ({ errors }) => {
+const OrderCard = ({ errors, user }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
-    title: "",
-    phone: "",
+    fullName: `${user.firstName} ${user.lastName}` || "",
+    phone: user.phone || "",
   });
-  const { title, phone } = formData;
+  const [paymentMethod, setPaymentMethod] = React.useState("");
+  
+  const { fullName, phone } = formData;
+  
   const onChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-  const [paymentMethod, setPaymentMethod] = React.useState("online");
-  const [error, setError] = React.useState(false);
+
+  useEffect(() => {
+    dispatch({
+      type: SAVE_PAYMENT_METHOD,
+      paymentMethod: "",
+    });
+  }, []);
 
   const handleRadioChange = (event) => {
     setPaymentMethod(event.target.value);
@@ -46,48 +56,35 @@ const OrderCard = ({ errors }) => {
       type: SAVE_PAYMENT_METHOD,
       paymentMethod: event.target.value,
     });
-    // setHelperText(" ");
-    // setError(false);
+    dispatch({
+      type: CLEAR_ERRORS,
+    });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // if (value === "best") {
-    //   setHelperText("You got it!");
-    //   setError(false);
-    // } else if (value === "worst") {
-    //   setHelperText("Sorry, wrong answer!");
-    //   setError(true);
-    // } else {
-    //   setHelperText("Please select an option.");
-    //   setError(true);
-    // }
-  };
   return (
     <div className="mt-4">
-      <h4>Ordering Information</h4>
+      <h4>Orderer Information</h4>
       <div>
         <TextFieldInput
-          header="Name"
+          header="Full Name"
           id="outlined-multiline-flexible"
-          name="title"
-          label="New benefit title"
+          name="fullName"
           fullWidth
-          value={title}
+          value={fullName}
           onChange={onChange}
-          error={errors.title}
+          error={errors.fullName}
           variant="outlined"
+          disabled
           size="small"
         />
 
         <TextFieldInput
           header="Phone"
           id="outlined-multiline-static"
-          label="phone"
           name="phone"
           variant="outlined"
           fullWidth
+          disabled
           value={phone}
           onChange={onChange}
           size="small"
@@ -102,15 +99,16 @@ const OrderCard = ({ errors }) => {
         <hr />
         <div>
           <h4>Payment Method</h4>
-          <form onSubmit={handleSubmit}>
+          {errors.paymentMethod ? (
+            <p style={{ margin: 0, color: Colors.red }}>
+              {errors.paymentMethod}
+            </p>
+          ) : null}
+          <form onSubmit={() => {}}>
             <FormControl
               component="fieldset"
-              error={error}
               className={classes.formControl}
             >
-              {/* <FormLabel component="legend">
-                Payment method
-              </FormLabel> */}
               <RadioGroup
                 aria-label="paymentType"
                 name="paymentType"
@@ -148,5 +146,6 @@ const OrderCard = ({ errors }) => {
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  user: state.auth.user,
 });
 export default connect(mapStateToProps, {})(OrderCard);

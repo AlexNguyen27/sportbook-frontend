@@ -1,7 +1,7 @@
 import { UNAUTHENTICATE, SAVE_PAYMENT_METHOD } from "../actions/types";
 
 const initialState = {
-  paymentMethod: null,
+  paymentMethod: '',
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
