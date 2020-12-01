@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -10,6 +10,8 @@ import { Button, Tooltip } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
+import { SAVE_ORDER_DATA } from "../../../../store/actions/types";
+import { getAddress } from "../../../../utils/commonFunction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,15 +37,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubGroundDetail = ({ ground: { subGrounds = [] } }) => {
+const SubGroundDetail = ({ ground }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
+  const { subGrounds = [] } = ground;
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  // todo ONlick when status ready
+  const onClickPriceCard = (price, selectedSubGround) => {
+    dispatch({
+      type: SAVE_ORDER_DATA,
+      orderData: {
+        ...price,
+        groundName: ground.title,
+        groundAddress: getAddress(ground.address) || "No address",
+        groundBenefit: ground.benefit.split(","),
+        subGroundName: selectedSubGround.name,
+        numberOfPlayers: selectedSubGround.numberOfPlayers,
+      },
+    });
+    history.push("/order");
+  };
 
   return (
     <div className={classes.root}>
@@ -74,7 +94,10 @@ const SubGroundDetail = ({ ground: { subGrounds = [] } }) => {
                       className="mb-3"
                       size="small"
                       style={{ minWidth: "112px" }}
-                      onClick={() => history.push("/order")}
+                      onClick={() =>
+                        price.status === "ready" &&
+                        onClickPriceCard(price, item)
+                      }
                     >
                       <div>
                         <p className={classes.noMargin}>{`${moment(
@@ -104,125 +127,6 @@ const SubGroundDetail = ({ ground: { subGrounds = [] } }) => {
           </AccordionDetails>
         </Accordion>
       ))}
-
-      {/*       
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <Typography className={classes.heading}>Sub ground 2</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Maxium 5 people here
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Row>
-            {[...Array(9)].map((item) => (
-              <Col xs={3} md={2} className="text-center">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className="mb-3"
-                  size="small"
-                >
-                  <div>
-                    <p className={classes.noMargin}>10:00 - 12:00</p>
-                    <p className={classes.text}>Ready</p>
-                    <p className={classes.noMargin}>
-                      190.000${" "}
-                      <span style={{ fontSize: "12px", fontWeight: "normal" }}>
-                        -10%
-                      </span>
-                    </p>
-                  </div>
-                </Button>
-              </Col>
-            ))}
-          </Row>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
-          <Typography className={classes.heading}>Sub ground 3</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Maxium 5 people here
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Row>
-            {[...Array(9)].map((item) => (
-              <Col xs={3} md={2} className="text-center">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className="mb-3"
-                  size="small"
-                >
-                  <div>
-                    <p className={classes.noMargin}>10:00 - 12:00</p>
-                    <p className={classes.text}>Ready</p>
-                    <p className={classes.noMargin}>
-                      190.000${" "}
-                      <span style={{ fontSize: "12px", fontWeight: "normal" }}>
-                        -10%
-                      </span>
-                    </p>
-                  </div>
-                </Button>
-              </Col>
-            ))}
-          </Row>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel4"}
-        onChange={handleChange("panel4")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Typography className={classes.heading}>Sub ground 4</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Row>
-            {[...Array(9)].map((item) => (
-              <Col xs={3} md={2} className="text-center">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className="mb-3"
-                  size="small"
-                >
-                  <div>
-                    <p className={classes.noMargin}>10:00 - 12:00</p>
-                    <p className={classes.text}>Ready</p>
-                    <p className={classes.noMargin}>
-                      190.000${" "}
-                      <span style={{ fontSize: "12px", fontWeight: "normal" }}>
-                        -10%
-                      </span>
-                    </p>
-                  </div>
-                </Button>
-              </Col>
-            ))}
-          </Row>
-        </AccordionDetails>
-      </Accordion> */}
     </div>
   );
 };

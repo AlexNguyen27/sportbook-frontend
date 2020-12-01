@@ -5,11 +5,7 @@ import { clearErrors } from "../../../../store/actions/common";
 import moment from "moment";
 import _ from "lodash";
 import Button from "@material-ui/core/Button";
-import {
-  Row,
-  Col,
-  Form,
-} from "reactstrap";
+import { Row, Col, Form } from "reactstrap";
 import { GET_ERRORS, SAVE_ORDER_DATA } from "../../../../store/actions/types";
 import PageLoader from "../../../custom/PageLoader";
 import DropdownV2 from "../../../custom/DropdownV2";
@@ -147,7 +143,9 @@ const AddOrderForm = ({
     });
 
     if (JSON.stringify(error) === "{}") {
-      const selectedSubGround = subGroundArr.find(item => item.id === selectedSubGroundId);
+      const selectedSubGround = subGroundArr.find(
+        (item) => item.id === selectedSubGroundId
+      );
       dispatch({
         type: SAVE_ORDER_DATA,
         orderData: {
@@ -244,7 +242,7 @@ const AddOrderForm = ({
             type="submit"
             size="small"
           >
-            BOOK THIS GROUND
+            BOOK
           </Button>
         </Row>
         <hr />

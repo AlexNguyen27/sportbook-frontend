@@ -33,9 +33,9 @@ const OrderCard = ({ errors, user }) => {
     phone: user.phone || "",
   });
   const [paymentMethod, setPaymentMethod] = React.useState("");
-  
+
   const { fullName, phone } = formData;
-  
+
   const onChange = (e) => {
     setFormData({
       ...formData,
@@ -60,6 +60,7 @@ const OrderCard = ({ errors, user }) => {
       type: CLEAR_ERRORS,
     });
   };
+
 
   return (
     <div className="mt-4">
@@ -105,10 +106,7 @@ const OrderCard = ({ errors, user }) => {
             </p>
           ) : null}
           <form onSubmit={() => {}}>
-            <FormControl
-              component="fieldset"
-              className={classes.formControl}
-            >
+            <FormControl component="fieldset" className={classes.formControl}>
               <RadioGroup
                 aria-label="paymentType"
                 name="paymentType"
