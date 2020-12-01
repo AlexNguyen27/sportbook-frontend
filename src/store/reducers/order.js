@@ -5,43 +5,29 @@ import {
   EDIT_ORDER,
   EDIT_ORDER_STATUS,
   DELETE_ORDER,
+  SAVE_ORDER_DATA,
 } from "../actions/types";
 
 const initialState = {
   orders: {},
+  orderData: {},
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
-  const { type, orders, selectedId } = action;
+  const { type, orders } = action;
   switch (type) {
     case GET_ORDERS:
       return {
         orders: { ...orders },
       };
-    case EDIT_ORDER:
-    case ADD_ORDER:
-      const order = action.order;
+    case SAVE_ORDER_DATA:
       return {
         ...state,
-        orders: {
-          ...state.orders,
-          [order.id]: order,
+        orderData: {
+          ...state.orderData,
+          ...action.orderData,
         },
-      };
-
-    case EDIT_ORDER_STATUS:
-      const { id, status } = action.orderData;
-      const selectedOrder = state.orders[id];
-      return {
-        ...state.orders,
-        orders: { ...state.orders, [id]: { ...selectedOrder, status: status } },
-      };
-    case DELETE_ORDER:
-      const newOrders = state.orders;
-      delete newOrders[selectedId];
-      return {
-        ...state,
-        orders: newOrders,
       };
     case UNAUTHENTICATE:
       return initialState;

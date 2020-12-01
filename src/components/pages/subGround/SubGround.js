@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Col, Row } from "reactstrap";
+import { connect } from "react-redux";
 import SearchSubGround from "./component/SearchSubGround";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,8 +47,10 @@ const WEEKDAY = {
   saturday: "Saturday",
   sunday: "Sunday",
 };
-const SubGround = () => {
+const SubGround = ({ ground }) => {
   const classes = useStyles();
+
+  const [selectedDate, setSelectedWeekDate] = useState();
 
   return (
     <div>
@@ -59,7 +62,7 @@ const SubGround = () => {
             aria-label="outlined primary button group"
           >
             {Object.keys(WEEKDAY).map((key) => (
-              <Button>
+              <Button onClick={() => setSelectedWeekDate(key)}>
                 <div>
                   <p className={classes.noMargin}>{WEEKDAY[key]}</p>
                   <p className={classes.noMargin}>
@@ -72,10 +75,11 @@ const SubGround = () => {
         </div>
         <Row>
           <Col>
+            {/*  SEARCH SUB GROUND*/}
             <SearchSubGround />
           </Col>
         </Row>
-        <Row style={{ justifyContent: "center", marginTop: '10px' }}>
+        {/* <Row style={{ justifyContent: "center", marginTop: "10px" }}>
           <Button
             variant="contained"
             color="primary"
@@ -83,12 +87,15 @@ const SubGround = () => {
             size="small"
             className={classes.button}
           >
-           BOOK A GROUND
+            BOOK A GROUND
           </Button>
-        </Row>
+        </Row> */}
       </Paper>
     </div>
   );
 };
 
-export default SubGround;
+const mapStateToProps = (state) => ({
+  ground: state.ground.selected_ground,
+});
+export default connect(mapStateToProps, {})(SubGround);

@@ -26,34 +26,34 @@ export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
       },
     },
     query: `
-                query {
-                  orders(
-                    status: $status, 
-                    fromDate: $fromDate, 
-                    toDate: $toDate
-                  ) {
-                    id
-                    subGroundId
-                    userId
-                    startDay
-                    startTime
-                    endTime
-                    paymentType
-                    status
-                    discount
-                    price
-                    subGround {
-                        id
-                        name
-                    }
-                    user {
-                        id
-                        firstName
-                    }
-                    createdAt
-                    updatedAt
-                  }
-                }
+          query {
+            orders(
+              status: $status, 
+              fromDate: $fromDate, 
+              toDate: $toDate
+            ) {
+              id
+              subGroundId
+              userId
+              startDay
+              startTime
+              endTime
+              paymentType
+              status
+              discount
+              price
+              subGround {
+                  id
+                  name
+              }
+              user {
+                  id
+                  firstName
+              }
+              createdAt
+              updatedAt
+            }
+          }
             `,
     variables: {
       status,
@@ -78,7 +78,7 @@ export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
   }
 };
 
-export const addOrder = (setLoading, orderData) => async (
+export const addOrder = (setLoading, orderData, setOnStep) => async (
   dispatch,
   getState
 ) => {
@@ -139,10 +139,11 @@ export const addOrder = (setLoading, orderData) => async (
     Swal.fire({
       position: "center",
       type: "success",
-      title: "Added successfully!",
+      title: "Order successfully!",
       showConfirmButton: false,
       timer: 1500,
     });
+    setOnStep(2);
   } else {
     logoutDispatch(dispatch, errors);
     setLoading(false);
@@ -150,18 +151,15 @@ export const addOrder = (setLoading, orderData) => async (
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "An error occurred!",
+      title: "The same order already exits!",
       showConfirmButton: false,
       timer: 1500,
     });
-    // TODO: update later
     const payloadError = errors[0]?.extensions?.payload;
     let error = {};
     Object.keys(payloadError).map((key) => {
       error[key] = payloadError[key].message;
     });
-
-    console.log(error, "error--------------------");
 
     dispatch({
       type: GET_ERRORS,

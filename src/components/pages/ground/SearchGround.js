@@ -319,6 +319,7 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
                     color="secondary"
                     className={classes.margin}
                     startIcon={<SearchIcon />}
+                    onClick={() => onSearch(searchText)}
                   >
                     search
                   </Button>

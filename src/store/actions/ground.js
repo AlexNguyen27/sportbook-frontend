@@ -101,7 +101,19 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
                     subGrounds {
                       id
                       name
-
+                      numberOfPlayers
+                      groundId
+                      createdAt
+                      prices {
+                        id
+                        price
+                        discount
+                        endTime
+                        startTime
+                        status
+                        subGroundId
+                        createdAt
+                      }
                     }
                 }
               }
