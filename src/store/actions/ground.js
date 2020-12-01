@@ -8,9 +8,20 @@ import {
 import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 
-export const getGrounds = (setLoading) => async (dispatch, getState) => {
+export const getGrounds = (setLoading, isAvailable) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
+  let filter = "";
+  let variables = {};
+  if (isAvailable) {
+    filter = "(isAvailable: true)";
+    variables = {
+      isAvailable,
+    };
+  }
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -21,7 +32,7 @@ export const getGrounds = (setLoading) => async (dispatch, getState) => {
     },
     query: `
               query {
-                getAllGrounds {
+                getAllGrounds${filter} {
                     id
                     title 
                     description
@@ -31,6 +42,7 @@ export const getGrounds = (setLoading) => async (dispatch, getState) => {
                     image,
                     createdAt 
                     categoryId
+                    isAvailable
                     category {
                       id
                       name
@@ -38,14 +50,16 @@ export const getGrounds = (setLoading) => async (dispatch, getState) => {
                 }
               }
           `,
-    variables: {},
+    variables: {
+      ...variables,
+    },
   });
   if (!errors) {
     const grounds = arrayToObject(data.getAllGrounds);
 
     dispatch({
       type: GET_GROUNDS,
-      grounds,
+      grounds: { ...grounds },
     });
     setLoading(false);
   } else {
