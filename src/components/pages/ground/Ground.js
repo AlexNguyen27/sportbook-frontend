@@ -21,6 +21,8 @@ import { getAddress } from "../../../utils/commonFunction";
 import Review from "./component/Review";
 import Comment from "./component/Comment";
 import SubGround from "../subGround/SubGround";
+import ReviewModel from "./component/ReviewModel";
+import { getRatings } from "../../../store/actions/rating";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -39,12 +41,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
+const Ground = ({
+  getGroundById,
+  ground,
+  grounds,
+  getBenefits,
+  benefits,
+  getRatings,
+}) => {
   const classes = useStyles();
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const pathName = history.location.pathname.split("/");
+  const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
     // getGroundById(setLoading, match);
@@ -52,8 +62,11 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
       const groundId = pathName[2];
       setLoading(true);
       getGroundById(setLoading, groundId).then(() => {
-        setLoading(true);
-        getBenefits(setLoading);
+        getBenefits(setLoading).then(() => {
+          setLoading(true);
+          // GET RATING
+          getRatings(setLoading);
+        });
         console.log("hsitroy=------------------------", history);
       });
       document.getElementById("test-image").style.background = `url('${
@@ -131,6 +144,7 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
                 size="small"
                 className={classes.button}
                 endIcon={<CreditCardIcon />}
+                onClick={() => setModelReview(true)}
               >
                 Book Online
               </Button>
@@ -240,6 +254,19 @@ const Ground = ({ getGroundById, ground, grounds, getBenefits, benefits }) => {
               <RoomIcon className="mr-2" />
               {getAddress(ground.address) || "No address"}
             </p>
+            <div className="text-center">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                size="small"
+                endIcon={<StarIcon />}
+                onClick={() => setModelReview(true)}
+              >
+                Review
+              </Button>
+            </div>
+            <ReviewModel modal={modelReview} setModal={setModelReview} />
           </Paper>
         </Col>
       </Row>
@@ -269,4 +296,8 @@ const mapStateToProps = (state) => ({
   grounds: state.ground.grounds,
   benefits: state.benefit.benefits,
 });
-export default connect(mapStateToProps, { getGroundById, getBenefits })(Ground);
+export default connect(mapStateToProps, {
+  getGroundById,
+  getBenefits,
+  getRatings,
+})(Ground);

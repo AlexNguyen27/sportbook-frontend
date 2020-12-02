@@ -66,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserInfoForm = ({
-  current_user,
   user,
   errors,
   editUserInfo,
@@ -274,11 +273,7 @@ const UserInfoForm = ({
 
     if (JSON.stringify(error) === "{}") {
       setLoading(true);
-      editUserInfo(
-        setLoading,
-        formatData,
-        viewType === "user" ? user.id : current_user.id
-      );
+      editUserInfo(setLoading, formatData, user.id);
     }
   };
 
@@ -290,13 +285,7 @@ const UserInfoForm = ({
   };
 
   const [selectedDate, setSelectedDate] = useState(
-    viewType === "user"
-      ? user.dob
-        ? new Date(user.dob)
-        : null
-      : current_user.dob
-      ? new Date(current_user.dob)
-      : null
+    user.dob ? new Date(user.dob) : null
   );
 
   const onChangeRegion = (code) => {
@@ -346,11 +335,7 @@ const UserInfoForm = ({
             .getDownloadURL()
             .then((url) => {
               setAvatar(url);
-              uploadAvatar(
-                setLoadingUpload,
-                url,
-                viewType === "user" ? user.id : current_user.id
-              );
+              uploadAvatar(setLoadingUpload, url, user.id);
             });
         });
       } catch (error) {
@@ -649,7 +634,6 @@ const UserInfoForm = ({
 const mapStateToProps = (state) => ({
   errors: state.errors,
   user: state.auth.user,
-  current_user: state.user.current_user,
 });
 export default connect(mapStateToProps, {
   editUserInfo,
