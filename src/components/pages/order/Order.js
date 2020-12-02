@@ -120,7 +120,7 @@ const Order = ({
                   Continue
                 </Button>
                 {loading ? (
-                  <CircularProgress color="secondary" size="small" />
+                  <CircularProgress color="secondary" size={30} />
                 ) : null}
               </>
             ),
