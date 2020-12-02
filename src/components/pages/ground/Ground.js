@@ -23,6 +23,7 @@ import Comment from "../comment/Comment";
 import SubGround from "../subGround/SubGround";
 import ReviewModel from "../review/component/ReviewModel";
 import { getRatings } from "../../../store/actions/rating";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -48,6 +49,7 @@ const Ground = ({
   getBenefits,
   benefits,
   getRatings,
+  auth: { isAuthenticated },
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -57,7 +59,6 @@ const Ground = ({
   const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
-    // getGroundById(setLoading, match);
     if (pathName && pathName[2]) {
       const groundId = pathName[2];
       setLoading(true);
@@ -93,7 +94,7 @@ const Ground = ({
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
-  const { title, description, phone, image, category } = ground;
+  const { title, description, phone, image } = ground;
   const benefitArr = ground.benefit ? ground.benefit.split(",") : [];
 
   const getImageUrls = () => {
@@ -102,6 +103,26 @@ const Ground = ({
       return formatImage.map((item) => item);
     } else {
       return [];
+    }
+  };
+
+  const onClickReview = () => {
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: `Please login to continue?`,
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then((result) => {
+        if (result.value) {
+          history.push("/login");
+        }
+      });
+    } else {
+      setModelReview(true);
     }
   };
 
@@ -144,7 +165,7 @@ const Ground = ({
                 size="small"
                 className={classes.button}
                 endIcon={<CreditCardIcon />}
-                onClick={() => setModelReview(true)}
+                onClick={() => {}}
               >
                 Book Online
               </Button>
@@ -261,7 +282,7 @@ const Ground = ({
                 className={classes.button}
                 size="small"
                 endIcon={<StarIcon />}
-                onClick={() => setModelReview(true)}
+                onClick={() => onClickReview()}
               >
                 Review
               </Button>
@@ -295,6 +316,7 @@ const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
   grounds: state.ground.grounds,
   benefits: state.benefit.benefits,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, {
   getGroundById,

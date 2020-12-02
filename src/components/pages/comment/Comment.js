@@ -17,6 +17,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { GET_ERRORS } from "../../../store/actions/types";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,10 +44,11 @@ const Comment = ({
   addComment,
   updateComment,
   deleteComment,
-  auth: { user = {} },
+  auth: { user = {}, isAuthenticated },
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,10 +64,26 @@ const Comment = ({
 
   const onAdd = (e) => {
     e.preventDefault();
-    if (!!comment.trim()) {
-      setLoading(true);
-      addComment(setLoading, comment, ground.id);
-      setComment("");
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: `Please login to continue?`,
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then((result) => {
+        if (result.value) {
+          history.push("/login");
+        }
+      });
+    } else {
+      if (!!comment.trim()) {
+        setLoading(true);
+        addComment(setLoading, comment, ground.id);
+        setComment("");
+      }
     }
   };
 
