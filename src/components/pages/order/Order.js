@@ -53,13 +53,11 @@ const Order = ({
     }
 
     if (!phone) {
-      error.phone = "true";
+      error.phone = "Please update and confirm your phone number!";
     }
     dispatch({
       type: GET_ERRORS,
-      errors: {
-        ...error,
-      },
+      errors: error,
     });
 
     if (JSON.stringify(error) === "{}") {

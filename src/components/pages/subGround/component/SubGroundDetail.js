@@ -55,6 +55,7 @@ const SubGroundDetail = ({ ground }) => {
       type: SAVE_ORDER_DATA,
       orderData: {
         ...price,
+        startDay: moment().format('DD/MM/YYYY'),
         groundName: ground.title,
         groundAddress: getAddress(ground.address) || "No address",
         groundBenefit: ground.benefit.split(","),

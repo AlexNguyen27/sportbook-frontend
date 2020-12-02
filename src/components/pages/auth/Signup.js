@@ -31,9 +31,11 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
     email: "",
     password: "",
     confirmPassword: "",
+    firstName: "",
+    lastName: "",
   });
 
-  const { email, password, confirmPassword } = formData;
+  const { email, password, confirmPassword, firstName, lastName } = formData;
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -104,6 +106,37 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
             </Grid>
           </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
+            <Row>
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  header="First Name"
+                  name="firstName"
+                  className="mt-0"
+                  fullWidth
+                  value={firstName}
+                  onChange={onChange}
+                  error={errors.firstName}
+                  placeholder="Enter First Name"
+                  variant="outlined"
+                  size="small"
+                />
+              </Col>
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  header="Last Name"
+                  name="lastName"
+                  className="mt-0"
+                  fullWidth
+                  value={lastName}
+                  onChange={onChange}
+                  error={errors.lastName}
+                  placeholder="Enter Last Name"
+                  variant="outlined"
+                  size="small"
+                />
+              </Col>
+            </Row>
+
             <TextFieldInputWithHeader
               header="Email"
               name="email"

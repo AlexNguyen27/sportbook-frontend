@@ -16,7 +16,7 @@ import RoomIcon from "@material-ui/icons/Room";
 import MultipleCarousel from "../../custom/MultipleCarousel";
 import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
+import { DEFAULT_GROUND_IMAGE, clearErrors } from "../../../utils/common";
 import { getAddress } from "../../../utils/commonFunction";
 import Review from "../review/Review";
 import Comment from "../comment/Comment";
@@ -50,6 +50,7 @@ const Ground = ({
   benefits,
   getRatings,
   auth: { isAuthenticated },
+  clearErrors,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -59,6 +60,7 @@ const Ground = ({
   const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
+    clearErrors();
     if (pathName && pathName[2]) {
       const groundId = pathName[2];
       setLoading(true);
@@ -322,4 +324,5 @@ export default connect(mapStateToProps, {
   getGroundById,
   getBenefits,
   getRatings,
+  clearErrors,
 })(Ground);
