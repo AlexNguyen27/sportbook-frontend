@@ -10,7 +10,6 @@ import {
 import { hera } from "hera-js";
 import Swal from "sweetalert2";
 
-// token provided => get fromUserId
 export const addComment = (
   setLoading,
   comment,

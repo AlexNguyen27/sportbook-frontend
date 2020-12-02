@@ -18,10 +18,10 @@ import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { DEFAULT_GROUND_IMAGE } from "../../../utils/common";
 import { getAddress } from "../../../utils/commonFunction";
-import Review from "./component/Review";
-import Comment from "./component/Comment";
+import Review from "../review/Review";
+import Comment from "../comment/Comment";
 import SubGround from "../subGround/SubGround";
-import ReviewModel from "./component/ReviewModel";
+import ReviewModel from "../review/component/ReviewModel";
 import { getRatings } from "../../../store/actions/rating";
 
 const useStyles = makeStyles((theme) => ({
