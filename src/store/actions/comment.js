@@ -10,16 +10,15 @@ import {
 import { hera } from "hera-js";
 import Swal from "sweetalert2";
 
-// token provided => get fromUserId
 export const addComment = (
   setLoading,
   comment,
-  postId,
+  groundId,
   parentId = null
 ) => async (dispatch, getState) => {
   const {
     token,
-    user: { id: userId, username, firstName, lastName, imageUrl },
+    user: { id: userId, email, firstName, lastName, avatar },
   } = getState().auth;
 
   const { data, errors } = await hera({
@@ -35,13 +34,13 @@ export const addComment = (
             createComment(
                 comment: $comment,
                 userId: $userId,
-                postId:  $postId,
-                parentId: $parentId,
+                groundId:  $groundId,
+                parentId: $parentId
               ){
                 id
                 comment
                 userId
-                postId
+                groundId
                 parentId
                 createdAt
                 updatedAt
@@ -51,7 +50,7 @@ export const addComment = (
     variables: {
       comment,
       userId,
-      postId,
+      groundId,
       parentId,
     },
   });
@@ -64,10 +63,10 @@ export const addComment = (
     const newComment = {
       ...data.createComment,
       user: {
-        username,
+        email,
         firstName,
         lastName,
-        imageUrl,
+        avatar,
       },
     };
     dispatch({
@@ -81,12 +80,12 @@ export const addComment = (
       errors: errors[0].message,
     });
   }
+  setLoading(false);
 };
 export const deleteComment = (setLoading, commentId) => async (
   dispatch,
   getState
 ) => {
-  console.log("-deleteReport----------");
   const { token } = getState().auth;
   const { data, errors } = await hera({
     options: {
@@ -120,7 +119,7 @@ export const deleteComment = (setLoading, commentId) => async (
     Swal.fire({
       position: "center",
       type: "success",
-      title: "Deleted comment!",
+      title: "Comment deleted  successfully!",
       showConfirmButton: false,
       timer: 1500,
     });
@@ -146,7 +145,7 @@ export const updateComment = (setLoading, commentId, comment) => async (
 ) => {
   const {
     token,
-    user: { id: userId, username, firstName, lastName, imageUrl },
+    user: { id: userId, email, firstName, lastName, avatar },
   } = getState().auth;
   const { data, errors } = await hera({
     options: {
@@ -165,7 +164,7 @@ export const updateComment = (setLoading, commentId, comment) => async (
           id
           comment
           userId
-          postId
+          groundId
           parentId
           createdAt
           updatedAt
@@ -185,10 +184,10 @@ export const updateComment = (setLoading, commentId, comment) => async (
     const newComment = {
       ...data.updateComment,
       user: {
-        username,
+        email,
         firstName,
         lastName,
-        imageUrl,
+        avatar,
       },
     };
     dispatch({

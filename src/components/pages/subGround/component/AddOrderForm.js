@@ -19,6 +19,7 @@ import { getPrices } from "../../../../store/actions/price";
 import { addOrder } from "../../../../store/actions/order";
 import { useHistory } from "react-router-dom";
 import { getAddress } from "../../../../utils/commonFunction";
+import Swal from "sweetalert2";
 
 const AddOrderForm = ({
   errors,
@@ -122,6 +123,22 @@ const AddOrderForm = ({
   // HANDLE ON SUBMIT FROM ADD NEW GROUP
   const onSubmit = (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: `Please login to continue?`,
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then((result) => {
+        if (result.value) {
+          history.push("/login");
+        }
+      });
+      return;
+    }
     const { price, discount } = formData;
 
     const error = {};
@@ -159,11 +176,8 @@ const AddOrderForm = ({
           numberOfPlayers: selectedSubGround.numberOfPlayers,
         },
       });
-      if (!isAuthenticated) {
-        history.push("/login");
-      } else {
-        history.push("/order");
-      }
+      // ORDER SCREEN
+      history.push("/order");
     }
   };
 

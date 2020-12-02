@@ -146,3 +146,20 @@ export const signUpUser = (isAuthenticated, history, userData) => async (
     }
   }
 };
+
+
+export const askToLogin = (history) => {
+  Swal.fire({
+    title: `Please login to continue?`,
+    text: "",
+    type: "success",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Login!",
+  }).then((result) => {
+    if (result.value) {
+      history.push("/login");
+    }
+  });
+}

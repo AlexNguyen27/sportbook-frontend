@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import { connect } from "react-redux";
 import Rating from "@material-ui/lab/Rating";
-import { roundNumber } from "../../../../utils/commonFunction";
+import { roundNumber } from "../../../utils/commonFunction";
 
 const useStyles = makeStyles((theme) => ({
   review: {

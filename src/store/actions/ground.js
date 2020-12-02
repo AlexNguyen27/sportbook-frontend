@@ -98,6 +98,23 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
                       id
                       name
                     }
+                    comments {
+                      id
+                      comment
+                      userId
+                      user {
+                        id                        
+                        email
+                        firstName
+                        lastName
+                        avatar 
+                      }
+                      groundId
+                      parentId
+                      createdAt
+                      updatedAt
+
+                    }
                     subGrounds {
                       id
                       name
@@ -127,13 +144,12 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
       type: SAVE_SELECTED_GROUND,
       selected_ground: data.getGroundById,
     });
-    setLoading(false);
   } else {
     logoutDispatch(dispatch, errors);
     dispatch({
       type: GET_ERRORS,
       errors: errors[0].message,
     });
-    setLoading(false);
   }
+  setLoading(false);
 };
