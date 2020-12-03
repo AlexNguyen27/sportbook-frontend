@@ -87,6 +87,7 @@ const OrderCard = ({ errors, user }) => {
           fullWidth
           disabled
           value={phone}
+          error={errors.phone}
           onChange={onChange}
           size="small"
         />

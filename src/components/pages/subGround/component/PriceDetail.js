@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubGroundDetail = ({ ground }) => {
+const PriceDetail = ({ ground }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -55,6 +55,7 @@ const SubGroundDetail = ({ ground }) => {
       type: SAVE_ORDER_DATA,
       orderData: {
         ...price,
+        startDay: moment().format("DD/MM/YYYY"),
         groundName: ground.title,
         groundAddress: getAddress(ground.address) || "No address",
         groundBenefit: ground.benefit.split(","),
@@ -84,9 +85,9 @@ const SubGroundDetail = ({ ground }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Row>
+            <Row style={{ width: "100%" }}>
               {item.prices.map((price) => (
-                <Col xs={3} md={2} className="text-center">
+                <Col xs={12} sm={6} md={4} lg={2} className="text-center">
                   <Tooltip title="Book this time">
                     <Button
                       variant="outlined"
@@ -134,4 +135,4 @@ const SubGroundDetail = ({ ground }) => {
 const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
 });
-export default connect(mapStateToProps, {})(SubGroundDetail);
+export default connect(mapStateToProps, {})(PriceDetail);

@@ -207,28 +207,6 @@ const UserInfoForm = ({
       });
       setAvatar(user.avatar || imageUrl);
     }
-    // else {
-    //   const address = JSON.parse(_.get(current_user, "address"));
-    //   setformData({
-    //     firstName: _.get(current_user, "firstName") || "",
-    //     lastName: _.get(current_user, "lastName") || "",
-    //     email: _.get(current_user, "email") || "",
-    //     phone: _.get(current_user, "phone") || "",
-    //     address: _.get(current_user, "address") ? address.address : "",
-    //     avatar: _.get(current_user, "avatar") || "",
-    //     playRole: _.get(current_user, "playRole") || "",
-    //     createdAt: _.get(current_user, "createdAt") || "",
-    //     updatedAt: _.get(current_user, "updatedAt") || "",
-    //   });
-    //   setSelectedDropdownData({
-    //     selectedRegionCode: _.get(address, "regionCode") || "",
-    //     selectedDistrictCode: _.get(address, "districtCode") || "",
-    //     selectedWardCode: _.get(address, "wardCode") || "",
-    //     selectedFavoriteFootKey: _.get(current_user, "favoriteFoot") || "",
-    //     selectedGenderKey: _.get(current_user, "gender", "") || "",
-    //   });
-    //   setAvatar(current_user.avatar || imageUrl);
-    // }
   };
 
   useEffect(() => {
@@ -238,7 +216,7 @@ const UserInfoForm = ({
 
   const onSubmit = (e) => {
     const formatData = trimObjProperties(formData);
-
+    let dob = moment(selectedDate || '').format("DD/MM/YYYY");
     let error = {};
     Object.keys(formatData).map((key) => {
       if (formatData[key].trim() === "") {
@@ -255,6 +233,9 @@ const UserInfoForm = ({
     if (!selectedGenderKey.trim()) {
       error.gender = "This field is required";
     }
+    if (!dob.trim() || !selectedDate) {
+      error.dob = "This field is required";
+    }
 
     dispatch({
       type: GET_ERRORS,
@@ -265,7 +246,7 @@ const UserInfoForm = ({
       formatData.gender = selectedGenderKey;
     }
 
-    formatData.dob = moment(selectedDate).format("DD/MM/YYYY");
+    formatData.dob = dob;
     formatData.regionCode = selectedRegionCode;
     formatData.districtCode = selectedDistrictCode;
     formatData.wardCode = selectedWardCode;
@@ -474,6 +455,7 @@ const UserInfoForm = ({
                           id="date-picker-inline"
                           size="small"
                           label="Date of birth"
+                          error={errors.dob}
                           value={selectedDate}
                           onChange={(date) => setSelectedDate(date)}
                           KeyboardButtonProps={{
