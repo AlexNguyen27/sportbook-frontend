@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Col, Row } from "reactstrap";
 import { connect } from "react-redux";
-import SearchSubGround from "./component/SearchSubGround";
+import PriceDetail from "./component/PriceDetail";
+import AddOrderForm from "./component/AddOrderForm";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -76,20 +77,12 @@ const SubGround = ({ ground }) => {
         <Row>
           <Col>
             {/*  SEARCH SUB GROUND*/}
-            <SearchSubGround />
+            <AddOrderForm subGrounds={ground.subGrounds} ground={ground} />
+
+            {/* PRICE DETAIL */}
+            <PriceDetail />
           </Col>
         </Row>
-        {/* <Row style={{ justifyContent: "center", marginTop: "10px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            size="small"
-            className={classes.button}
-          >
-            BOOK A GROUND
-          </Button>
-        </Row> */}
       </Paper>
     </div>
   );
