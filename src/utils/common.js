@@ -35,9 +35,10 @@ export const PAYMENT_TYPE = {
 };
 
 export const ORDER_STATUS = {
-  new: 'New',
+  waiting_for_approve: 'Waiting for approve',
   cancelled: 'Cancelled',
   approved: 'Approved',
+  paid: 'Paid',
 };
 
 export const DEFAULT_GROUND_IMAGE =
