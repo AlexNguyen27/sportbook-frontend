@@ -160,6 +160,7 @@ const HistoryTable = ({
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     getOrderHistory(setLoading, status, fromDate, toDate);
   }, [status, fromDate, toDate]);
 

@@ -14,7 +14,7 @@ const Header = () => {
             <div className="col-lg-6">
               <div className="text-container">
                 <h1>
-                  <span className="turquoise">Love Sports</span>
+                  <span className="turquoise">Love Sport</span>
                   <br /> In This Hottest Place
                 </h1>
                 <p className="p-large">
