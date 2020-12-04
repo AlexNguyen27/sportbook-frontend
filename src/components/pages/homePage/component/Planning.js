@@ -1,6 +1,7 @@
 import React from "react";
 import detailImage1 from "../../../../images/details-1-office-worker.svg";
 import detailImage2 from "../../../../images/details-2-office-team-work.svg";
+import { WEB_MANAGER_DOMAIN } from "../../../../store/actions/types";
 
 function Planning(props) {
   return (
@@ -19,6 +20,7 @@ function Planning(props) {
                 <a
                   className="btn-solid-reg popup-with-move-anim"
                   href="#details-lightbox-1"
+                  onClick={() => window.open(WEB_MANAGER_DOMAIN)}
                 >
                   CREATE A BUSINESS
                 </a>

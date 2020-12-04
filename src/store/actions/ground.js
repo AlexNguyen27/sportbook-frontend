@@ -127,7 +127,6 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
                         discount
                         endTime
                         startTime
-                        status
                         subGroundId
                         createdAt
                       }

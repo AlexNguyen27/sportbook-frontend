@@ -5,6 +5,7 @@ import Navbar from "../layout/Navbar";
 import Swal from "sweetalert2";
 import { logoutUser } from "../../store/actions/auth";
 import { useHistory } from "react-router-dom";
+import { WEB_MANAGER_DOMAIN } from "../../store/actions/types";
 
 const Main = ({ children, isHome, auth, logoutUser }) => {
   const history = useHistory();
@@ -76,7 +77,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Create a business",
       to: "/",
-      onClick: () => window.open("http://localhost:3001/signup"),
+      onClick: () => window.open(WEB_MANAGER_DOMAIN),
     },
     {
       name: "Playground",

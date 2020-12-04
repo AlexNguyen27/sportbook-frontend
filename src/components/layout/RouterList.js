@@ -16,6 +16,7 @@ import SearchGround from "../pages/ground/SearchGround";
 import Main from "../pages/Main";
 import Ground from "../pages/ground/Ground";
 import Order from "../pages/order/Order";
+import OrderDetai from "../pages/orderDetail/OrderDetai";
 
 const RouterList = (props) => {
   return (
@@ -45,10 +46,15 @@ const RouterList = (props) => {
         path="/playground"
         component={() => <Main children={<SearchGround />} />}
       />
-      <Route
+      <ProtectedRoute
         exact
         path="/order"
         component={() => <Main children={<Order />} />}
+      />
+       <ProtectedRoute
+        exact
+        path="/order-detail/:id"
+        component={() => <Main children={<OrderDetai />} />}
       />
       <Route
         exact
