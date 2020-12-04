@@ -7,6 +7,7 @@ import {
   DATE_TIME,
   ORDER_STATUS,
   PAYMENT_TYPE,
+  COLOR_ORDER_STATUS,
 } from "../../../../utils/common";
 
 import { forwardRef } from "react";
@@ -33,6 +34,7 @@ import {
   getOrderHistory,
   updateOrderStatus,
 } from "../../../../store/actions/order";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -57,12 +59,6 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
-
-const colorStatus = {
-  new: "primary",
-  cancelled: "danger",
-  approved: "success",
 };
 
 const HistoryTable = ({
@@ -118,13 +114,13 @@ const HistoryTable = ({
           return (
             <Alert
               className="m-0 text-center"
-              color={colorStatus[rowData.status]}
+              color={COLOR_ORDER_STATUS[rowData.status]}
             >
               {capitalizeFirstLetter(rowData.status)}
             </Alert>
           );
         },
-        initialEditValue: "new",
+        initialEditValue: "waiting_for_approve",
       },
     ],
     data: [
@@ -196,7 +192,17 @@ const HistoryTable = ({
               overflowX: "auto",
             },
             search: false,
+            actionsColumnIndex: -1,
           }}
+          actions={[
+            {
+              icon: () => <VisibilityIcon style={{ color: Colors.view }} />,
+              tooltip: "Order detail",
+              onClick: (event, rowData) => {
+                history.push(`/order-detail/${rowData.id}`);
+              },
+            },
+          ]}
         />
       </div>
     </PageLoader>

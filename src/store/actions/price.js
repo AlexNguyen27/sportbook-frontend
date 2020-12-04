@@ -18,7 +18,6 @@ export const getPrices = (setLoading, subGroundId) => async (
 ) => {
   const { token } = getState().auth;
 
-  console.log(subGroundId, "d--------------------");
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -35,7 +34,6 @@ export const getPrices = (setLoading, subGroundId) => async (
                     discount
                     endTime
                     startTime
-                    status
                     subGroundId
                     createdAt
                   }
@@ -89,7 +87,6 @@ export const addPrice = (setLoading, priceData) => async (
                 discount
                 endTime
                 startTime
-                status
                 subGroundId
                 createdAt
               }
@@ -218,7 +215,6 @@ export const updatePrice = (setLoading, priceData) => async (
             discount
             endTime
             startTime
-            status
             subGroundId
             createdAt
         }

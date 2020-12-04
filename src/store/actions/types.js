@@ -2,6 +2,8 @@
 export const BASE_URL =
   process.env.REACT_APP_API_HOST || "http://localhost:9000/graphql";
 
+export const WEB_MANAGER_DOMAIN = process.env.WEB_MANAGER_DOMAIN || "http://localhost:3001"
+
 export const BASE_IMAGE_URL =
   "https://avatars3.githubusercontent.com/u/11791361?v=4";
 
