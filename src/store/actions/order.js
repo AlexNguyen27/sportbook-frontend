@@ -157,6 +157,7 @@ export const addOrder = (setLoading, orderData, setOnStep) => async (
       showConfirmButton: false,
       timer: 1500,
     });
+    
     const payloadError = errors[0]?.extensions?.payload || {};
     let error = {};
     Object.keys(payloadError).map((key) => {
