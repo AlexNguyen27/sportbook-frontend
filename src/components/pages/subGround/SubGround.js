@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Col, Row } from "reactstrap";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import PriceDetail from "./component/PriceDetail";
 import AddOrderForm from "./component/AddOrderForm";
+import { SELECTED_START_DAY } from "../../../store/actions/types";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -38,20 +39,34 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  bold: {
+    fontWeight: "bold",
+    margin: 0,
+    paddingRight: "14px",
+    paddingLeft: "14px",
+    color: "#303F9F",
+  },
 }));
-const WEEKDAY = {
-  monday: "Monday",
-  tuesday: "Tuesday",
-  wednesday: "Wednesday",
-  thursday: "Thursday",
-  friday: "Friday",
-  saturday: "Saturday",
-  sunday: "Sunday",
-};
 const SubGround = ({ ground }) => {
   const classes = useStyles();
 
-  const [selectedDate, setSelectedWeekDate] = useState();
+  const dispatch = useDispatch();
+  const [selectedDate, setSelectedWeekDate] = useState(0);
+
+  const onChangeSelectedStartDay = (index) => {
+    setSelectedWeekDate(index);
+    dispatch({
+      type: SELECTED_START_DAY,
+      startDay: moment().add(index, "days").format("DD-MM-YYYY"),
+    });
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: SELECTED_START_DAY,
+      startDay: moment().format("DD-MM-YYYY"),
+    });
+  }, []);
 
   return (
     <div>
@@ -62,12 +77,22 @@ const SubGround = ({ ground }) => {
             // size="small"
             aria-label="outlined primary button group"
           >
-            {Object.keys(WEEKDAY).map((key) => (
-              <Button onClick={() => setSelectedWeekDate(key)}>
+            {[...Array(7)].map((item, index) => (
+              <Button onClick={() => onChangeSelectedStartDay(index)}>
                 <div>
-                  <p className={classes.noMargin}>{WEEKDAY[key]}</p>
-                  <p className={classes.noMargin}>
-                    {moment().day(WEEKDAY[key]).format("DD-MM")}
+                  <p
+                    className={
+                      selectedDate === index ? classes.bold : classes.noMargin
+                    }
+                  >
+                    {moment().add(index, "days").format("dddd")}
+                  </p>
+                  <p
+                    className={
+                      selectedDate === index ? classes.bold : classes.noMargin
+                    }
+                  >
+                    {moment().add(index, "days").format("DD-MM")}
                   </p>
                 </div>
               </Button>

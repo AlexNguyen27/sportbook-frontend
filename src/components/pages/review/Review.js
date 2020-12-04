@@ -81,8 +81,7 @@ const Review = ({ ratings = [] }) => {
       }
     });
   }
-
-  console.log(statistic);
+  
   return (
     <Row style={{ justifyContent: "space-around", maxHeight: "120px" }}>
       <Col xs={4} className={classes.review}>

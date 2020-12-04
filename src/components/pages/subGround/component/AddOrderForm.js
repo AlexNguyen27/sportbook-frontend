@@ -28,6 +28,7 @@ const AddOrderForm = ({
   getPrices,
   prices = {},
   auth: { isAuthenticated },
+  selectedStartDay,
 }) => {
   const dispatch = useDispatch();
 
@@ -38,10 +39,6 @@ const AddOrderForm = ({
   const [selectedSubGroundId, setSelectedSubGroundId] = useState(
     subGroundArr[0]?.id || ""
   );
-
-  useEffect(() => {
-    getPrices(setLoading, selectedSubGroundId);
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -70,10 +67,21 @@ const AddOrderForm = ({
   };
 
   const [selectedDate, setSelectedDate] = React.useState({
-    date: new Date(),
+    date: !selectedStartDay || !selectedStartDay.trim()
+      ? new Date()
+      : moment(selectedStartDay, "DD/MM/YYYY").format(),
     startTime: startTimeArr[0]?.id || "",
     selectedPriceId: "",
   });
+
+  useEffect(() => {
+    if(selectedStartDay && selectedStartDay.trim()) {
+      setSelectedDate({
+        ...selectedDate,
+        date: moment(selectedStartDay, "DD/MM/YYYY").format(),
+      });
+    }
+  }, [selectedStartDay]);
 
   const getEndTimes = () => {
     let endTimes = [];
@@ -268,6 +276,7 @@ const mapStateToProps = (state) => ({
   prices: state.price.prices,
   errors: state.errors,
   auth: state.auth,
+  selectedStartDay: state.order.orderData.startDay,
 });
 export default connect(mapStateToProps, {
   clearErrors,

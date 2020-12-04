@@ -44,7 +44,7 @@ export const DEFAULT_GROUND_IMAGE =
   "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
 
 export const COLOR_ORDER_STATUS = {
-  waiting_for_appove: "primary",
+  waiting_for_approve: "primary",
   cancelled: "danger",
   approved: "warning",
   paid: "success",

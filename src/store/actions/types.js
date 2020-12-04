@@ -2,7 +2,8 @@
 export const BASE_URL =
   process.env.REACT_APP_API_HOST || "http://localhost:9000/graphql";
 
-export const WEB_MANAGER_DOMAIN = process.env.WEB_MANAGER_DOMAIN || "http://localhost:3001"
+export const WEB_MANAGER_DOMAIN =
+  process.env.WEB_MANAGER_DOMAIN || "http://localhost:3001";
 
 export const BASE_IMAGE_URL =
   "https://avatars3.githubusercontent.com/u/11791361?v=4";
@@ -72,6 +73,7 @@ export const DELETE_ORDER = "DELETE_ORDER";
 export const EDIT_ORDER = "EDIT_ORDER";
 export const EDIT_ORDER_STATUS = "EDIT_ORDER_STATUS";
 export const ADD_ORDER = "ADD_ORDER";
+export const SELECTED_START_DAY = "SELECTED_START_DAY";
 
 // LOYAL CUSTOMER
 export const GET_LOYAL_CUSTOMERS = "GET_LOYAL_CUSTOMERS";
