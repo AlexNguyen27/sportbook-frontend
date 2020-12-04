@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import { SAVE_ORDER_DATA } from "../../../../store/actions/types";
 import { getAddress } from "../../../../utils/commonFunction";
 import { SUB_GROUND_STATUS } from "../../../../utils/common";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PriceDetail = ({ ground, subGrounds = [] }) => {
+const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -53,19 +54,35 @@ const PriceDetail = ({ ground, subGrounds = [] }) => {
 
   // todo ONlick when status ready
   const onClickPriceCard = (price, selectedSubGround) => {
-    dispatch({
-      type: SAVE_ORDER_DATA,
-      orderData: {
-        ...price,
-        startDay: moment().format("DD/MM/YYYY"),
-        groundName: ground.title,
-        groundAddress: getAddress(ground.address) || "No address",
-        groundBenefit: ground.benefit.split(","),
-        subGroundName: selectedSubGround.name,
-        numberOfPlayers: selectedSubGround.numberOfPlayers,
-      },
-    });
-    history.push("/order");
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: `Please login to continue?`,
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then((result) => {
+        if (result.value) {
+          history.push("/login");
+        }
+      });
+    } else {
+      dispatch({
+        type: SAVE_ORDER_DATA,
+        orderData: {
+          ...price,
+          startDay: moment().format("DD/MM/YYYY"),
+          groundName: ground.title,
+          groundAddress: getAddress(ground.address) || "No address",
+          groundBenefit: ground.benefit.split(","),
+          subGroundName: selectedSubGround.name,
+          numberOfPlayers: selectedSubGround.numberOfPlayers,
+        },
+      });
+      history.push("/order");
+    }
   };
 
   return (
@@ -136,5 +153,6 @@ const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
   subGrounds: state.ground.selected_ground.subGrounds,
   selectedStartDay: state.order.orderData.startDay,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, {})(PriceDetail);
