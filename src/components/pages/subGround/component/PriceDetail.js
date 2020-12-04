@@ -12,6 +12,7 @@ import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { SAVE_ORDER_DATA } from "../../../../store/actions/types";
 import { getAddress } from "../../../../utils/commonFunction";
+import { SUB_GROUND_STATUS } from "../../../../utils/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,14 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     margin: 0,
+    marginTop: "5px",
+    margiBottom: "5px",
   },
 }));
 
-const PriceDetail = ({ ground }) => {
+const PriceDetail = ({ ground, subGrounds = [] }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
-  const { subGrounds = [] } = ground;
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -94,11 +96,9 @@ const PriceDetail = ({ ground }) => {
                       color="primary"
                       className="mb-3"
                       size="small"
-                      style={{ minWidth: "112px" }}
-                      onClick={() =>
-                        price.status === "ready" &&
-                        onClickPriceCard(price, item)
-                      }
+                      style={{ minWidth: "112px", borderWidth: "2px" }}
+                      disabled={price.status !== SUB_GROUND_STATUS.ready}
+                      onClick={() => onClickPriceCard(price, item)}
                     >
                       <div>
                         <p className={classes.noMargin}>{`${moment(
@@ -134,5 +134,7 @@ const PriceDetail = ({ ground }) => {
 
 const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
+  subGrounds: state.ground.selected_ground.subGrounds,
+  selectedStartDay: state.order.orderData.startDay,
 });
 export default connect(mapStateToProps, {})(PriceDetail);

@@ -1,16 +1,16 @@
 import {
   UNAUTHENTICATE,
   GET_ORDERS,
-  ADD_ORDER,
-  EDIT_ORDER,
-  EDIT_ORDER_STATUS,
-  DELETE_ORDER,
   SAVE_ORDER_DATA,
+  SELECTED_START_DAY,
+  SAVE_SELECTED_GROUND,
 } from "../actions/types";
 
 const initialState = {
   orders: {},
-  orderData: {},
+  orderData: {
+    startDay: '',
+  },
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -29,6 +29,16 @@ export default function (state = initialState, action) {
           ...action.orderData,
         },
       };
+
+    case SELECTED_START_DAY:
+      return {
+        ...state,
+        orderData: {
+          ...state.orderData,
+          startDay: action.startDay,
+        },
+      };
+    case SAVE_SELECTED_GROUND:
     case UNAUTHENTICATE:
       return initialState;
     default:

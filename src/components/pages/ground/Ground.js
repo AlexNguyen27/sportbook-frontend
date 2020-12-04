@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
+import moment from "moment";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { getGroundById } from "../../../store/actions/ground";
@@ -51,6 +52,7 @@ const Ground = ({
   getRatings,
   auth: { isAuthenticated },
   clearErrors,
+  selectedStartDay,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -60,17 +62,27 @@ const Ground = ({
   const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
+    if (selectedStartDay && selectedStartDay.trim()) {
+      // GET SUBGROUNDS AND SAVE TO SELECTED GROUND
+      getGroundById(setLoading, ground.id, selectedStartDay);
+    }
+  }, [selectedStartDay]);
+
+  useEffect(() => {
     clearErrors();
     if (pathName && pathName[2]) {
       const groundId = pathName[2];
       setLoading(true);
-      getGroundById(setLoading, groundId).then(() => {
+      getGroundById(
+        setLoading,
+        groundId,
+        selectedStartDay || moment().format("DD-MM-YYYY")
+      ).then(() => {
         getBenefits(setLoading).then(() => {
           setLoading(true);
           // GET RATING
           getRatings(setLoading);
         });
-        console.log("hsitroy=------------------------", history);
       });
       document.getElementById("test-image").style.background = `url('${
         getImageUrls()[0] || DEFAULT_GROUND_IMAGE
@@ -319,6 +331,7 @@ const mapStateToProps = (state) => ({
   grounds: state.ground.grounds,
   benefits: state.benefit.benefits,
   auth: state.auth,
+  selectedStartDay: state.order?.orderData?.startDay,
 });
 export default connect(mapStateToProps, {
   getGroundById,

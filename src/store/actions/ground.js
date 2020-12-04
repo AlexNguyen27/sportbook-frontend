@@ -71,7 +71,7 @@ export const getGrounds = (setLoading, isAvailable) => async (
   }
 };
 
-export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
+export const getGroundById = (setLoading, id, startDay) => async (dispatch, getState) => {
   const { token } = getState().auth;
 
   const { data, errors } = await hera({
@@ -84,7 +84,7 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
     },
     query: `
               query {
-                getGroundById(id: $id) {
+                getGroundById(id: $id, startDay: $startDay) {
                     id
                     title 
                     description
@@ -125,6 +125,7 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
                         id
                         price
                         discount
+                        status
                         endTime
                         startTime
                         subGroundId
@@ -136,6 +137,7 @@ export const getGroundById = (setLoading, id) => async (dispatch, getState) => {
           `,
     variables: {
       id,
+      startDay,
     },
   });
   if (!errors) {
