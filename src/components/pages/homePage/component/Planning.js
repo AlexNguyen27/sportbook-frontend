@@ -78,6 +78,7 @@ function Planning(props) {
                 <a
                   className="btn-solid-reg popup-with-move-anim"
                   href="#details-lightbox-2"
+                  onClick={() => window.open(WEB_MANAGER_DOMAIN)}
                 >
                   CREATE A BUSINESS
                 </a>

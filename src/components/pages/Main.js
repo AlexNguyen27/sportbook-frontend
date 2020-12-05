@@ -36,7 +36,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Create a business",
       to: "/",
-      onClick: () => window.open("http://localhost:3001/signup"),
+      onClick: () => window.open(WEB_MANAGER_DOMAIN),
     },
     {
       name: "Playground",

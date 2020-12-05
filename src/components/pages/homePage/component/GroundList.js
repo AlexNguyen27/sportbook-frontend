@@ -24,8 +24,12 @@ const GroundList = ({ grounds, getGrounds }) => {
             <div className="col-lg-12">
               <h2>Multiple Playground Options</h2>
               <p className=" p-large">
-                TOP LOCATION{" "}
-                <strong>More than 600 playgrounds nationwide</strong>
+                TOP LOCATION
+                <strong>
+                  More than {groundArr.length}
+                  {groundArr.length > 0 ? " playgrounds " : " playground "}
+                  nationwide
+                </strong>
               </p>
             </div>
           </div>

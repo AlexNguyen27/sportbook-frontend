@@ -25,6 +25,7 @@ import SubGround from "../subGround/SubGround";
 import ReviewModel from "../review/component/ReviewModel";
 import { getRatings } from "../../../store/actions/rating";
 import Swal from "sweetalert2";
+import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -222,12 +223,12 @@ const Ground = ({
           </div>
           <hr />
           <h5>Ground Map</h5>
-          {/* <ReactGoogleMaps /> */}
-          <iframe
+          <ReactGoogleMaps address={getAddress(ground.address)}/>
+          {/* <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7836.983714026452!2d106.78194775393679!3d10.850144971186923!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb838977f3d419d!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCBWaeG7hW4gdGjDtG5nIEPGoSBT4bufIFThuqFpIFRQLiBI4buTIENow60gTWluaMK3!5e0!3m2!1svi!2s!4v1604223922437!5m2!1svi!2s"
             allowFullScreen
             title="t"
-          ></iframe>
+          ></iframe> */}
           <hr />
           <h5>Playground Images</h5>
           {/*list ground image  */}
