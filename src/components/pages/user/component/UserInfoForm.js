@@ -195,8 +195,8 @@ const UserInfoForm = ({
         phone: user.phone || "",
         address: user.address ? address.address : "",
         playRole: user.playRole || "",
-        createdAt: user.createdAt || "",
-        updatedAt: user.updatedAt || "",
+        createdAt: moment(user.createdAt).format('DD/MM/YYYY HH:mm A') || "",
+        updatedAt: moment(user.updatedAt).format('DD/MM/YYYY HH:mm A') || "",
       });
       setSelectedDropdownData({
         selectedRegionCode: _.get(address, "regionCode") || "",

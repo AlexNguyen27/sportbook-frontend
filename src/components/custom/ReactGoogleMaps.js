@@ -1,34 +1,22 @@
-
-import _ from "lodash";
 import React from "react";
-import { compose, withProps } from "recompose";
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} from "react-google-maps";
 
-const MyMapComponent = compose(
-  withProps({
-    googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />
-  }),
-  withScriptjs,
-  withGoogleMap
-)(props => (
-  <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-    <Marker position={{ lat: -34.397, lng: 150.644 }} />
-  </GoogleMap>
-));
+const ReactGoogleMaps = ({ address }) => {
+  const addressQuery = encodeURIComponent(address) || "";
+  console.log("address------------------", address);
+  // const addressQuery = 'H%E1%BB%8Dc%20vi%E1%BB%87n%20C%C3%B4ng%20ngh%E1%BB%87%20B%C6%B0u%20ch%C3%ADnh%20Vi%E1%BB%85n%20th%C3%B4ng%20C%C6%A1%20S%E1%BB%9F%20T%E1%BA%A1i%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh%C2%B7'
+  return (
+    <div className="map-responsive">
+      <iframe
+        title="test"
+        style={{ borderRadius: "4px" }}
+        width="100%"
+        height="400"
+        frameborder="0"
+        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAEISduCZQJgYppXigB8wjsQhYSj1HIKEE&q=${addressQuery}`}
+        allowfullscreen
+      ></iframe>
+    </div>
+  );
+};
 
-const enhance = _.identity;
-
-const ReactGoogleMaps = () => [
-  <MyMapComponent key="map" />
-];
-
-export default enhance(ReactGoogleMaps);
+export default ReactGoogleMaps;

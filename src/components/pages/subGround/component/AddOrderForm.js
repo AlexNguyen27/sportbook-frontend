@@ -67,15 +67,16 @@ const AddOrderForm = ({
   };
 
   const [selectedDate, setSelectedDate] = React.useState({
-    date: !selectedStartDay || !selectedStartDay.trim()
-      ? new Date()
-      : moment(selectedStartDay, "DD/MM/YYYY").format(),
+    date:
+      !selectedStartDay || !selectedStartDay.trim()
+        ? new Date()
+        : moment(selectedStartDay, "DD/MM/YYYY").format(),
     startTime: startTimeArr[0]?.id || "",
     selectedPriceId: "",
   });
 
   useEffect(() => {
-    if(selectedStartDay && selectedStartDay.trim()) {
+    if (selectedStartDay && selectedStartDay.trim()) {
       setSelectedDate({
         ...selectedDate,
         date: moment(selectedStartDay, "DD/MM/YYYY").format(),
@@ -200,7 +201,8 @@ const AddOrderForm = ({
               <KeyboardDatePicker
                 margin="normal"
                 size="small"
-                variant="outlined"
+                disablePast={true}
+                inputVariant="outlined"
                 id="date-picker-dialog"
                 label="Select date"
                 style={{ margin: 0, width: "100%" }}

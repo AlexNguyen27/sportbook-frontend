@@ -68,7 +68,7 @@ const History = () => {
               disableToolbar
               className="mt-0"
               size="small"
-              variant="inline"
+              inputVariant="outlined"
               format="MM/dd/yyyy"
               style={{ width: "100%" }}
               margin="normal"
