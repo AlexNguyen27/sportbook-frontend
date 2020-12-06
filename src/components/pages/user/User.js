@@ -18,6 +18,8 @@ import { Row, Col } from "reactstrap";
 import ChangePassword from "./component/ChangePassword";
 import Notification from "./component/Notification";
 import History from "./component/History";
+import ExtraInformation from "./component/ExtraInformation";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -28,20 +30,21 @@ const useStyles = makeStyles({
   },
 });
 
-const User = ({ user }) => {
+const User = ({ user, tabKey }) => {
   const classes = useStyles();
-  const [selectedItem, setSelectedItem] = useState("yourInfo");
+  const history = useHistory();
+  const [selectedItem, setSelectedItem] = useState(tabKey);
   const menuItems = [
     {
       key: "yourInfo",
       icon: <AccountCircleIcon fontSize="small" />,
       name: "Your information",
     },
-    // {
-    //   key: "sportProfile",
-    //   icon: <SportsSoccerIcon fontSize="small" />,
-    //   name: "Your sport profile",
-    // },
+    {
+      key: "extraInfo",
+      icon: <SportsSoccerIcon fontSize="small" />,
+      name: "Extra information",
+    },
     {
       key: "history",
       icon: <WatchLaterIcon fontSize="small" />,
@@ -64,6 +67,7 @@ const User = ({ user }) => {
     history: <History />,
     changePassword: <ChangePassword />,
     notification: <Notification />,
+    extraInfo: <ExtraInformation />,
   };
 
   const { avatar, firstName, lastName } = user;
@@ -90,7 +94,10 @@ const User = ({ user }) => {
           <Col>
             <MenuList>
               {menuItems.map((item) => (
-                <MenuItem onClick={() => setSelectedItem(item.key)}>
+                <MenuItem onClick={() => {
+                  setSelectedItem(item.key);
+                  history.push(`/user/info/${item.key}`)
+                }}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <Typography
                     variant="inherit"

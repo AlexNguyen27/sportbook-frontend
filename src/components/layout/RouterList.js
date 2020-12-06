@@ -16,7 +16,7 @@ import SearchGround from "../pages/ground/SearchGround";
 import Main from "../pages/Main";
 import Ground from "../pages/ground/Ground";
 import Order from "../pages/order/Order";
-import OrderDetai from "../pages/orderDetail/OrderDetai";
+import OrderDetail from "../pages/orderDetail/OrderDetail";
 
 const RouterList = (props) => {
   return (
@@ -38,9 +38,33 @@ const RouterList = (props) => {
       />
       <ProtectedRoute
         exact
-        path="/user/info"
-        component={() => <Main children={<User />} />}
+        path="/user/info/yourInfo"
+        component={() => <Main children={<User tabKey="yourInfo" />} />}
       />
+      <ProtectedRoute
+        exact
+        path="/user/info/changePassword"
+        component={() => <Main children={<User tabKey="changePassword" />} />}
+      />
+
+      <ProtectedRoute
+        exact
+        path="/user/info/history"
+        component={() => <Main children={<User tabKey="history" />} />}
+      />
+
+      <ProtectedRoute
+        exact
+        path="/user/info/notification"
+        component={() => <Main children={<User tabKey="notification" />} />}
+      />
+
+      <ProtectedRoute
+        exact
+        path="/user/info/extraInfo"
+        component={() => <Main children={<User tabKey="extraInfo" />} />}
+      />
+
       <Route
         exact
         path="/playground"
@@ -51,10 +75,10 @@ const RouterList = (props) => {
         path="/order"
         component={() => <Main children={<Order />} />}
       />
-       <ProtectedRoute
+      <ProtectedRoute
         exact
         path="/order-detail/:id"
-        component={() => <Main children={<OrderDetai />} />}
+        component={(props) => <Main children={<OrderDetail {...props} />} />}
       />
       <Route
         exact

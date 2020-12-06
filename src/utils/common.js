@@ -48,4 +48,5 @@ export const COLOR_ORDER_STATUS = {
   cancelled: "danger",
   approved: "warning",
   paid: "success",
+  finished: "secondary",
 };

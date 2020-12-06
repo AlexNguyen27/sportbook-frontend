@@ -2,31 +2,24 @@ import React from "react";
 import { Row, Col } from "reactstrap";
 import { Paper } from "@material-ui/core";
 import StarIcon from "@material-ui/icons/Star";
-import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import Colors from "../../../../constants/Colors";
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { connect } from "react-redux";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import moment from "moment";
-import { formatThousandVND } from "../../../../utils/commonFunction";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import Colors from "../../../../constants/Colors";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import {
+  getAddress,
+  getFullname,
+  formatThousandVND,
+} from "../../../../utils/commonFunction";
 
-const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
-  const {
-    groundName,
-    groundAddress,
-    startDay,
-    startTime,
-    endTime,
-    price,
-    discount,
-    subGroundName,
-    numberOfPlayers,
-    groundBenefit = [],
-  } = orderData;
-  console.log('here-------------------', startDay)
+const GroundDetailCard = ({ orderDetail, benefits }) => {
+  const { subGround } = orderDetail;
+  const { title, address, benefit, user: manager, phone } = subGround.ground;
+  const { startDay, startTime, endTime, price, discount } = orderDetail;
+  const groundBenefit = benefit.split(",");
 
-  // todo CHECK START DATE HERE
   const getDiffDate = () => {
     const diff = moment(startDay).diff(moment());
     if (diff) {
@@ -37,10 +30,12 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
       return diffTime ? `(${diffTime} hours from now)` : "";
     }
   };
+
   return (
     <Paper elevation={3} className="p-4">
-      <h5>{groundName}</h5>
-      <p>{groundAddress}</p>
+      <h5>{title}</h5>
+      <p className="mb-1">Address: {getAddress(address) || "No address"}</p>
+      <p>Phone: {phone || "No Phone"} </p>
       <div>
         {!groundBenefit.length ? (
           <p>
@@ -65,11 +60,23 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
           ))
         )}
       </div>
-
+      <div>
+        <hr />
+        <div className="mb-2">
+          <strong>
+            Manager: {getFullname(manager.firstName, manager.lastName)}{" "}
+            {manager.phone ? `(${manager.phone})` : ""}
+          </strong>
+        </div>
+        <p>
+          <span>Email: </span>
+          <span>{manager.email}</span>
+        </p>
+      </div>
       <hr></hr>
       <p>
-        <EmojiPeopleIcon fontSize="small" /> {subGroundName}{" "}
-        {`( ${numberOfPlayers} players )`}
+        <EmojiPeopleIcon fontSize="small" />
+        {subGround.name} {`( ${subGround.numberOfPlayers} players )`}
       </p>
       <p>
         <EventAvailableIcon fontSize="small" />
@@ -78,7 +85,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
         {` To ${moment(endTime, "HH:mm:ss").format("HH:mm")}`}
       </p>
       <p>
-        {moment(startDay).format("dddd, DD-MM-YYYY")} {getDiffDate()}
+        {moment().format("dddd, DD-MM-YYYY")} {getDiffDate()}
       </p>
       <hr />
       <Row>
@@ -87,8 +94,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
         </Col>
         <Col xs={6}>
           <p style={{ textDecoration: "line-through" }}>
-            {" "}
-            {formatThousandVND(price, " VND")}{" "}
+            {formatThousandVND(price, " VND")}
           </p>
         </Col>
       </Row>
@@ -97,7 +103,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
           <p>Discount</p>
         </Col>
         <Col xs={6}>
-          <p>{formatThousandVND((price * discount) / 100, " VND")} </p>
+          <p> {formatThousandVND((price * discount) / 100, " VND")} </p>
         </Col>
       </Row>
       <hr />
@@ -111,19 +117,8 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
           </p>
         </Col>
       </Row>
-      <hr />
-      <p style={{ color: Colors.primary, fontWeight: "bold" }}>
-        Please check your order information before submit payment
-      </p>
     </Paper>
   );
 };
 
-const mapStateToProps = (state) => ({
-  errors: state.errors,
-  user: state.auth.user,
-  order: state.order,
-  benefits: state.benefit.benefits,
-  ground: state.ground.ground,
-});
-export default connect(mapStateToProps, {})(GroundCardInfo);
+export default GroundDetailCard;

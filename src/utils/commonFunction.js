@@ -64,3 +64,7 @@ export const roundNumber = (value, precision) => {
   var multiplier = Math.pow(10, precision || 0);
   return Math.round(value * multiplier) / multiplier;
 };
+
+export const formatThousandVND = (n, currency, toFixed = 2) => {
+  return n.toFixed(toFixed).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + currency;
+}

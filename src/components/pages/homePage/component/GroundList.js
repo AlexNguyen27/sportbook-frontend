@@ -24,7 +24,7 @@ const GroundList = ({ grounds, getGrounds }) => {
             <div className="col-lg-12">
               <h2>Multiple Playground Options</h2>
               <p className=" p-large">
-                TOP LOCATION
+                TOP LOCATION{' '}
                 <strong>
                   More than {groundArr.length}
                   {groundArr.length > 0 ? " playgrounds " : " playground "}
