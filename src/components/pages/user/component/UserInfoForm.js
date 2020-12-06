@@ -72,13 +72,15 @@ const UserInfoForm = ({
   getUserInfo,
   viewType,
   uploadAvatar,
+  loading,
+  setLoading,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const imageUrl = BASE_IMAGE_URL;
   const [avatar, setAvatar] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const [formData, setformData] = useState({
     firstName: "",
@@ -87,7 +89,7 @@ const UserInfoForm = ({
     phone: "",
     address: "",
     gender: "",
-    playRole: "",
+    // playRole: "",
     createdAt: "",
     updatedAt: "",
   });
@@ -97,14 +99,14 @@ const UserInfoForm = ({
     value: GENDER[key],
   }));
 
-  const favoriteFootArr = Object.keys(FAVORITE_FOOT).map((key) => ({
-    key: key,
-    value: FAVORITE_FOOT[key],
-  }));
+  // const favoriteFootArr = Object.keys(FAVORITE_FOOT).map((key) => ({
+  //   key: key,
+  //   value: FAVORITE_FOOT[key],
+  // }));
 
   const [selectedDropdownData, setSelectedDropdownData] = useState({
     selectedGenderKey: "",
-    selectedFavoriteFootKey: "",
+    // selectedFavoriteFootKey: "",
     selectedRegionCode: "",
     selectedDistrictCode: "",
     selectedWardCode: "",
@@ -115,7 +117,7 @@ const UserInfoForm = ({
     selectedRegionCode,
     selectedDistrictCode,
     selectedWardCode,
-    selectedFavoriteFootKey,
+    // selectedFavoriteFootKey,
   } = selectedDropdownData;
 
   const regionArr = Object.keys(REGIONS).map((key) => ({
@@ -165,7 +167,7 @@ const UserInfoForm = ({
     email,
     phone,
     address,
-    playRole,
+    // playRole,
     createdAt,
     updatedAt,
   } = formData;
@@ -194,15 +196,15 @@ const UserInfoForm = ({
         email: user.email || "",
         phone: user.phone || "",
         address: user.address ? address.address : "",
-        playRole: user.playRole || "",
-        createdAt: moment(user.createdAt).format('DD/MM/YYYY HH:mm A') || "",
-        updatedAt: moment(user.updatedAt).format('DD/MM/YYYY HH:mm A') || "",
+        // playRole: user.playRole || "",
+        createdAt: moment(user.createdAt).format("DD/MM/YYYY HH:mm A") || "",
+        updatedAt: moment(user.updatedAt).format("DD/MM/YYYY HH:mm A") || "",
       });
       setSelectedDropdownData({
         selectedRegionCode: _.get(address, "regionCode") || "",
         selectedDistrictCode: _.get(address, "districtCode") || "",
         selectedWardCode: _.get(address, "wardCode") || "",
-        selectedFavoriteFootKey: _.get(user, "favoriteFoot") || "",
+        // selectedFavoriteFootKey: _.get(user, "favoriteFoot") || "",
         selectedGenderKey: _.get(user, "gender", "") || "",
       });
       setAvatar(user.avatar || imageUrl);
@@ -210,13 +212,13 @@ const UserInfoForm = ({
   };
 
   useEffect(() => {
-    getUserInfo(user.id, setLoading);
+    // getUserInfo(setLoading);
     setInit();
   }, []);
 
   const onSubmit = (e) => {
     const formatData = trimObjProperties(formData);
-    let dob = moment(selectedDate || '').format("DD/MM/YYYY");
+    let dob = moment(selectedDate || "").format("DD/MM/YYYY");
     let error = {};
     Object.keys(formatData).map((key) => {
       if (formatData[key].trim() === "") {
@@ -227,9 +229,9 @@ const UserInfoForm = ({
     if (JSON.stringify(error) === "{}" && !validateEmail(email)) {
       error.email = "Email is invalid!";
     }
-    if (!selectedFavoriteFootKey.trim()) {
-      error.favoriteFoot = "This field is required";
-    }
+    // if (!selectedFavoriteFootKey.trim()) {
+    //   error.favoriteFoot = "This field is required";
+    // }
     if (!selectedGenderKey.trim()) {
       error.gender = "This field is required";
     }
@@ -250,7 +252,7 @@ const UserInfoForm = ({
     formatData.regionCode = selectedRegionCode;
     formatData.districtCode = selectedDistrictCode;
     formatData.wardCode = selectedWardCode;
-    formatData.favoriteFoot = selectedFavoriteFootKey;
+    // formatData.favoriteFoot = selectedFavoriteFootKey;
 
     if (JSON.stringify(error) === "{}") {
       setLoading(true);
@@ -293,12 +295,12 @@ const UserInfoForm = ({
     });
   };
 
-  const onChangeFavoriteFoot = (code) => {
-    setSelectedDropdownData({
-      ...selectedDropdownData,
-      selectedFavoriteFootKey: code,
-    });
-  };
+  // const onChangeFavoriteFoot = (code) => {
+  //   setSelectedDropdownData({
+  //     ...selectedDropdownData,
+  //     selectedFavoriteFootKey: code,
+  //   });
+  // };
 
   const [loadingUpload, setLoadingUpload] = useState(false);
 
@@ -327,200 +329,197 @@ const UserInfoForm = ({
 
   return (
     <PageLoader loading={loading}>
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
+      <Row className="justify-content-center">
+        <Col xs="3">
+          <Paper className={classes.paper}>
+            <PageLoader loading={loadingUpload}>
+              <img
+                src={avatar || imageUrl}
+                alt="Girl in a jacket"
+                width="100%"
+                height={200}
+                className={classes.iamge}
+              />
+              <Tooltip title="Upload new avatar" aria-label="image">
+                <div>
+                  <input
+                    accept="image/*"
+                    className={classes.inputFile}
+                    id="icon-button-file"
+                    multiple
+                    type="file"
+                    onChange={handleUpload}
+                  />
+                  <label htmlFor="icon-button-file">
+                    <IconButton
+                      aria-label="upload"
+                      className={classes.btnUpload}
+                      component="span"
+                    >
+                      <CloudUploadIcon fontSize="large" />
+                    </IconButton>
+                  </label>
+                </div>
+              </Tooltip>
+              <h6 className="mb-0 font-weight-bold">
+                {firstName} {lastName}
+              </h6>
+            </PageLoader>
+          </Paper>
+        </Col>
+        <Col xs="9">
+          <h4 className="text-center mb-4">User Information</h4>
+          <form onSubmit={(e) => onSubmit(e)}>
             <Row>
-              <Col xs="3">
-                <Paper className={classes.paper}>
-                  <PageLoader loading={loadingUpload}>
-                    <img
-                      src={avatar || imageUrl}
-                      alt="Girl in a jacket"
-                      width="100%"
-                      height={200}
-                      className={classes.iamge}
-                    />
-                    <Tooltip title="Upload new avatar" aria-label="image">
-                      <div>
-                        <input
-                          accept="image/*"
-                          className={classes.inputFile}
-                          id="icon-button-file"
-                          multiple
-                          type="file"
-                          onChange={handleUpload}
-                        />
-                        <label htmlFor="icon-button-file">
-                          <IconButton
-                            aria-label="upload"
-                            className={classes.btnUpload}
-                            component="span"
-                          >
-                            <CloudUploadIcon fontSize="large" />
-                          </IconButton>
-                        </label>
-                      </div>
-                    </Tooltip>
-                    <h6 className="mb-0 font-weight-bold">
-                      {firstName} {lastName}
-                    </h6>
-                  </PageLoader>
-                </Paper>
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="firstName"
+                  label="First name"
+                  fullWidth
+                  value={firstName}
+                  onChange={onChange}
+                  placeHolder="Enter first name"
+                  error={errors.firstName}
+                  variant="outlined"
+                  size="small"
+                />
               </Col>
-              <Col xs="9">
-                <h4 className="text-center mb-4">User Information</h4>
-                <form onSubmit={(e) => onSubmit(e)}>
-                  <Row>
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="firstName"
-                        label="First name"
-                        fullWidth
-                        value={firstName}
-                        onChange={onChange}
-                        placeHolder="Enter first name"
-                        error={errors.firstName}
-                        variant="outlined"
-                        size="small"
-                      />
-                    </Col>
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="lastName"
-                        label="Last name"
-                        fullWidth
-                        value={lastName}
-                        onChange={onChange}
-                        placeHolder="Enter last name"
-                        error={errors.lastName}
-                        size="small"
-                        variant="outlined"
-                      />
-                    </Col>
-                    <Col>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="email"
-                        label="Email"
-                        fullWidth
-                        size="small"
-                        value={email}
-                        onChange={onChange}
-                        className="mt-4"
-                        placeHolder="Enter first name"
-                        error={errors.email}
-                        variant="outlined"
-                      />
-                    </Col>
-                    <Col className="mt-4">
-                      <DropdownV2
-                        fullWidth
-                        label="Gender"
-                        value={selectedGenderKey.toString()}
-                        options={genderArr || []}
-                        valueBasedOnProperty="key"
-                        size="small"
-                        displayProperty="value"
-                        onChange={(genderKey) => onSelectGender(genderKey)}
-                        error={errors.gender || ""}
-                        variant="outlined"
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="mt-4">
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="phone"
-                        label="Phone"
-                        fullWidth
-                        size="small"
-                        value={phone}
-                        onChange={onChange}
-                        placeHolder="Enter Phone"
-                        error={errors.phone}
-                        variant="outlined"
-                      />
-                    </Col>
-                    <Col xs={6}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
-                          variant="inline"
-                          style={{ width: "100%", margin: 0 }}
-                          format="dd/MM/yyyy"
-                          margin="normal"
-                          id="date-picker-inline"
-                          size="small"
-                          label="Date of birth"
-                          error={errors.dob}
-                          value={selectedDate}
-                          onChange={(date) => setSelectedDate(date)}
-                          KeyboardButtonProps={{
-                            "aria-label": "change date",
-                          }}
-                        />
-                      </MuiPickersUtilsProvider>
-                    </Col>
-                  </Row>
-                  {/* ADDRESS */}
-                  <Row className="mt-4">
-                    <Col xs={4}>
-                      <DropdownV2
-                        fullWidth
-                        size="small"
-                        label="City / Province / Region"
-                        value={selectedRegionCode.toString()}
-                        options={regionArr || []}
-                        valueBasedOnProperty="code"
-                        displayProperty="name"
-                        onChange={(code) => onChangeRegion(code)}
-                      />
-                    </Col>
-                    <Col xs={4}>
-                      <DropdownV2
-                        fullWidth
-                        label="District"
-                        size="small"
-                        value={selectedDistrictCode.toString()}
-                        options={getDistricts() || []}
-                        valueBasedOnProperty="code"
-                        displayProperty="name"
-                        onChange={(code) => onChangeDistrict(code)}
-                      />
-                    </Col>
-                    <Col xs={4}>
-                      <DropdownV2
-                        fullWidth
-                        label="Ward"
-                        value={selectedWardCode.toString()}
-                        options={getWards() || []}
-                        valueBasedOnProperty="code"
-                        size="small"
-                        displayProperty="name"
-                        onChange={(code) => onChangeWard(code)}
-                      />
-                    </Col>
-                    <Col className="mt-4">
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="address"
-                        label="Address"
-                        fullWidth
-                        size="small"
-                        value={address}
-                        onChange={onChange}
-                        error={errors.address}
-                        variant="outlined"
-                      />
-                    </Col>
-                  </Row>
-                  {/* Extra information */}
-                  <h6 className="font-weight-bold mt-4">Extra information: </h6>
-                  <Row className="mt-2">
-                    <Col xs={6}>
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="lastName"
+                  label="Last name"
+                  fullWidth
+                  value={lastName}
+                  onChange={onChange}
+                  placeHolder="Enter last name"
+                  error={errors.lastName}
+                  size="small"
+                  variant="outlined"
+                />
+              </Col>
+              <Col>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="email"
+                  label="Email"
+                  fullWidth
+                  size="small"
+                  value={email}
+                  onChange={onChange}
+                  className="mt-4"
+                  placeHolder="Enter first name"
+                  error={errors.email}
+                  variant="outlined"
+                />
+              </Col>
+              <Col className="mt-4">
+                <DropdownV2
+                  fullWidth
+                  label="Gender"
+                  value={selectedGenderKey.toString()}
+                  options={genderArr || []}
+                  valueBasedOnProperty="key"
+                  size="small"
+                  displayProperty="value"
+                  onChange={(genderKey) => onSelectGender(genderKey)}
+                  error={errors.gender || ""}
+                  variant="outlined"
+                />
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="phone"
+                  label="Phone"
+                  fullWidth
+                  size="small"
+                  value={phone}
+                  onChange={onChange}
+                  placeHolder="Enter Phone"
+                  error={errors.phone}
+                  variant="outlined"
+                />
+              </Col>
+              <Col xs={6}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <DatePicker
+                    variant="inline"
+                    style={{ width: "100%", margin: 0 }}
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    size="small"
+                    label="Date of birth"
+                    disableFuture={true}
+                    error={errors.dob}
+                    value={selectedDate}
+                    onChange={(date) => setSelectedDate(date)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Col>
+            </Row>
+            {/* ADDRESS */}
+            <Row className="mt-4">
+              <Col xs={4}>
+                <DropdownV2
+                  fullWidth
+                  size="small"
+                  label="City / Province / Region"
+                  value={selectedRegionCode.toString()}
+                  options={regionArr || []}
+                  valueBasedOnProperty="code"
+                  displayProperty="name"
+                  onChange={(code) => onChangeRegion(code)}
+                />
+              </Col>
+              <Col xs={4}>
+                <DropdownV2
+                  fullWidth
+                  label="District"
+                  size="small"
+                  value={selectedDistrictCode.toString()}
+                  options={getDistricts() || []}
+                  valueBasedOnProperty="code"
+                  displayProperty="name"
+                  onChange={(code) => onChangeDistrict(code)}
+                />
+              </Col>
+              <Col xs={4}>
+                <DropdownV2
+                  fullWidth
+                  label="Ward"
+                  value={selectedWardCode.toString()}
+                  options={getWards() || []}
+                  valueBasedOnProperty="code"
+                  size="small"
+                  displayProperty="name"
+                  onChange={(code) => onChangeWard(code)}
+                />
+              </Col>
+              <Col className="mt-4">
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="address"
+                  label="Address"
+                  fullWidth
+                  size="small"
+                  value={address}
+                  onChange={onChange}
+                  error={errors.address}
+                  variant="outlined"
+                />
+              </Col>
+            </Row>
+            {/* Extra information */}
+            {/* <Row className="mt-2"> */}
+            {/* <Col xs={6}>
                       <DropdownV2
                         fullWidth
                         label="Farovite Foot"
@@ -548,67 +547,64 @@ const UserInfoForm = ({
                         error={errors.playRole}
                         variant="outlined"
                       />
-                    </Col>
-                  </Row>
-                  <Row className="mt-4">
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="createdAt"
-                        label="Created Date"
-                        fullWidth
-                        value={createdAt}
-                        size="small"
-                        placeHolder="Enter created at"
-                        error={errors.createdAt}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        disabled
-                        variant="outlined"
-                      />
-                    </Col>
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="updatedAt"
-                        label="Latest update At"
-                        fullWidth
-                        size="small"
-                        disabled
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        value={updatedAt}
-                        placeHolder="Enter created at"
-                        variant="outlined"
-                      />
-                    </Col>
-                  </Row>
-                </form>
-                <Grid item xs={12} className="text-center mt-4">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={(e) => onSubmit(e)}
-                  >
-                    <SaveIcon className="mr-2" /> Save
-                  </Button>
-                  <Button
-                    variant="contained"
-                    className="ml-4"
-                    size="small"
-                    onClick={() => onCancel()}
-                  >
-                    <RotateLeftIcon className="mr-2" /> Cancel
-                  </Button>
-                </Grid>
+                    </Col> */}
+            {/* </Row> */}
+            <Row className="mt-4">
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="createdAt"
+                  label="Created Date"
+                  fullWidth
+                  value={createdAt}
+                  size="small"
+                  placeHolder="Enter created at"
+                  error={errors.createdAt}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  disabled
+                  variant="outlined"
+                />
+              </Col>
+              <Col xs={6}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="updatedAt"
+                  label="Latest update At"
+                  fullWidth
+                  size="small"
+                  disabled
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={updatedAt}
+                  placeHolder="Enter created at"
+                  variant="outlined"
+                />
               </Col>
             </Row>
+          </form>
+          <Grid item xs={12} className="text-center mt-4">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(e) => onSubmit(e)}
+            >
+              <SaveIcon className="mr-2" /> Save
+            </Button>
+            <Button
+              variant="contained"
+              className="ml-4"
+              size="small"
+              onClick={() => onCancel()}
+            >
+              <RotateLeftIcon className="mr-2" /> Cancel
+            </Button>
           </Grid>
-        </Grid>
-      </div>
+        </Col>
+      </Row>
     </PageLoader>
   );
 };

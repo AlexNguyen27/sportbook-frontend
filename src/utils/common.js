@@ -50,3 +50,17 @@ export const COLOR_ORDER_STATUS = {
   paid: "success",
   finished: "secondary",
 };
+
+export const EXTRA_INFO_LABEL = {
+  favoriteFoot: "Favorite foot",
+  playRole: "Play role",
+  shirtNumber: "Shirt number",
+  teamName: "Team name",
+  favoritePlayTime: "Favorite play time",
+};
+
+export const SOCIAL_NETWORK_LABEL = {
+  facebook: "Facebook",
+  zalo: "Zalo",
+  twitter: "Twitter",
+};
