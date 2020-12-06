@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
+const PriceDetail = ({ ground, subGrounds = [], isAuthenticated, selectedStartDay }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -73,7 +73,7 @@ const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
         type: SAVE_ORDER_DATA,
         orderData: {
           ...price,
-          startDay: moment().format("DD/MM/YYYY"),
+          startDay: selectedStartDay,
           groundName: ground.title,
           groundAddress: getAddress(ground.address) || "No address",
           groundBenefit: ground.benefit.split(","),

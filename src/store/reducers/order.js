@@ -46,7 +46,6 @@ export default function (state = initialState, action) {
         ...state,
         selected_order: action.selected_order,
       };
-    case SAVE_SELECTED_GROUND:
     case UNAUTHENTICATE:
       return initialState;
     default:
