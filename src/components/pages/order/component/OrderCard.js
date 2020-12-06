@@ -93,7 +93,7 @@ const OrderCard = ({ errors, user }) => {
         />
         <div className="mt-4 mb-4">
           <Alert severity="warning">
-            Update and confirm your phone number <a href="/user/info">here</a>{" "}
+            Update and confirm your phone number <a href="/user/info/yourInfo">here</a>{" "}
             before order
           </Alert>
         </div>

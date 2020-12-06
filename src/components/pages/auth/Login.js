@@ -77,7 +77,7 @@ const Login = ({
   };
 
   if (isAuthenticated && isUser) {
-    return <Redirect to="/user/info" />;
+    return <Redirect to="/user/info/yourInfo" />;
   }
 
   return (

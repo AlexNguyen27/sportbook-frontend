@@ -7,7 +7,7 @@ import { logoutUser } from "../../store/actions/auth";
 import { useHistory } from "react-router-dom";
 import { WEB_MANAGER_DOMAIN } from "../../store/actions/types";
 
-const Main = ({ children, isHome, auth, logoutUser }) => {
+const Main = ({ children, isHome, auth, logoutUser, match }) => {
   const history = useHistory();
   const logout = () => {
     Swal.fire({
@@ -58,7 +58,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       //   },
       // ],
     },
-  
+
     {
       name: "Log out",
       to: "/",
@@ -86,7 +86,7 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Login",
       to: "/login",
-      onClick: () => history.push('/login'),
+      onClick: () => history.push("/login"),
     },
     {
       name: "Sign up",

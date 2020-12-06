@@ -23,6 +23,7 @@ import PageLoader from "../../custom/PageLoader";
 import TextFieldInput from "../../custom/TextFieldInputWithheader";
 import Checkbox from "@material-ui/core/Checkbox";
 import { getAddress } from "../../../utils/commonFunction";
+import moment from "moment";
 
 const GreenCheckbox = withStyles({
   root: {
@@ -335,7 +336,8 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
               inputProps={{ "aria-label": "secondary checkbox" }}
             />
             <span style={{ marginTop: "auto", marginBottom: "auto" }}>
-              Show all locations are empty field and can book online
+              Show all locations are available today{" "}
+              <span className="font-weight-bold">({moment().format("dddd DD-MM-YYYY")})</span>
             </span>
           </Row>
           <hr></hr>
