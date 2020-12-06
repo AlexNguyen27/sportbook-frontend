@@ -27,8 +27,8 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
             dob,
             avatar,
             role,
-            favoriteFoot
-            playRole
+            socialNetwork
+            extraInfo
             createdAt,
             updatedAt
           }
@@ -101,8 +101,8 @@ export const signUpUser = (isAuthenticated, history, userData) => async (
             dob,
             avatar,
             role,
-            favoriteFoot
-            playRole
+            socialNetwork 
+            extraInfo
             createdAt,
             updatedAt
           }

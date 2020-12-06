@@ -4,6 +4,8 @@ import {
   EDIT_USER_INFO,
   GET_GITHUB_AVATAR,
   UPLOAD_AVATAR,
+  SAVE_CURRENT_USER,
+  SAVE_EXTRA_INFO,
   //   AUTHENTICATE_TEACHER,
 } from "../actions/types";
 import setAuthToken from "../../utils/setAuthToken";
@@ -32,6 +34,20 @@ export default function (state = initialState, action) {
         isUser,
         token,
         user: userInfo,
+      };
+    case SAVE_CURRENT_USER:
+      return {
+        ...state,
+        user: { ...state.user, ...action.currentUser },
+      };
+
+    case SAVE_EXTRA_INFO:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.extra,
+        },
       };
     case EDIT_USER_INFO:
       const { newUser } = action;

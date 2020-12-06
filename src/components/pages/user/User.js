@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,8 +18,10 @@ import { Row, Col } from "reactstrap";
 import ChangePassword from "./component/ChangePassword";
 import Notification from "./component/Notification";
 import History from "./component/History";
-import ExtraInformation from "./component/ExtraInformation";
 import { useHistory } from "react-router-dom";
+import ExtraInformation from "../extraInfo/ExtraInformation";
+import { getUserInfo } from "../../../store/actions/user";
+import PageLoader from "../../custom/PageLoader";
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const User = ({ user, tabKey }) => {
+const User = ({ user, tabKey, getUserInfo }) => {
   const classes = useStyles();
   const history = useHistory();
   const [selectedItem, setSelectedItem] = useState(tabKey);
@@ -62,12 +64,21 @@ const User = ({ user, tabKey }) => {
     },
   ];
 
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (selectedItem === "yourInfo" || selectedItem === "extraInfo") {
+      getUserInfo(setLoading);
+    }
+  }, [setSelectedItem, selectedItem]);
+
   const renderContent = {
-    yourInfo: <UserInfo viewType="user" />,
+    yourInfo: (
+      <UserInfo viewType="user" loading={loading} setLoading={setLoading} />
+    ),
     history: <History />,
     changePassword: <ChangePassword />,
     notification: <Notification />,
-    extraInfo: <ExtraInformation />,
+    extraInfo: <ExtraInformation loading={loading} setLoading={setLoading} />,
   };
 
   const { avatar, firstName, lastName } = user;
@@ -94,10 +105,12 @@ const User = ({ user, tabKey }) => {
           <Col>
             <MenuList>
               {menuItems.map((item) => (
-                <MenuItem onClick={() => {
-                  setSelectedItem(item.key);
-                  history.push(`/user/info/${item.key}`)
-                }}>
+                <MenuItem
+                  onClick={() => {
+                    setSelectedItem(item.key);
+                    history.push(`/user/info/${item.key}`);
+                  }}
+                >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <Typography
                     variant="inherit"
@@ -121,4 +134,4 @@ const User = ({ user, tabKey }) => {
 const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
-export default connect(mapStateToProps, null)(User);
+export default connect(mapStateToProps, { getUserInfo })(User);

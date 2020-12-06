@@ -3,17 +3,15 @@ import {
   CLEAR_ERRORS,
   GET_USERS,
   DELETE_USER,
-  EDIT_USER,
   BASE_URL,
-  GET_USER_PROFILE,
   EDIT_USER_INFO,
   UPLOAD_AVATAR,
+  SAVE_EXTRA_INFO,
 } from "./types";
 import { arrayToObject } from "../../utils/commonFunction";
 import { hera } from "hera-js";
 import Swal from "sweetalert2";
 import logoutDispatch from "../../utils/logoutDispatch";
-import { ROLE } from "../../utils/common";
 
 export const getUsers = ({ role }, setLoading) => async (
   dispatch,
@@ -42,8 +40,8 @@ export const getUsers = ({ role }, setLoading) => async (
               address
               dob
               avatar
-              favoriteFoot
-              playRole
+              extraInfo
+              socialNetwork
             }
           }
         `,
@@ -72,17 +70,11 @@ export const getUsers = ({ role }, setLoading) => async (
 };
 
 // GET majors data
-export const getUserInfo = (id, setLoading) => async (dispatch, getState) => {
+export const getUserInfo = (setLoading) => async (dispatch, getState) => {
   const {
     token,
-    user: { id: authUserId, role },
+    user: { id: authUserId },
   } = getState().auth;
-
-  let userId = id;
-  // manager role
-  if (role === ROLE.owner) {
-    userId = authUserId;
-  }
 
   const { data, errors } = await hera({
     options: {
@@ -106,25 +98,24 @@ export const getUserInfo = (id, setLoading) => async (dispatch, getState) => {
               dob,
               avatar,
               role,
-              favoriteFoot
-              playRole
+              extraInfo
+              socialNetwork
               createdAt,
               updatedAt
             }   
           }
         `,
     variables: {
-      id: userId,
+      id: authUserId,
     },
   });
 
   if (!errors) {
-    if (authUserId === userId) {
-      dispatch({
-        type: GET_USER_PROFILE,
-        user_profile: data.getUserProfile,
-      });
-    }
+    // if (authUserId === userId) {
+    // dispatch({
+    //   type: SAVE_CURRENT_USER,
+    //   currentUser: data.getUserById,
+    // });
 
     setLoading(false);
   } else {
@@ -240,9 +231,7 @@ export const editUserInfo = (setLoading, userData, userId) => async (
     address,
     dob,
     email,
-    favoriteFoot,
     phone,
-    playRole,
     gender,
     regionCode,
     districtCode,
@@ -268,12 +257,12 @@ export const editUserInfo = (setLoading, userData, userId) => async (
               email: $email,
               dob: $dob,
               address: $address
-              playRole: $playRole
               regionCode: $regionCode,
               districtCode: $districtCode, 
               wardCode: $wardCode
-              favoriteFoot: $favoriteFoot
               gender: $gender
+              extraInfo: $extraInfo
+              socialNetwork: $socialNetwork
               ) {
                 id
                 email
@@ -283,9 +272,9 @@ export const editUserInfo = (setLoading, userData, userId) => async (
                 gender
                 address
                 dob
-                favoriteFoot
+                extraInfo
+                socialNetwork
                 avatar
-                playRole
                 createdAt
                 updatedAt
             }
@@ -298,30 +287,24 @@ export const editUserInfo = (setLoading, userData, userId) => async (
       phone,
       dob,
       address,
-      playRole,
       email,
       regionCode,
       districtCode,
       wardCode,
-      favoriteFoot,
       gender,
+      extraInfo: {},
+      socialNetwork: {},
     },
   });
 
   if (!errors) {
     const res = data.updateUser;
+
     dispatch({
-      type: EDIT_USER,
-      selectedId: res.id,
+      type: EDIT_USER_INFO,
       newUser: res,
     });
-    console.log(authId, userId);
-    if (authId === userId) {
-      dispatch({
-        type: EDIT_USER_INFO,
-        newUser: res,
-      });
-    }
+
     dispatch({
       type: CLEAR_ERRORS,
     });
@@ -355,7 +338,79 @@ export const editUserInfo = (setLoading, userData, userId) => async (
   }
 };
 
-//
+export const editExtraInfo = (setLoading, socialNetwork, extraInfo) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+  const {
+    auth: {
+      token,
+      user: { id, email },
+    },
+  } = state;
+
+  const { data, errors } = await hera({
+    options: {
+      url: BASE_URL,
+      headers: {
+        token,
+        "Content-Type": "application/json",
+      },
+    },
+    query: `
+          mutation {
+            updateUser(
+              id: $id,
+              email: $email
+              extraInfo: $extraInfo
+              socialNetwork: $socialNetwork
+              ) {
+                id
+                extraInfo
+                socialNetwork
+            }
+          }
+        `,
+    variables: {
+      id,
+      email,
+      extraInfo,
+      socialNetwork,
+    },
+  });
+
+  if (!errors) {
+    const res = data.updateUser;
+    dispatch({
+      type: SAVE_EXTRA_INFO,
+      extra: {
+        extraInfo: res.extraInfo,
+        socialNetwork: res.socialNetwork,
+      },
+    });
+
+    dispatch({
+      type: CLEAR_ERRORS,
+    });
+
+    Swal.fire({
+      position: "center",
+      type: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } else {
+    logoutDispatch(dispatch, errors);
+    dispatch({
+      type: GET_ERRORS,
+      errors: errors[0].message,
+    });
+  }
+  setLoading(false);
+};
+
 export const deleteUser = (setLoading, userId) => async (
   dispatch,
   getState
