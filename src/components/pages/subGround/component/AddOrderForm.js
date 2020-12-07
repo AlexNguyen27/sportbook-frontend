@@ -18,7 +18,7 @@ import { trimObjProperties } from "../../../../utils/formatString";
 import { getPrices } from "../../../../store/actions/price";
 import { addOrder } from "../../../../store/actions/order";
 import { useHistory } from "react-router-dom";
-import { getAddress } from "../../../../utils/commonFunction";
+import { getAddress, isSameOrAfterNow } from "../../../../utils/commonFunction";
 import Swal from "sweetalert2";
 
 const AddOrderForm = ({
@@ -53,7 +53,13 @@ const AddOrderForm = ({
   const startTimeArr = () => {
     const startTimes = [];
     Object.keys(prices).map((key) => {
-      if (!startTimes.find((item) => item.compare === prices[key].startTime)) {
+      if (
+        !startTimes.find((item) => item.compare === prices[key].startTime) &&
+        isSameOrAfterNow(
+          prices[key].startTime,
+          selectedStartDay
+        )
+      ) {
         startTimes.push({
           compare: prices[key].startTime,
           startTime: moment(prices[key].startTime, "HH:mm:ss").format("HH:mm"),
@@ -278,7 +284,7 @@ const mapStateToProps = (state) => ({
   prices: state.price.prices,
   errors: state.errors,
   auth: state.auth,
-  selectedStartDay: state.order.orderData.startDay,
+  selectedStartDay: state.order?.orderData?.startDay,
 });
 export default connect(mapStateToProps, {
   clearErrors,

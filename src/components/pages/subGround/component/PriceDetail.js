@@ -11,7 +11,7 @@ import { Row, Col } from "reactstrap";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { SAVE_ORDER_DATA } from "../../../../store/actions/types";
-import { getAddress } from "../../../../utils/commonFunction";
+import { getAddress, isSameOrAfterNow } from "../../../../utils/commonFunction";
 import { SUB_GROUND_STATUS } from "../../../../utils/common";
 import Swal from "sweetalert2";
 
@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
+const PriceDetail = ({
+  ground,
+  subGrounds = [],
+  isAuthenticated,
+  selectedStartDay,
+}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -73,7 +78,7 @@ const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
         type: SAVE_ORDER_DATA,
         orderData: {
           ...price,
-          startDay: moment().format("DD/MM/YYYY"),
+          startDay: selectedStartDay,
           groundName: ground.title,
           groundAddress: getAddress(ground.address) || "No address",
           groundBenefit: ground.benefit.split(","),
@@ -114,7 +119,13 @@ const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
                       className="mb-3"
                       size="small"
                       style={{ minWidth: "112px", borderWidth: "2px" }}
-                      disabled={price.status !== SUB_GROUND_STATUS.ready}
+                      disabled={
+                        price.status !== SUB_GROUND_STATUS.ready ||
+                        !isSameOrAfterNow(
+                          price.startTime,
+                          selectedStartDay
+                        )
+                      }
                       onClick={() => onClickPriceCard(price, item)}
                     >
                       <div>
@@ -125,7 +136,14 @@ const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
                           price.endTime,
                           "HH:mm:ss"
                         ).format("HH:mm")}`}</p>
-                        <p className={classes.text}>{price.status}</p>
+                        <p className={classes.text}>
+                          {isSameOrAfterNow(
+                            price.startTime,
+                            selectedStartDay
+                          )
+                            ? price.status
+                            : "LATE"}
+                        </p>
                         <p className={classes.noMargin}>
                           {price.price}$
                           {price.discount > 0 ? (
@@ -152,7 +170,7 @@ const PriceDetail = ({ ground, subGrounds = [], isAuthenticated }) => {
 const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
   subGrounds: state.ground.selected_ground.subGrounds,
-  selectedStartDay: state.order.orderData.startDay,
+  selectedStartDay: state.order?.orderData?.startDay,
   isAuthenticated: state.auth.isAuthenticated,
 });
 export default connect(mapStateToProps, {})(PriceDetail);

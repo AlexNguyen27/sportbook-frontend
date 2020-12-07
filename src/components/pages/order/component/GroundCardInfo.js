@@ -30,7 +30,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
   const getDiffDate = () => {
     const diff = moment(startDay).diff(moment());
     if (diff) {
-      const diffDay = moment(startDay).diff(moment(), "days");
+      const diffDay = moment(startDay, 'DD-MM-YYYY').diff(moment(), "days");
       return diffDay ? `(${diffDay} days from now)` : "";
     } else {
       const diffTime = moment(startTime, "HH:mm:ss").diff(moment(), "hours");

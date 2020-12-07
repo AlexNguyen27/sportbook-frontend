@@ -66,5 +66,11 @@ export const roundNumber = (value, precision) => {
 };
 
 export const formatThousandVND = (n, currency, toFixed = 2) => {
-  return n.toFixed(toFixed).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + currency;
-}
+  return n.toFixed(toFixed).replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + currency;
+};
+
+export const isSameOrAfterNow = (startTime, selectedStartDay) => {
+  const day = selectedStartDay + " " + startTime;
+  console.log("day----", day);
+  return moment(day, "DD-MM-YYYY HH:mm:ss").isSameOrAfter(moment());
+};
