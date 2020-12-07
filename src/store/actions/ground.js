@@ -98,6 +98,13 @@ export const getGroundById = (setLoading, id, startDay) => async (dispatch, getS
                       id
                       name
                     }
+                    user {
+                      phone
+                      email
+                      momoQRCode
+                      firstName
+                      lastName
+                    }
                     comments {
                       id
                       comment

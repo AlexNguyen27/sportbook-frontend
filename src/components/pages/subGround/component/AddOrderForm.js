@@ -64,7 +64,7 @@ const AddOrderForm = ({
           compare: prices[key].startTime,
           startTime: moment(prices[key].startTime, "HH:mm:ss").format("HH:mm"),
           displayValue: moment(prices[key].startTime, "HH:mm:ss").format(
-            "HH:mm A"
+            "hh:mm A"
           ),
         });
       }
@@ -100,7 +100,7 @@ const AddOrderForm = ({
       const newEndTime = {
         priceId: price.id,
         startTime: moment(price.startTime, "HH:mm:ss").format("HH:mm"),
-        displayValue: moment(price.endTime, "HH:mm:ss").format("HH:mm A"),
+        displayValue: moment(price.endTime, "HH:mm:ss").format("hh:mm A"),
       };
       return newEndTime;
     });
