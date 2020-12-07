@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "150px",
     width: "100%",
+    // marginLeft: 0,
+    // marginRight: 0,
   },
   button: {
     marginTop: theme.spacing(1),
@@ -42,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
+  },
+  row: {
+    marginLeft: 0,
+    marginRight: 0,
+    justifyContent: "center" 
   },
 }));
 
@@ -197,7 +204,7 @@ const Ground = ({
           </Row>
         </div>
       </div>
-      <Row style={{ justifyContent: "center" }}>
+      <Row  className={classes.row}>
         <Col xs={6}>
           {/* SUB GROUND AND PRICING */}
           {!ground?.subGrounds?.length ? (
@@ -316,12 +323,12 @@ const Ground = ({
         </Col>
       </Row>
 
-      <Row style={{ justifyContent: "center" }}>
+      <Row className={classes.row}>
         <Col xs={9}>
           <h5>More playgrounds</h5>
         </Col>
       </Row>
-      <Row style={{ justifyContent: "center" }}>
+      <Row className={classes.row}>
         <Col xs={9}>
           <PageLoader loading={loading}>
             <Row style={{ justifyContent: "center" }} className="mb-4">

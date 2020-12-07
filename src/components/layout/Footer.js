@@ -100,7 +100,7 @@ function Footer() {
                 <hr />
                 <p className="p-large">
                   Copyright © {currentYear}{" "}
-                  <a href="https://lovesport.vn.com">Love Sport</a> - All rights
+                  <a href="/">Love Sport</a> - All rights
                   reserved
                 </p>
               </div>

@@ -2,12 +2,13 @@ import React from "react";
 import icon1 from "../../../../images/services-icon-1.svg";
 import icon2 from "../../../../images/services-icon-2.svg";
 import icon3 from "../../../../images/services-icon-3.svg";
+import { Col } from "reactstrap";
 
 function Service(props) {
   return (
     <div id="services" className="cards-1">
       <div className="container">
-        <div className="row">
+        <div className="row  ml-0 mr-0">
           <div className="col-lg-12">
             <h2>Why Love Sport?</h2>
             <p className="p-heading p-large">
@@ -17,8 +18,8 @@ function Service(props) {
             </p>
           </div>
         </div>
-        <div className="row">
-          <div className="col-lg-12">
+        <div className="row ml-0 mr-0">
+          <Col>
             <div className="card">
               <img className="card-image" src={icon1} alt="alternative" />
               <div className="card-body">
@@ -29,6 +30,8 @@ function Service(props) {
                 </p>
               </div>
             </div>
+          </Col>
+          <Col>
             <div className="card">
               <img className="card-image" src={icon2} alt="alternative" />
               <div className="card-body">
@@ -41,7 +44,8 @@ function Service(props) {
                 </p>
               </div>
             </div>
-
+          </Col>
+          <Col>
             <div className="card">
               <img className="card-image" src={icon3} alt="alternative" />
               <div className="card-body">
@@ -52,7 +56,7 @@ function Service(props) {
                 </p>
               </div>
             </div>
-          </div>
+          </Col>
         </div>
       </div>
     </div>

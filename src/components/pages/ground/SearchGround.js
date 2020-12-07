@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     paddingTop: "100px",
     justifyContent: "center",
+    marginLeft: 0,
+    marginRight: 0,
   },
   paper: {
     padding: theme.spacing(2),

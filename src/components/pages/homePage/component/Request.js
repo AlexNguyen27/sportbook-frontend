@@ -4,9 +4,9 @@ function Request(props) {
   return (
     <div id="request" className="form-1" style={{ backgroundColor: "none" }}>
       <div className="container">
-        <div className="row">
+        <div className="row ml-0 mr-0 ">
           <div className="col-lg-6">
-            <div className="text-container">
+            <div className="text-container mt-0">
               <h2>
                 Fill The Following Form To Request A Meeting with our team
               </h2>

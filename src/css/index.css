@@ -44,3 +44,8 @@ button:focus {
   width: "97%" !important;
   margin-top: 16px;
 }
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
