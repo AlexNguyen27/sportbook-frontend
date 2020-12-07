@@ -5,16 +5,26 @@ import { hera } from "hera-js";
 import Swal from "sweetalert2";
 import { ROLE } from "../../utils/common";
 //LOGIN User
-export const loginUser = ({ email, password }) => async (dispatch) => {
+export const loginUser = ({ email, password, hashPassword }) => async (
+  dispatch
+) => {
   console.log("herer-----------password------", password);
 
+  const query = !hashPassword
+    ? "password: $password"
+    : "hashPassword: $hashPassword";
+
+  const variables = !hashPassword
+    ? { email, password }
+    : { email, hashPassword };
+    
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
     },
     query: `
         query {
-          login(email: $email, password: $password) {
+          login(email: $email, ${query}) {
             id,
             token,
             email,
@@ -35,8 +45,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
         }
       `,
     variables: {
-      email,
-      password,
+      ...variables,
     },
   });
   if (errors) {
@@ -149,7 +158,9 @@ export const signUpUser = (isAuthenticated, history, userData) => async (
   }
 };
 
-export const loginWithGoogle = (setLoading, setModal, userData) => async (dispatch) => {
+export const loginWithGoogle = (setLoading, setModal, userData) => async (
+  dispatch
+) => {
   const { email, password, firstName, lastName, avatar } = userData;
   console.log("herer-----------------", userData);
   const { data, errors } = await hera({
@@ -208,11 +219,11 @@ export const loginWithGoogle = (setLoading, setModal, userData) => async (dispat
       errors: { ...formatedError },
     });
   } else {
-      const { data: loginData, errors: loginError } = await hera({
-        options: {
-          url: BASE_URL,
-        },
-        query: `
+    const { data: loginData, errors: loginError } = await hera({
+      options: {
+        url: BASE_URL,
+      },
+      query: `
             query {
               login(email: $email, password: $password) {
                 id,
@@ -234,47 +245,47 @@ export const loginWithGoogle = (setLoading, setModal, userData) => async (dispat
               }
             }
           `,
-        variables: {
-          email,
-          password,
-        },
-      });
+      variables: {
+        email,
+        password,
+      },
+    });
 
-      if (loginError) {
-        // If login fails, set user info to null
-        logoutDispatch(dispatch, loginError);
+    if (loginError) {
+      // If login fails, set user info to null
+      logoutDispatch(dispatch, loginError);
+      // Set errors
+      dispatch({
+        type: GET_ERRORS,
+        errors: { message: loginError[0].message },
+      });
+    } else {
+      const resData = loginData.login;
+      const { token } = resData;
+      const userData = { ...resData };
+      delete userData.token;
+      if (resData.role !== ROLE.user) {
+        logoutDispatch(dispatch);
         // Set errors
         dispatch({
           type: GET_ERRORS,
-          errors: { message: loginError[0].message },
+          errors: { message: "Email or password is incorrect!" },
         });
-      } else {
-        const resData = loginData.login;
-        const { token } = resData;
-        const userData = { ...resData };
-        delete userData.token;
-        if (resData.role !== ROLE.user) {
-          logoutDispatch(dispatch);
-          // Set errors
-          dispatch({
-            type: GET_ERRORS,
-            errors: { message: "Email or password is incorrect!" },
-          });
-          return;
-        }
-    
-        dispatch({
-          type: AUTHENTICATE,
-          user: {
-            userInfo: userData,
-            isUser: true,
-          },
-          token,
-        });
+        return;
       }
-      // close modal
-      setModal(false);
-    
+
+      dispatch({
+        type: AUTHENTICATE,
+        user: {
+          userInfo: userData,
+          isUser: true,
+        },
+        token,
+      });
+    }
+    // close modal
+    setModal(false);
+
     dispatch({
       type: CLEAR_ERRORS,
     });

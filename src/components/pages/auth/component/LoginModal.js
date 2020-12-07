@@ -32,7 +32,6 @@ const LoginModal = ({
 }) => {
   const dispatch = useDispatch();
 
-  console.log("sd-------------------------", userData);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     googleEmail: userData?.email || "",
