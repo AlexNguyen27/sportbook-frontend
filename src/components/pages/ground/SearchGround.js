@@ -16,7 +16,7 @@ import { connect, useDispatch } from "react-redux";
 import { getBenefits } from "../../../store/actions/benefit";
 import { getGrounds } from "../../../store/actions/ground";
 import PageLoader from "../../custom/PageLoader";
-// import Pagination from "@material-ui/lab/Pagination";
+import Pagination from "@material-ui/lab/Pagination";
 // import REGIONS from "../../locales/regions.json";
 // import DISTRICTS from "../../locales/districts.json";
 // import WARDS from "../../locales/wards.json";
@@ -46,15 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DEFAULT_PAGE_SIZE = 8;
+
 const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [onShowAll, setOnShowAll] = useState(false);
-  // const [groundData, setGroundData] = useState();
-
-  // const [formData, setFormData] = useState({
-  //   phone: "",
-  // });
 
   useEffect(() => {
     setLoading(true);
@@ -64,95 +61,21 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
     });
   }, []);
 
-  // const [selectedDropdownData, setSelectedDropdownData] = useState({
-  //   selectedRegionCode: "",
-  //   selectedDistrictCode: "",
-  //   selectedWardCode: "",
-  // });
-
-  // const {
-  //   selectedRegionCode,
-  //   selectedDistrictCode,
-  //   selectedWardCode,
-  // } = selectedDropdownData;
-
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
   const [dataSource, setDataSource] = useState(groundArr);
   const [searchText, setSearchText] = useState("");
 
-  // const regionArr = Object.keys(REGIONS).map((key) => ({
-  //   code: REGIONS[key].code,
-  //   name: REGIONS[key].name_with_type,
-  // }));
+  const onChangePagination = (e, pageNumber) => {
+    console.log("page", pageNumber, e);
+    const getPageData = groundArr.slice(
+      DEFAULT_PAGE_SIZE * (pageNumber - 1),
+      DEFAULT_PAGE_SIZE * pageNumber
+    );
 
-  // const getDistricts = () => {
-  //   let districts = [];
-  //   if (!selectedRegionCode.trim()) {
-  //     return districts;
-  //   }
-
-  //   const districtArray = _.map(DISTRICTS, (district) => {
-  //     const newDistrict = {
-  //       code: district.code,
-  //       name: district.name_with_type,
-  //       parent_code: district.parent_code,
-  //     };
-  //     return newDistrict;
-  //   });
-
-  //   districts = _.filter(districtArray, ["parent_code", selectedRegionCode]);
-  //   return districts;
-  // };
-
-  // const getWards = () => {
-  //   let wards = [];
-  //   if (!selectedDistrictCode.trim()) {
-  //     return wards;
-  //   }
-  //   const wardArray = _.map(WARDS, (ward) => {
-  //     const newWard = {
-  //       code: ward.code,
-  //       name: ward.name_with_type,
-  //       parent_code: ward.parent_code,
-  //     };
-  //     return newWard;
-  //   });
-  //   wards = _.filter(wardArray, ["parent_code", selectedDistrictCode]);
-  //   return wards;
-  // };
-
-  // const onChangeRegion = (code) => {
-  //   setSelectedDropdownData({
-  //     ...selectedDropdownData,
-  //     selectedRegionCode: code,
-  //     selectedWardCode: "",
-  //     selectedDistrictCode: "",
-  //   });
-  // };
-
-  // const onChangeDistrict = (code) => {
-  //   setSelectedDropdownData({
-  //     ...selectedDropdownData,
-  //     selectedDistrictCode: code,
-  //     selectedWardCode: "",
-  //   });
-  // };
-
-  // const onChangeWard = (code) => {
-  //   setSelectedDropdownData({
-  //     ...selectedDropdownData,
-  //     selectedWardCode: code,
-  //   });
-  // };
-
-  // // Save on change input value
-  // const onChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+    setDataSource([...getPageData]);
+    // fitler with offset là
+  };
 
   const onSearch = (search) => {
     setSearchText(search);
@@ -176,16 +99,11 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
     setDataSource([...newDataSource]);
   };
 
-  // const dispatch = useDispatch();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
   const onShowAllEmptyField = (checked) => {
     setOnShowAll(checked);
     if (checked) {
       const newDataSource = dataSource.filter((ground) => ground.isAvailable);
       setDataSource([...newDataSource]);
-      // if (searchText) {
-      //   onSearch(searchText, newDataSource);
-      // }
     } else {
       setDataSource(groundArr);
     }
@@ -235,82 +153,7 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
                         onChange={(e) => onSearch(e.target.value)}
                       />
                     </Col>
-                    {/* <Col xs={4} style={{ alignSelf: "center" }}>
-                      <TextFieldInput
-                        id="outlined-multiline-flexible"
-                        name="phone"
-                        label="Phone"
-                        fullWidth
-                        value={groundData?.phone || ""}
-                        placeHolder="Phone"
-                        variant="outlined"
-                        size="small"
-                        onChange={(e) => onChange(e)}
-                      />
-                    </Col> */}
                   </Row>
-                  {/* <Row style={{ justifyContent: "center", marginTop: "16px" }}>
-                    <Col xs={4}>
-                      <Autocomplete
-                        id="combo-box-demo"
-                        options={regionArr || []}
-                        size="small"
-                        onChange={(event, newValue) => {
-                          if (newValue && newValue.code) {
-                            onChangeRegion(newValue.code);
-                          }
-                        }}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Enter city / province / region"
-                            variant="outlined"
-                          />
-                        )}
-                      />
-                    </Col>
-                    <Col xs={4}>
-                      <Autocomplete
-                        id="combo-box-demo"
-                        options={getDistricts() || []}
-                        size="small"
-                        onChange={(event, newValue) => {
-                          if (newValue && newValue.code) {
-                            onChangeDistrict(newValue.code);
-                          }
-                        }}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Enter district name"
-                            variant="outlined"
-                          />
-                        )}
-                      />
-                    </Col>
-                    <Col xs={4}>
-                      <Autocomplete
-                        id="combo-box-demo"
-                        options={getWards() || []}
-                        size="small"
-                        onChange={(event, newValue) => {
-                          if (newValue && newValue.code) {
-                            onChangeWard(newValue.code);
-                          }
-                        }}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Enter ward name"
-                            variant="outlined"
-                          />
-                        )}
-                      />
-                    </Col>
-                  </Row> */}
                 </Col>
                 <Col xs={2}>
                   <Button
@@ -337,7 +180,9 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
             />
             <span style={{ marginTop: "auto", marginBottom: "auto" }}>
               Show all locations are available today{" "}
-              <span className="font-weight-bold">({moment().format("dddd DD-MM-YYYY")})</span>
+              <span className="font-weight-bold">
+                ({moment().format("dddd DD-MM-YYYY")})
+              </span>
             </span>
           </Row>
           <hr></hr>
@@ -346,41 +191,33 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
           <Row>
             <Col style={{ alignSelf: "flex-end" }} xs={7}>
               <h5>
-                {dataSource.length}{" "}
-                {dataSource.length > 1 ? "results" : "result"} found in Ho Chi
-                Minh city
+                {groundArr.length} {groundArr.length > 1 ? "results" : "result"}{" "}
+                found in Ho Chi Minh city
               </h5>
             </Col>
-            {/* <Col xs={2} style={{ alignSelf: "center", textAlign: "right" }}>
-              <h5 className="d-inline">
-                <FilterListIcon size="small" className="mr-2" />
-                Filter by
-              </h5>
+          </Row>
+          <Row>
+            <Col xs={12} style={{ alignSelf: "center" }}>
+              <div>
+                <Pagination
+                  count={Math.ceil(groundArr.length / DEFAULT_PAGE_SIZE)}
+                  onChange={(e, pageNumber) =>
+                    onChangePagination(e, pageNumber)
+                  }
+                  color="primary"
+                  size="small"
+                  shape="rounded"
+                />
+              </div>
             </Col>
-            <Col xs={3}>
-              <DropdownV2
-                label=""
-                fullWidth
-                value={"".toString()}
-                options={[]}
-                valueBasedOnProperty="key"
-                displayProperty="value"
-                onChange={(key) => {}}
-                size="small"
-                variant="outlined"
-              />
-            </Col> */}
           </Row>
           <PageLoader loading={loading}>
-            <Row>
+            <Row className="mb-4">
               {dataSource.map((item) => (
                 <GroundItem key={item.id} ground={item} />
               ))}
             </Row>
           </PageLoader>
-          {/* <Col xs={12} style={{ alignSelf: "center" }}>
-            <Pagination count={10} color="primary" />
-          </Col> */}
         </Col>
       </Row>
     </>

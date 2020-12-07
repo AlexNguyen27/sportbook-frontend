@@ -20,7 +20,7 @@
     "hera-js": "^0.4.0",
     "jquery": "^3.5.0",
     "jwt-decode": "^2.2.0",
-    "material-table": "^1.68.1",
+    "material-table": "^1.69.2",
     "moment": "^2.24.0",
     "rc-steps": "^4.1.3",
     "react": "^17.0.1",

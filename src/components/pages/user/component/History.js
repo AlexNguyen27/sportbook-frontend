@@ -28,7 +28,7 @@ const History = () => {
 
   return (
     <div>
-      <h4 className="text-center">Your order history</h4>
+      <h4 className="text-center mb-4">Your order history</h4>
       <Row>
         <Col xs={4}>
           <DropdownV2
