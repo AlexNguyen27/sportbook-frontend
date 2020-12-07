@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 const OrderDetail = ({
   match,
   getOrderById,
-  orderDetail,
+  orderDetail = {},
   getBenefits,
   benefits,
 }) => {
@@ -65,7 +65,7 @@ const OrderDetail = ({
           <GroundDetailCard orderDetail={orderDetail} benefits={benefits} />
         </Col>
         <Col xs={6}>
-          <UserInfoCard orderDetail={orderDetail}/>
+          <UserInfoCard orderDetail={orderDetail} />
           <h4 className="mt-4">Order historsies</h4>
           <OrderHistoryTable orderDetail={orderDetail} />
         </Col>

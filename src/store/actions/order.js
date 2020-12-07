@@ -150,11 +150,10 @@ export const addOrder = (setLoading, orderData, setOnStep) => async (
     logoutDispatch(dispatch, errors);
     setLoading(false);
 
-    console.log("erer00000000000000000000", errors);
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "The same order already exits!",
+      title: "Can not create order this time!",
       showConfirmButton: false,
       timer: 1500,
     });
