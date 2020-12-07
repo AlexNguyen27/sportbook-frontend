@@ -87,17 +87,17 @@ const Login = ({
       <Grid container justify="center" className={classes.login}>
         <Grid item xs={11} sm={6} md={4}>
           <PageTitle title="Login to continue" center="true" />
-          <Grid container type="flex" spacing={2}>
+          <Grid className="mt-3" container type="flex" spacing={2}>
             <Grid item xs={6}>
               <Button
-                className="mt-3 w-100"
+                className="w-100"
                 variant="contained"
                 style={{ backgroundColor: "#3f72af", color: "white" }}
                 type="submit"
                 size="small"
                 startIcon={<i className="fab fa-facebook-f" />}
               >
-                 Login with Facebook
+                Login with Facebook
               </Button>
             </Grid>
             <Grid item xs={6}>

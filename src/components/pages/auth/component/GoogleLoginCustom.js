@@ -8,7 +8,11 @@ import { connect } from "react-redux";
 import { loginUser } from "../../../../store/actions/auth";
 
 // TODO ADD ENVIRONMENT KEY
-const GoogleLoginCustom = ({ checkExitsEmail, loginUser }) => {
+const GoogleLoginCustom = ({
+  checkExitsEmail,
+  loginUser,
+  title = "Login with Google",
+}) => {
   const [googleData, setGoogleData] = useState();
   const [loginModal, setLoginModal] = useState(false);
   const [exitEmail, setIsExitEmail] = useState({});
@@ -26,7 +30,6 @@ const GoogleLoginCustom = ({ checkExitsEmail, loginUser }) => {
 
   const [loading, setLoading] = useState(false);
   const ohSuccess = (response) => {
-    console.log("d--------ohSuccess------------", response.profileObj);
     const { email } = response?.profileObj;
     setLoading(true);
     checkExitsEmail(setLoading, email, setIsExitEmail).then(() => {
@@ -52,7 +55,7 @@ const GoogleLoginCustom = ({ checkExitsEmail, loginUser }) => {
         buttonText="Login with google"
         render={(renderProps) => (
           <Button
-            className="mt-3 w-100"
+            className="w-100"
             variant="contained"
             type="submit"
             style={{ backgroundColor: "#ec524b", color: "white" }}
@@ -61,7 +64,7 @@ const GoogleLoginCustom = ({ checkExitsEmail, loginUser }) => {
             disabled={renderProps.disabled}
             startIcon={<i className="fab fa-google-plus-g" />}
           >
-            Login with Google
+            {title}
           </Button>
         )}
         onSuccess={ohSuccess}

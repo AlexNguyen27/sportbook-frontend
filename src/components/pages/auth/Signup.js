@@ -7,6 +7,7 @@ import { Button, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Row, Col } from "reactstrap";
 import { validateEmail } from "../../../utils/commonFunction";
+import GoogleLoginCustom from "./component/GoogleLoginCustom";
 
 // COMPONENT
 import PageTitle from "../../custom/PageTitle";
@@ -89,20 +90,13 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
                 style={{ backgroundColor: "#3f72af", color: "white" }}
                 type="submit"
                 size="small"
+                startIcon={<i className="fab fa-facebook-f" />}
               >
-                Login with Facebook
+                Singup with Facebook
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button
-                className="w-100"
-                variant="contained"
-                type="submit"
-                style={{ backgroundColor: "#ec524b", color: "white" }}
-                size="small"
-              >
-                Login with Google
-              </Button>
+              <GoogleLoginCustom title={"Signup with google"}/>
             </Grid>
           </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
