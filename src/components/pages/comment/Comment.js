@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   },
   large: {
     width: theme.spacing(6),
@@ -147,25 +147,25 @@ const Comment = ({
       </Form>
       <hr></hr>
       <h5>{`${comments.length} ${
-        comments.length > 1 ? "comments" : "comment"
+        comments.length > 1 ? "Comments" : "Comment"
       }`}</h5>
       {comments.map((item) => (
         <Row>
-          <Col xs={1}>
-            <Avatar
-              alt="Remy Sharp"
-              src={item?.user?.avatar || "/static/images/avatar/1.jpg"}
-              className={classes.large}
-            />
+          <Col xs={1} className="pr-0">
+              <Avatar
+                alt="Remy Sharp"
+                src={item?.user?.avatar || "/static/images/avatar/1.jpg"}
+                className={classes.small}
+              />
           </Col>
-          <Col xs={8}>
+          <Col xs={8}  className="pl-0">
             <h6 className="mb-0">{getFullName(item.user)}</h6>
             <p>
               Comment at: {moment(item.createdAt).format("DD/MM/YYYY HH:mm A")}
             </p>
           </Col>
           {user && user?.id !== item.userId ? null : (
-            <Col xs={3}>
+            <Col xs={3} className='text-right'>
               {isEdit === item.id ? (
                 <>
                   {editLoading ? (
@@ -226,8 +226,8 @@ const Comment = ({
             </Col>
           )}
           <Col xs={12}>
-            <Rating name="read-only" size="small" value={5} readOnly />
-            <h6>Very good</h6>
+            {/* <Rating name="read-only" size="small" value={5} readOnly /> */}
+            {/* <h6>Very good</h6> */}
             {isEdit === item.id ? (
               <TextFieldInput
                 label="Give a comment here"

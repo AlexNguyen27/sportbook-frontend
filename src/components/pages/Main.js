@@ -35,7 +35,7 @@ const Main = ({ children, isHome, auth, logoutUser, match }) => {
     },
     {
       name: "Create a business",
-      to: "/",
+      to: "",
       onClick: () => window.open(WEB_MANAGER_DOMAIN),
     },
     {

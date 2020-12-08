@@ -2,7 +2,6 @@ import {
   GET_ERRORS,
   CLEAR_ERRORS,
   GET_USERS,
-  DELETE_USER,
   BASE_URL,
   EDIT_USER_INFO,
   UPLOAD_AVATAR,
@@ -411,7 +410,7 @@ export const editExtraInfo = (setLoading, socialNetwork, extraInfo) => async (
   setLoading(false);
 };
 
-export const deleteUser = (setLoading, userId) => async (
+export const checkExitsEmail = (setLoading, email, setIsExitsEmail) => async (
   dispatch,
   getState
 ) => {
@@ -426,37 +425,26 @@ export const deleteUser = (setLoading, userId) => async (
       },
     },
     query: `
-          mutation {
-            deleteUser(id: $id) {
-             status
-             message
+          query {
+            checkExitsEmail(email: $email) {
+              status
+              hashPassword
             }
           }
         `,
     variables: {
-      id: userId,
+      email,
     },
   });
 
   if (!errors) {
     dispatch({
-      type: DELETE_USER,
-      selectedId: userId,
-    });
-
-    dispatch({
       type: CLEAR_ERRORS,
     });
 
     setLoading(false);
-    // using sweetalert2
-    Swal.fire({
-      position: "center",
-      type: "success",
-      title: "Your work has been saved",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    setIsExitsEmail({ ...data.checkExitsEmail });
+    return;
   } else {
     logoutDispatch(dispatch, errors);
     dispatch({
@@ -466,7 +454,6 @@ export const deleteUser = (setLoading, userId) => async (
   }
 };
 
-//
 export const uploadAvatar = (setLoading, avatar, userId) => async (
   dispatch,
   getState

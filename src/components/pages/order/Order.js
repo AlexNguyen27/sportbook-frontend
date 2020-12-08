@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import StepOne from "./component/StepOne";
 import { connect } from "react-redux";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { GET_ERRORS } from "../../../store/actions/types";
 import { addOrder } from "../../../store/actions/order";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MomoPayment from "./component/MomoPayment";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -44,6 +45,8 @@ const Order = ({
 
   const [onStep, setOnStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [onlineModal, setOnlineModal] = useState(false);
+  const [closeOnlineModel, setCloseOnlineModel] = useState(false);
 
   const onContinue = () => {
     console.log(payment.paymentMethod);
@@ -55,13 +58,37 @@ const Order = ({
     if (!phone) {
       error.phone = "Please update and confirm your phone number!";
     }
+
     dispatch({
       type: GET_ERRORS,
       errors: error,
     });
 
     if (JSON.stringify(error) === "{}") {
-      // TODO : call function to save order payment type
+      if (payment.paymentMethod === "online") {
+        // OPEN MOMO CODE AND ALLOW TO DOWLOAND OWNER MOMO CODE
+        // OWNER WILL CONFIRM AS SOON AS POSIBLE
+        // IF TOO LATE THEN WILL BE CANCELLED
+        setOnlineModal(true);
+      } else {
+        // TODO : call function to save order payment type
+        setLoading(true);
+        const data = {
+          subGroundId: orderData.subGroundId,
+          startDay: orderData.startDay,
+          startTime: orderData.startTime,
+          endTime: orderData.endTime,
+          paymentType: payment.paymentMethod,
+          price: orderData.price,
+          discount: Number(orderData.discount),
+        };
+        addOrder(setLoading, data, setOnStep);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (closeOnlineModel) {
       setLoading(true);
       const data = {
         subGroundId: orderData.subGroundId,
@@ -72,9 +99,11 @@ const Order = ({
         price: orderData.price,
         discount: Number(orderData.discount),
       };
+      console.log('dsd-----ad order-----', data);
       addOrder(setLoading, data, setOnStep);
+      setCloseOnlineModel(false);
     }
-  };
+  }, [setCloseOnlineModel, closeOnlineModel]);
 
   return (
     <Row className={classes.wrapper}>
@@ -115,11 +144,11 @@ const Order = ({
                   endIcon={<NavigateNextIcon />}
                   onClick={() => onContinue()}
                 >
-                  Continue
+                  Continue  
                 </Button>
-                {loading ? (
-                  <CircularProgress color="secondary" size={30} />
-                ) : null}
+                {/* {true ? (
+                  <CircularProgress color="secondary" size={20} />
+                ) : null} */}
               </>
             ),
             2: (
@@ -136,6 +165,11 @@ const Order = ({
           }[onStep]
         }
       </Col>
+      <MomoPayment
+        setModal={setOnlineModal}
+        modal={onlineModal}
+        setCloseOnlineModel={setCloseOnlineModel}
+      />
     </Row>
   );
 };

@@ -18,13 +18,14 @@ import MultipleCarousel from "../../custom/MultipleCarousel";
 import { getBenefits } from "../../../store/actions/benefit";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { DEFAULT_GROUND_IMAGE, clearErrors } from "../../../utils/common";
-import { getAddress } from "../../../utils/commonFunction";
+import { getAddress, roundNumber } from "../../../utils/commonFunction";
 import Review from "../review/Review";
 import Comment from "../comment/Comment";
 import SubGround from "../subGround/SubGround";
 import ReviewModel from "../review/component/ReviewModel";
 import { getRatings } from "../../../store/actions/rating";
 import Swal from "sweetalert2";
+import Rating from "@material-ui/lab/Rating";
 import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "150px",
     width: "100%",
+    // marginLeft: 0,
+    // marginRight: 0,
   },
   button: {
     marginTop: theme.spacing(1),
@@ -41,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
+  },
+  row: {
+    marginLeft: 0,
+    marginRight: 0,
+    justifyContent: "center" 
   },
 }));
 
@@ -54,6 +62,7 @@ const Ground = ({
   auth: { isAuthenticated },
   clearErrors,
   selectedStartDay,
+  ratings,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -141,28 +150,35 @@ const Ground = ({
     }
   };
 
+  const averageRate =
+    ratings.length > 0
+      ? ratings.reduce((acc, curr) => acc + curr.point, 0) / ratings.length
+      : 0;
+
   return (
     <PageLoader loading={loading}>
       <div id="test-image" style={{ height: "500px", position: "relative" }}>
         <div className={classes.title}>
           <Row style={{ justifyContent: "center" }}>
-            <Col xs={5}>
-              <h2 className="text-capitalize" style={{ color: "#db6400" }}>
+            <Col xs={9}>
+              <h2 className="text-capitalize" style={{ color: "" }}>
                 {title}
               </h2>
-              <h5 style={{ color: "#f0a500" }}>{getAddress(ground.address)}</h5>
+              <h5 style={{ color: "" }}>{getAddress(ground.address)}</h5>
               <h5>
-                {[...Array(4)].map((item) => (
-                  <StarIcon size="small" style={{ color: "#f0a500" }} />
-                ))}
-                <span style={{ color: "#f0a500", fontSize: "16px" }}>
-                  Reviews
+                <Rating
+                  name="read-only"
+                  value={roundNumber(averageRate, 1)}
+                  readOnly
+                />
+                <span style={{ fontSize: "12px" }}>
+                  (View{" "}
+                  {`${ratings.length} ${
+                    ratings.length > 1 ? "reviews " : "review "
+                  }`}
+                  below)
                 </span>
               </h5>
-              {/* <h5>
-                <ReportIcon size="small" style={{ color: "#f56a79" }} />
-                <span style={{ color: "#ff4b5c" }}>Reports</span>
-              </h5> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -173,7 +189,7 @@ const Ground = ({
                 Send
               </Button>
             </Col>
-            <Col xs={3} style={{ alignSelf: "flex-end", textAlign: "right" }}>
+            {/* <Col xs={3} style={{ alignSelf: "flex-end", textAlign: "right" }}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -184,11 +200,11 @@ const Ground = ({
               >
                 Book Online
               </Button>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </div>
-      <Row style={{ justifyContent: "center" }}>
+      <Row  className={classes.row}>
         <Col xs={6}>
           {/* SUB GROUND AND PRICING */}
           {!ground?.subGrounds?.length ? (
@@ -223,7 +239,7 @@ const Ground = ({
           </div>
           <hr />
           <h5>Ground Map</h5>
-          <ReactGoogleMaps address={getAddress(ground.address)}/>
+          <ReactGoogleMaps address={getAddress(ground.address)} />
           {/* <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7836.983714026452!2d106.78194775393679!3d10.850144971186923!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb838977f3d419d!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCBWaeG7hW4gdGjDtG5nIEPGoSBT4bufIFThuqFpIFRQLiBI4buTIENow60gTWluaMK3!5e0!3m2!1svi!2s!4v1604223922437!5m2!1svi!2s"
             allowFullScreen
@@ -307,12 +323,12 @@ const Ground = ({
         </Col>
       </Row>
 
-      <Row style={{ justifyContent: "center" }}>
+      <Row className={classes.row}>
         <Col xs={9}>
           <h5>More playgrounds</h5>
         </Col>
       </Row>
-      <Row style={{ justifyContent: "center" }}>
+      <Row className={classes.row}>
         <Col xs={9}>
           <PageLoader loading={loading}>
             <Row style={{ justifyContent: "center" }} className="mb-4">
@@ -333,6 +349,7 @@ const mapStateToProps = (state) => ({
   benefits: state.benefit.benefits,
   auth: state.auth,
   selectedStartDay: state.order?.orderData?.startDay,
+  ratings: state.rating.ratings,
 });
 export default connect(mapStateToProps, {
   getGroundById,

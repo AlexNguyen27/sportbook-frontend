@@ -35,3 +35,22 @@ button:focus {
 .no-margin {
   margin: 0 !important;
 }
+
+.history-order .MuiPaper-elevation2 .MTableToolbar-root-11 {
+  display: none !important;
+}
+
+.history-order {
+  width: "97%" !important;
+  margin-top: 16px;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.row-margin {
+  margin-right: -15px !important;
+  margin-left: -15px !important;
+}

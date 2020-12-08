@@ -77,6 +77,11 @@ const HistoryTable = ({
         editable: "never",
       },
       {
+        title: "Start day",
+        field: "startDay",
+        editable: "never",
+      },
+      {
         title: "Start time",
         field: "startTime",
         editable: "never",
@@ -116,7 +121,7 @@ const HistoryTable = ({
               className="m-0 text-center"
               color={COLOR_ORDER_STATUS[rowData.status]}
             >
-              {capitalizeFirstLetter(rowData.status)}
+              {ORDER_STATUS[rowData.status]}
             </Alert>
           );
         },
@@ -170,14 +175,15 @@ const HistoryTable = ({
   }));
   return (
     <PageLoader loading={loading}>
-      <div
+      {/* <div
         style={{
           maxWidth: `100%`,
           overflowX: "auto",
           width: "100%",
         }}
         className="history-table"
-      >
+      > */}
+      <div className="history-order">
         <MaterialTable
           icons={tableIcons}
           title=""
@@ -189,7 +195,8 @@ const HistoryTable = ({
               fontWeight: "bold",
             },
             rowStyle: {
-              overflowX: "auto",
+              width: "auto",
+              // overflowX: "auto",
             },
             search: false,
             actionsColumnIndex: -1,
@@ -205,6 +212,7 @@ const HistoryTable = ({
           ]}
         />
       </div>
+      {/* </div> */}
     </PageLoader>
   );
 };

@@ -29,6 +29,8 @@ const useStyles = makeStyles({
   },
   top: {
     padding: "100px 0 40px 0",
+    marginLeft: 0,
+    marginRight: 0,
   },
 });
 

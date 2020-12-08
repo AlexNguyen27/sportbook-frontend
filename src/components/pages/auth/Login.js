@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // ACTION
 import { loginUser } from "../../../store/actions/auth";
 import { GET_ERRORS } from "../../../store/actions/types";
+import GoogleLoginCustom from "./component/GoogleLoginCustom";
 
 const useStyles = makeStyles((theme) => ({
   login: {
@@ -79,34 +80,28 @@ const Login = ({
   if (isAuthenticated && isUser) {
     return <Redirect to="/user/info/yourInfo" />;
   }
+  //project-763384219926
 
   return (
     <Fragment>
       <Grid container justify="center" className={classes.login}>
         <Grid item xs={11} sm={6} md={4}>
           <PageTitle title="Login to continue" center="true" />
-          <Grid container type="flex" spacing={2}>
+          <Grid className="mt-3" container type="flex" spacing={2}>
             <Grid item xs={6}>
               <Button
-                className="mt-3 w-100"
+                className="w-100"
                 variant="contained"
                 style={{ backgroundColor: "#3f72af", color: "white" }}
                 type="submit"
                 size="small"
+                startIcon={<i className="fab fa-facebook-f" />}
               >
-                Facebook
+                Login with Facebook
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button
-                className="mt-3 w-100"
-                variant="contained"
-                type="submit"
-                style={{ backgroundColor: "#ec524b", color: "white" }}
-                size="small"
-              >
-                Google
-              </Button>
+              <GoogleLoginCustom />
             </Grid>
           </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
