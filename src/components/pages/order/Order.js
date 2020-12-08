@@ -99,7 +99,8 @@ const Order = ({
         price: orderData.price,
         discount: Number(orderData.discount),
       };
-      // addOrder(setLoading, data, setOnStep);
+      console.log('dsd-----ad order-----', data);
+      addOrder(setLoading, data, setOnStep);
       setCloseOnlineModel(false);
     }
   }, [setCloseOnlineModel, closeOnlineModel]);
@@ -143,11 +144,11 @@ const Order = ({
                   endIcon={<NavigateNextIcon />}
                   onClick={() => onContinue()}
                 >
-                  Continue
+                  Continue  
                 </Button>
-                {loading ? (
-                  <CircularProgress color="secondary" size={30} />
-                ) : null}
+                {/* {true ? (
+                  <CircularProgress color="secondary" size={20} />
+                ) : null} */}
               </>
             ),
             2: (

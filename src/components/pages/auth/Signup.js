@@ -96,11 +96,11 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <GoogleLoginCustom title={"Signup with google"}/>
+              <GoogleLoginCustom title={"Signup with google"} />
             </Grid>
           </Grid>
           <form onSubmit={(e) => onSubmit(e)}>
-            <Row>
+            <Row className="row-margin">
               <Col xs={6}>
                 <TextFieldInputWithHeader
                   header="First Name"

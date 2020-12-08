@@ -49,3 +49,8 @@ button:focus {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
+
+.row-margin {
+  margin-right: -15px !important;
+  margin-left: -15px !important;
+}
