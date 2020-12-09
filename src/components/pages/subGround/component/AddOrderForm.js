@@ -90,9 +90,10 @@ const AddOrderForm = ({
     }
   }, [selectedStartDay]);
 
-  const getEndTimes = () => {
+  const getEndTimes = (startTime = '') => {
+    let selectedStartTime = startTime || selectedDate.startTime;
     let endTimes = [];
-    if (!selectedDate.startTime.trim()) {
+    if (!selectedStartTime.trim()) {
       return endTimes;
     }
 
@@ -105,7 +106,7 @@ const AddOrderForm = ({
       return newEndTime;
     });
 
-    endTimes = _.filter(endTimeArray, ["startTime", selectedDate.startTime]);
+    endTimes = _.filter(endTimeArray, ["startTime", selectedStartTime]);
     return endTimes;
   };
 
@@ -117,10 +118,23 @@ const AddOrderForm = ({
   };
 
   const handleStartTimeChange = (date) => {
-    setSelectedDate({
-      ...selectedDate,
-      startTime: date,
-    });
+    const entimeArr = getEndTimes(date);
+    if (entimeArr.length === 1) {
+      setSelectedDate({
+        ...selectedDate,
+        startTime: date,
+        selectedPriceId: entimeArr[0].priceId,
+      });
+      setFormData({
+        price: prices[entimeArr[0].priceId].price,
+        discount: prices[entimeArr[0].priceId].discount.toString(),
+      });
+    } else {
+      setSelectedDate({
+        ...selectedDate,
+        startTime: date,
+      });
+    }
   };
 
   const handleEndTimeChange = (priceId) => {
