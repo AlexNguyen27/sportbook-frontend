@@ -1,18 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
+import PhoneIcon from "@material-ui/icons/Phone";
+import RoomIcon from "@material-ui/icons/Room";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { Paper, Button } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 import { DEFAULT_GROUND_IMAGE } from "../../../../utils/common";
-import PhoneIcon from "@material-ui/icons/Phone";
-import RoomIcon from "@material-ui/icons/Room";
-import { connect } from "react-redux";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { getAddress } from "../../../../utils/commonFunction";
 import { useHistory } from "react-router-dom";
 import { truncateMultilineString } from "../../../../utils/formatString";
 
 const GroundItem = ({ ground, benefits }) => {
   const benefitArr = ground.benefit ? ground.benefit.split(",") : [];
-
   const history = useHistory();
 
   const getImageUrls = () => {
