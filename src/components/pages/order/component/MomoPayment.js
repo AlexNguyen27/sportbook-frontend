@@ -23,7 +23,7 @@ const MomoPayment = ({ manager, modal, setModal, setCloseOnlineModel }) => {
 
   const download = async () => {
     const a = document.createElement("a");
-    a.href = await toDataURL(momoQRCode);
+    a.href = await toDataURL(momoQRCode || BASE_IMAGE_URL);
     a.download = "myImage.png";
     document.body.appendChild(a);
     a.click();

@@ -38,6 +38,7 @@ export const ORDER_STATUS = {
   cancelled: "Cancelled",
   approved: "Approved",
   paid: "Paid",
+  finished: "Finished"
 };
 
 export const DEFAULT_GROUND_IMAGE =

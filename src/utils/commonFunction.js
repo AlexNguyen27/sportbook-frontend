@@ -8,8 +8,8 @@ export const arrayToObject = (array) => {
   return array.reduce((obj, item) => {
     if (item.id) {
       obj[item.id] = item;
-      if (item.posts) {
-        obj[item.id].totalPosts = item.posts.length;
+      if (item.address) {
+        obj[item.id].address = { ...obj[item.id].address };
       }
     }
     return obj;
@@ -51,8 +51,7 @@ export const getDateTime = (date) => moment(date).format(DATE_TIME);
 
 export const getAddress = (data) => {
   if (data) {
-    const formatAddress = JSON.parse(data);
-    const { address, regionCode, districtCode, wardCode } = formatAddress;
+    const { address, regionCode, districtCode, wardCode } = data;
     return `${address}, ${WARDS[wardCode].name_with_type}, ${
       DISTRICTS[districtCode].name_with_type
     }, ${REGIONS[regionCode].name_with_type || ""}`;

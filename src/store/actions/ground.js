@@ -33,20 +33,25 @@ export const getGrounds = (setLoading, isAvailable) => async (
     query: `
               query {
                 getAllGrounds${filter} {
+                  id
+                  title 
+                  description
+                  phone
+                  address {
+                    regionCode
+                    districtCode
+                    wardCode
+                    address
+                  }
+                  benefit
+                  image,
+                  createdAt 
+                  categoryId
+                  isAvailable
+                  category {
                     id
-                    title 
-                    description
-                    phone
-                    address,
-                    benefit
-                    image,
-                    createdAt 
-                    categoryId
-                    isAvailable
-                    category {
-                      id
-                      name
-                    }
+                    name
+                  }
                 }
               }
           `,
@@ -59,7 +64,7 @@ export const getGrounds = (setLoading, isAvailable) => async (
 
     dispatch({
       type: GET_GROUNDS,
-      grounds: { ...grounds },
+      grounds,
     });
     setLoading(false);
   } else {
@@ -71,7 +76,10 @@ export const getGrounds = (setLoading, isAvailable) => async (
   }
 };
 
-export const getGroundById = (setLoading, id, startDay) => async (dispatch, getState) => {
+export const getGroundById = (setLoading, id, startDay) => async (
+  dispatch,
+  getState
+) => {
   const { token } = getState().auth;
 
   const { data, errors } = await hera({
@@ -89,7 +97,12 @@ export const getGroundById = (setLoading, id, startDay) => async (dispatch, getS
                     title 
                     description
                     phone
-                    address,
+                    address {
+                      regionCode
+                      districtCode
+                      wardCode
+                      address
+                    }
                     benefit
                     image,
                     createdAt 
