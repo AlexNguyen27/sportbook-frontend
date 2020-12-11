@@ -178,3 +178,73 @@ export const getGroundById = (setLoading, id, startDay) => async (
   }
   setLoading(false);
 };
+
+export const getSearchGrounds = (setLoading, searchData) => async (
+  dispatch,
+  getState
+) => {
+  const { token } = getState().auth;
+
+  const { data, errors } = await hera({
+    options: {
+      url: BASE_URL,
+      headers: {
+        token,
+        "Content-Type": "application/json",
+      },
+    },
+    query: `
+              query {
+                searchGrounds(
+                  search: $search,
+                  districtName: $districtName,
+                  regionName: $regionName
+                  wardName: $wardName
+                  limit: $limit
+                ) {
+                  id
+                  title 
+                  description
+                  phone
+                  address {
+                    regionCode
+                    districtCode
+                    wardCode
+                    address
+                  }
+                  benefit
+                  image,
+                  createdAt 
+                  categoryId
+                  isAvailable
+                  category {
+                    id
+                    name
+                  }
+                }
+              }
+          `,
+    variables: {
+      search: searchData.search || "",
+      regionName: searchData.regionName || "",
+      districtName: searchData.districtName || "",
+      wardName: searchData.wardName || "",
+      limit: 0,
+    },
+  });
+  if (!errors) {
+    const grounds = arrayToObject(data.searchGrounds);
+
+    dispatch({
+      type: GET_GROUNDS,
+      grounds,
+    });
+    setLoading(false);
+  } else {
+    logoutDispatch(dispatch, errors);
+    dispatch({
+      type: GET_ERRORS,
+      errors: errors[0].message,
+    });
+  }
+};

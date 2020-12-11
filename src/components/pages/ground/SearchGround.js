@@ -4,25 +4,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Row, Col } from "reactstrap";
 import Paper from "@material-ui/core/Paper";
 import GroundItem from "./component/GroundItem";
-// import FilterListIcon from "@material-ui/icons/FilterList";
-// import DropdownV2 from "../../custom/DropdownV2";
 import SearchIcon from "@material-ui/icons/Search";
 import { withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
-// import TextField from "@material-ui/core/TextField";
-// import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Button } from "@material-ui/core";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { getBenefits } from "../../../store/actions/benefit";
-import { getGrounds } from "../../../store/actions/ground";
+import { getGrounds, getSearchGrounds } from "../../../store/actions/ground";
 import PageLoader from "../../custom/PageLoader";
 import Pagination from "@material-ui/lab/Pagination";
-// import REGIONS from "../../locales/regions.json";
-// import DISTRICTS from "../../locales/districts.json";
-// import WARDS from "../../locales/wards.json";
+import REGIONS from "../../locales/regions.json";
+import DISTRICTS from "../../locales/districts.json";
+import WARDS from "../../locales/wards.json";
 import TextFieldInput from "../../custom/TextFieldInputWithheader";
 import Checkbox from "@material-ui/core/Checkbox";
 import { getAddress } from "../../../utils/commonFunction";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+
 import moment from "moment";
 
 const GreenCheckbox = withStyles({
@@ -50,10 +49,27 @@ const useStyles = makeStyles((theme) => ({
 
 const DEFAULT_PAGE_SIZE = 8;
 
-const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
+const SearchGround = ({
+  getBenefits,
+  getGrounds,
+  grounds,
+  getSearchGrounds,
+}) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [onShowAll, setOnShowAll] = useState(false);
+
+  const [selectedDropdownData, setSelectedDropdownData] = useState({
+    selectedRegionCode: "",
+    selectedDistrictCode: "",
+    selectedWardCode: "",
+  });
+
+  const {
+    selectedRegionCode,
+    selectedDistrictCode,
+    selectedWardCode,
+  } = selectedDropdownData;
 
   useEffect(() => {
     setLoading(true);
@@ -76,29 +92,38 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
     );
 
     setDataSource([...getPageData]);
-    // fitler with offset là
   };
 
-  const onSearch = (search) => {
-    setSearchText(search);
-    const dataArr = onShowAll
-      ? groundArr.filter((ground) => ground.isAvailable)
-      : groundArr;
-    // if check and serach is empty => 4
-    // if not check and serach => search on 11
-    // if check and sreach then search on 4
-    const newDataSource = dataArr.filter((ground) => {
-      const { title, phone } = ground;
-      const address = getAddress(ground.address);
-      return (
-        (title || "").toLowerCase().match(search.trim().toLowerCase()) ||
-        (phone || "").toLowerCase().match(search.trim().toLowerCase()) ||
-        (address || "").toLowerCase().match(search.trim().toLowerCase())
-      );
-    });
+  const onSearch = (e) => {
+    e.preventDefault();
 
-    console.log(newDataSource, "newdata source");
-    setDataSource([...newDataSource]);
+    setLoading(true);
+    const searchData = {
+      search: searchText,
+      regionName: REGIONS[selectedRegionCode]?.name_with_type || "",
+      districtName: DISTRICTS[selectedDistrictCode]?.name_with_type || "",
+      wardName: WARDS[selectedWardCode]?.name_with_type || "",
+    };
+    getSearchGrounds(setLoading, searchData);
+    // setSearchText(search);
+    // const dataArr = onShowAll
+    //   ? groundArr.filter((ground) => ground.isAvailable)
+    //   : groundArr;
+    // // if check and serach is empty => 4
+    // // if not check and serach => search on 11
+    // // if check and sreach then search on 4
+    // const newDataSource = dataArr.filter((ground) => {
+    //   const { title, phone } = ground;
+    //   const address = getAddress(ground.address);
+    //   return (
+    //     (title || "").toLowerCase().match(search.trim().toLowerCase()) ||
+    //     (phone || "").toLowerCase().match(search.trim().toLowerCase()) ||
+    //     (address || "").toLowerCase().match(search.trim().toLowerCase())
+    //   );
+    // });
+
+    // console.log(newDataSource, "newdata source");
+    // setDataSource([...newDataSource]);
   };
 
   const onShowAllEmptyField = (checked) => {
@@ -111,6 +136,71 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
     }
   };
 
+  const regionArr = Object.keys(REGIONS).map((key) => ({
+    code: REGIONS[key].code,
+    name: REGIONS[key].name_with_type,
+  }));
+
+  const getDistricts = () => {
+    let districts = [];
+    if (!selectedRegionCode.trim()) {
+      return districts;
+    }
+
+    const districtArray = _.map(DISTRICTS, (district) => {
+      const newDistrict = {
+        code: district.code,
+        name: district.name_with_type,
+        parent_code: district.parent_code,
+      };
+      return newDistrict;
+    });
+
+    districts = _.filter(districtArray, ["parent_code", selectedRegionCode]);
+    return districts;
+  };
+
+  const getWards = () => {
+    let wards = [];
+    if (!selectedDistrictCode.trim()) {
+      return wards;
+    }
+    const wardArray = _.map(WARDS, (ward) => {
+      const newWard = {
+        code: ward.code,
+        name: ward.name_with_type,
+        parent_code: ward.parent_code,
+      };
+      return newWard;
+    });
+    wards = _.filter(wardArray, ["parent_code", selectedDistrictCode]);
+    return wards;
+  };
+
+  const onChangeRegion = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedRegionCode: code,
+      selectedWardCode: "",
+      selectedDistrictCode: "",
+    });
+  };
+
+  const onChangeDistrict = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedDistrictCode: code,
+      selectedWardCode: "",
+    });
+  };
+
+  const onChangeWard = (code) => {
+    setSelectedDropdownData({
+      ...selectedDropdownData,
+      selectedWardCode: code,
+    });
+  };
+
   // TODO: ADD PAGINAGION LATER
   return (
     <>
@@ -121,11 +211,12 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
               elevation={3}
               style={{ width: "100%", padding: "20px 20px 20px 20px" }}
             >
-              <Row style={{ justifyContent: "center" }}>
-                <Col xs={10}>
-                  <Row style={{ justifyContent: "center" }}>
-                    <Col xs={12} style={{ alignSelf: "center" }}>
-                      {/* <Autocomplete
+              <form onSubmit={(e) => onSearch(e)}>
+                <Row style={{ justifyContent: "center" }}>
+                  <Col xs={10}>
+                    <Row style={{ justifyContent: "center" }}>
+                      <Col xs={12} style={{ alignSelf: "center" }}>
+                        {/* <Autocomplete
                         id="combo-box-demo"
                         options={groundArr || []}
                         size="small"
@@ -143,34 +234,95 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
                         )}
                       /> */}
 
-                      <TextFieldInput
-                        id="outlined-multiline-flexible"
-                        label="Search with playground name, phone, address..."
-                        type="search"
-                        fullWidth
-                        value={searchText}
-                        placeHolder="Searching..."
-                        variant="outlined"
-                        size="small"
-                        onChange={(e) => onSearch(e.target.value)}
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={2}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    style={{ width: "100%", alignSelf: "center" }}
-                    color="secondary"
-                    className={classes.margin}
-                    startIcon={<SearchIcon />}
-                    onClick={() => onSearch(searchText)}
-                  >
-                    search
-                  </Button>
-                </Col>
-              </Row>
+                        <TextFieldInput
+                          id="outlined-multiline-flexible"
+                          label="Search with playground name and phone"
+                          type="search"
+                          fullWidth
+                          value={searchText}
+                          placeHolder="Searching..."
+                          variant="outlined"
+                          size="small"
+                          onChange={(e) => setSearchText(e.target.value)}
+                        />
+                      </Col>
+                    </Row>
+                    <Row
+                      style={{ justifyContent: "center", marginTop: "16px" }}
+                    >
+                      <Col xs={4}>
+                        <Autocomplete
+                          id="combo-box-demo"
+                          options={regionArr || []}
+                          size="small"
+                          onChange={(event, newValue) => {
+                            onChangeRegion(newValue?.code || "");
+                          }}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Enter city / province / region"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </Col>
+                      <Col xs={4}>
+                        <Autocomplete
+                          id="combo-box-demo"
+                          options={getDistricts() || []}
+                          size="small"
+                          key={!!selectedRegionCode}
+                          onChange={(event, newValue) => {
+                            onChangeDistrict(newValue?.code || "");
+                          }}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              value={selectedDistrictCode}
+                              label="Enter district name"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </Col>
+                      <Col xs={4}>
+                        <Autocomplete
+                          id="combo-box-demo"
+                          options={getWards() || []}
+                          size="small"
+                          onChange={(event, newValue) => {
+                            onChangeWard(newValue?.code || "");
+                          }}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Enter ward name"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={2} style={{ alignSelf: "center" }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="small"
+                      style={{ width: "100%", alignSelf: "center" }}
+                      color="secondary"
+                      className={classes.margin}
+                      startIcon={<SearchIcon />}
+                    >
+                      search
+                    </Button>
+                  </Col>
+                </Row>
+              </form>
             </Paper>
           </Row>
           <Row>
@@ -215,8 +367,11 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
           </Row>
           <PageLoader loading={loading}>
             <Row className="mb-4">
-              {dataSource.map((item) => (
-                <GroundItem key={item.id} ground={item} />
+              {Object.keys(grounds).map((groundId) => (
+                <GroundItem
+                  key={grounds[groundId].id}
+                  ground={grounds[groundId]}
+                />
               ))}
             </Row>
           </PageLoader>
@@ -229,6 +384,8 @@ const SearchGround = ({ getBenefits, getGrounds, grounds }) => {
 const mapStateToProps = (state) => ({
   grounds: state.ground.grounds,
 });
-export default connect(mapStateToProps, { getBenefits, getGrounds })(
-  SearchGround
-);
+export default connect(mapStateToProps, {
+  getBenefits,
+  getGrounds,
+  getSearchGrounds,
+})(SearchGround);
