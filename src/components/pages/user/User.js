@@ -87,7 +87,7 @@ const User = ({ user, tabKey, getUserInfo }) => {
 
   return (
     <Row className={classes.top} style={{ justifyContent: "center" }}>
-      <Col xs={2}>
+      <Col xs={12} md={4} lg={3} className="mb-4">
         <Paper className={classes.root} elevation={3}>
           <Row style={{ justifyContent: "center", paddingTop: "10px" }}>
             <Col xs={3}>
@@ -128,7 +128,7 @@ const User = ({ user, tabKey, getUserInfo }) => {
           </Col>
         </Paper>
       </Col>
-      <Col xs={7}>{renderContent[selectedItem]}</Col>
+      <Col xs={12} md={7}>{renderContent[selectedItem]}</Col>
     </Row>
   );
 };

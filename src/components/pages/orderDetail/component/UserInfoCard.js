@@ -3,7 +3,7 @@ import { Paper } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import { BASE_IMAGE_URL } from "../../../../store/actions/types";
-import { getFullname, getAddress } from "../../../../utils/commonFunction";
+import { getFullname, getUserAddress } from "../../../../utils/commonFunction";
 import { PAYMENT_TYPE } from "../../../../utils/common";
 
 const useStyles = makeStyles({
@@ -47,7 +47,7 @@ const UserInfoCard = ({ orderDetail }) => {
           </p>
           <p className={classes.pTag}>
             <span>Address: </span>
-            <span>{getAddress(address)}</span>
+            <span>{getUserAddress(address)}</span>
           </p>
         </Col>
         <Col xs={12}>

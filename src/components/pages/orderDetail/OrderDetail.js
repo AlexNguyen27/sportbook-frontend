@@ -32,7 +32,6 @@ const OrderDetail = ({
 
   const orderId = match.params.id;
   const [loading, setLoading] = useState(true);
-  console.log("ad------------------", orderId);
   useEffect(() => {
     if (orderId) {
       getOrderById(setLoading, orderId).then(() => {
@@ -54,7 +53,7 @@ const OrderDetail = ({
             </Col>
             <Col xs={6} className="text-right">
               <h6>
-                Created at:{" "}
+                Created on:{" "}
                 {moment(createdAt).format("dddd DD/MM/YYYY HH:mm A")}
               </h6>
             </Col>
@@ -66,7 +65,7 @@ const OrderDetail = ({
         </Col>
         <Col xs={6}>
           <UserInfoCard orderDetail={orderDetail} />
-          <h4 className="mt-4">Order historsies</h4>
+          <h4 className="mt-4">Order histories</h4>
           <OrderHistoryTable orderDetail={orderDetail} />
         </Col>
         <Col xs={12} className="text-center" style={{ marginTop: "30px" }}>

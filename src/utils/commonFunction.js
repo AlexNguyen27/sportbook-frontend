@@ -59,6 +59,18 @@ export const getAddress = (addressObj) => {
   return "";
 };
 
+export const getUserAddress = (addressStr) => {
+  const addressObj = JSON.parse(addressStr);
+  if (addressStr) {
+    const { address, regionCode, districtCode, wardCode } = addressObj;
+    return `${address || ""}, ${WARDS[wardCode]?.name_with_type || ""}, ${
+      DISTRICTS[districtCode]?.name_with_type || ""
+    }, ${REGIONS[regionCode]?.name_with_type || ""}`;
+  }
+  return "";
+};
+
+
 export const roundNumber = (value, precision) => {
   var multiplier = Math.pow(10, precision || 0);
   return Math.round(value * multiplier) / multiplier;
