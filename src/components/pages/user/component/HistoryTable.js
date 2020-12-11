@@ -72,8 +72,8 @@ const HistoryTable = ({
   const [state, setState] = useState({
     columns: [
       {
-        title: "Sub ground name",
-        field: "subGroundName",
+        title: "Ground name",
+        field: "groundName",
         editable: "never",
       },
       {
@@ -169,6 +169,7 @@ const HistoryTable = ({
   const orderArr = Object.keys(orders).map((orderId) => ({
     ...orders[orderId],
     subGroundName: orders[orderId]?.subGround?.name || "",
+    groundName: orders[orderId]?.subGround?.ground?.title,
     price: orders[orderId].price.toString(),
     discount: orders[orderId].discount.toString(),
     createdAt: getDateTime(orders[orderId].createdAt),

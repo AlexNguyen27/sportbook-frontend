@@ -18,7 +18,8 @@ const useStyles = makeStyles({
 });
 const UserInfoCard = ({ orderDetail }) => {
   const classes = useStyles();
-  const { firstName, lastName, email, phone, address } = orderDetail.user;
+  const { firstName = "", lastName = "", email, phone, address } =
+    orderDetail.user || {};
   const { paymentType } = orderDetail;
 
   return (

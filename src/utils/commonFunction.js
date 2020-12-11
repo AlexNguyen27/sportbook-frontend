@@ -49,12 +49,12 @@ export const getFullname = (firstname, lastname) => {
 
 export const getDateTime = (date) => moment(date).format(DATE_TIME);
 
-export const getAddress = (data) => {
-  if (data) {
-    const { address, regionCode, districtCode, wardCode } = data;
-    return `${address}, ${WARDS[wardCode].name_with_type}, ${
-      DISTRICTS[districtCode].name_with_type
-    }, ${REGIONS[regionCode].name_with_type || ""}`;
+export const getAddress = (addressObj) => {
+  if (addressObj) {
+    const { address, regionCode, districtCode, wardCode } = addressObj;
+    return `${address}, ${WARDS[wardCode]?.name_with_type}, ${
+      DISTRICTS[districtCode]?.name_with_type
+    }, ${REGIONS[regionCode]?.name_with_type || ""}`;
   }
   return "";
 };
