@@ -176,30 +176,24 @@ const HistoryTable = ({
   }));
   return (
     <PageLoader loading={loading}>
-      {/* <div
-        style={{
-          maxWidth: `100%`,
-          overflowX: "auto",
-          width: "100%",
-        }}
-        className="history-table"
-      > */}
-      <div className="history-order">
+      {/* <div className="history-order"> */}
         <MaterialTable
           icons={tableIcons}
           title=""
           columns={state.columns}
           data={orderArr || []}
+          style={{ width: '100%', marginTop: '16px'}}
           options={{
-            pageSize: 5,
+            pageSize: 7,
+            pageSizeOptions: [5, 7, 10, 20],
             headerStyle: {
               fontWeight: "bold",
             },
             rowStyle: {
               width: "auto",
-              // overflowX: "auto",
+              overflowX: "auto",
             },
-            search: false,
+            // search: false,
             actionsColumnIndex: -1,
           }}
           actions={[
@@ -212,7 +206,7 @@ const HistoryTable = ({
             },
           ]}
         />
-      </div>
+      {/* </div> */}
       {/* </div> */}
     </PageLoader>
   );

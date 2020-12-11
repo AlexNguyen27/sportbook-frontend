@@ -129,7 +129,7 @@ const UserInfoForm = ({
   return (
     <PageLoader loading={loading}>
       <Row style={{ justifyContent: "center" }}>
-        <Col xs="9">
+        <Col xs="12">
           <form onSubmit={(e) => onSubmit(e)}>
             <ExtraInfoForm
               formData={extraInfoForm}

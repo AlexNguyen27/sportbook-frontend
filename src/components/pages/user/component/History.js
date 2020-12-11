@@ -40,6 +40,7 @@ const History = () => {
             valueBasedOnProperty="key"
             displayProperty="value"
             onChange={(key) => setOrderStatus(key)}
+            variant="outlined"
           />
         </Col>
         <Col xs={4}>
@@ -49,6 +50,7 @@ const History = () => {
               className="mt-0"
               variant="inline"
               style={{ width: "100%" }}
+              inputVariant="outlined"
               size="small"
               format="MM/dd/yyyy"
               margin="normal"
@@ -84,11 +86,13 @@ const History = () => {
         </Col>
       </Row>
       <Row style={{ justifyContent: "center" }}>
-        <HistoryTable
-          status={orderStatus}
-          fromDate={selectedStartDate}
-          toDate={selectedEndDate}
-        />
+        <Col>
+          <HistoryTable
+            status={orderStatus}
+            fromDate={selectedStartDate}
+            toDate={selectedEndDate}
+          />
+        </Col>
       </Row>
     </div>
   );

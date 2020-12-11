@@ -9,7 +9,6 @@ import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import {
@@ -26,7 +25,7 @@ import {
   uploadAvatar,
 } from "../../../../store/actions/user";
 import DropdownV2 from "../../../custom/DropdownV2";
-import { GENDER, FAVORITE_FOOT } from "../../../../utils/common";
+import { GENDER } from "../../../../utils/common";
 import REGIONS from "../../../locales/regions.json";
 import DISTRICTS from "../../../locales/districts.json";
 import WARDS from "../../../locales/wards.json";
@@ -61,7 +60,9 @@ const useStyles = makeStyles((theme) => ({
     top: "155px",
   },
   inputFile: {
-    display: "none",
+    // display: "none",
+    marginTop: "5px",
+    width: '-webkit-fill-available'
   },
 }));
 
@@ -340,17 +341,17 @@ const UserInfoForm = ({
                 height={200}
                 className={classes.iamge}
               />
-              <Tooltip title="Upload new avatar" aria-label="image">
-                <div>
-                  <input
-                    accept="image/*"
-                    className={classes.inputFile}
-                    id="icon-button-file"
-                    multiple
-                    type="file"
-                    onChange={handleUpload}
-                  />
-                  <label htmlFor="icon-button-file">
+              {/* <Tooltip title="Upload new avatar" aria-label="image"> */}
+              {/* <div> */}
+              <input
+                accept="image/*"
+                className={classes.inputFile}
+                id="icon-button-file"
+                multiple
+                type="file"
+                onChange={handleUpload}
+              />
+              {/* <label htmlFor="icon-button-file">
                     <IconButton
                       aria-label="upload"
                       className={classes.btnUpload}
@@ -358,9 +359,9 @@ const UserInfoForm = ({
                     >
                       <CloudUploadIcon fontSize="large" />
                     </IconButton>
-                  </label>
-                </div>
-              </Tooltip>
+                  </label> */}
+              {/* </div> */}
+              {/* </Tooltip> */}
               <h6 className="mb-0 font-weight-bold">
                 {firstName} {lastName}
               </h6>
