@@ -46,10 +46,10 @@ export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
               subGround {
                   id
                   name
-              }
-              user {
-                  id
-                  firstName
+                  ground {
+                    id
+                    title
+                  }
               }
               createdAt
               updatedAt
@@ -153,9 +153,8 @@ export const addOrder = (setLoading, orderData, setOnStep) => async (
     Swal.fire({
       position: "center",
       type: "Warning",
-      title: "Can not create order this time!",
-      showConfirmButton: false,
-      timer: 1500,
+      title: "Can not create order this time! The same order also exits",
+      showConfirmButton: true,
     });
 
     const payloadError = errors[0]?.extensions?.payload || {};
@@ -268,7 +267,12 @@ export const getOrderById = (setLoading, id) => async (dispatch, getState) => {
                     ground {
                       id
                       title
-                      address
+                      address {
+                        regionCode
+                        districtCode
+                        wardCode
+                        address
+                      }
                       benefit
                       phone
                       user {

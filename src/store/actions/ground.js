@@ -80,7 +80,10 @@ export const getGroundById = (setLoading, id, startDay) => async (
   dispatch,
   getState
 ) => {
-  const { token } = getState().auth;
+  const {
+    token,
+    user: { id: userId },
+  } = getState().auth;
 
   const { data, errors } = await hera({
     options: {
@@ -92,7 +95,7 @@ export const getGroundById = (setLoading, id, startDay) => async (
     },
     query: `
               query {
-                getGroundById(id: $id, startDay: $startDay) {
+                getGroundById(id: $id, startDay: $startDay, userId: $userId) {
                     id
                     title 
                     description
@@ -158,6 +161,7 @@ export const getGroundById = (setLoading, id, startDay) => async (
     variables: {
       id,
       startDay,
+      userId,
     },
   });
   if (!errors) {
