@@ -14,16 +14,18 @@ const DropdownV2 = ({
   onChange,
   error,
   inline,
+  header,
   ...rest
 }) => {
   return (
     <Fragment>
+      {header && <h6 className="font-weight-bold mt-3">{header}</h6>}
       {valueBasedOnProperty ? (
         <TextField
           {...rest}
           select
           style={{ width: "100px", width }}
-          onChange={e => {
+          onChange={(e) => {
             onChange(e.target.value);
           }}
           error={error}
@@ -49,7 +51,7 @@ const DropdownV2 = ({
           {...rest}
           select
           style={{ width: "100px", width }}
-          onChange={e => {
+          onChange={(e) => {
             onChange(e.target.value);
           }}
           error={error && error !== ""}
