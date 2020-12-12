@@ -102,7 +102,8 @@ const Ground = ({
         document.getElementById("test-image").style.background = `url('${
           getImageUrls()[0] || DEFAULT_GROUND_IMAGE
         }')`;
-        document.getElementById("test-image").style.backgroundPosition = "center";
+        document.getElementById("test-image").style.backgroundPosition =
+          "center";
         document.getElementById("test-image").style.backgroundRepeat =
           "no-repeat";
         document.getElementById("test-image").style.backgroundSize = "cover";
@@ -230,18 +231,22 @@ const Ground = ({
           <hr></hr>
           <h5>Benefits</h5>
           <div>
-            {benefitArr.map((key) => (
-              <>
-                {benefits[key] ? (
-                  <>
-                    <CheckCircleIcon style={{ color: "#61b15a" }} />{" "}
-                    {benefits[key].title}{" "}
-                  </>
-                ) : (
-                  ""
-                )}
-              </>
-            ))}
+            {!benefitArr.length ? (
+              <p>No benefits</p>
+            ) : (
+              benefitArr.map((key) => (
+                <>
+                  {benefits[key] ? (
+                    <>
+                      <CheckCircleIcon style={{ color: "#61b15a" }} />{" "}
+                      {benefits[key].title}{" "}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
+              ))
+            )}
           </div>
           <hr />
           <h5>Ground Map</h5>
