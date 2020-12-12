@@ -83,7 +83,7 @@ const RouterList = (props) => {
       <Route
         exact
         path="/ground/:id"
-        component={() => <Main children={<Ground />} />}
+        component={(props) => <Main children={<Ground {...props} />} />}
       />
       <ProtectedRoute component={() => <NotFound center />} />
     </Switch>

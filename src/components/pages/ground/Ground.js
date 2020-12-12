@@ -64,12 +64,13 @@ const Ground = ({
   selectedStartDay,
   ratings,
   getGrounds,
+  match,
 }) => {
+  const groundId = match.params.id;
   const classes = useStyles();
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
-  const pathName = history.location.pathname.split("/");
   const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
@@ -80,14 +81,13 @@ const Ground = ({
   useEffect(() => {
     if (selectedStartDay && selectedStartDay.trim()) {
       // GET SUBGROUNDS AND SAVE TO SELECTED GROUND
-      getGroundById(setLoading, ground.id, selectedStartDay);
+      getGroundById(setLoading, groundId, selectedStartDay);
     }
   }, [selectedStartDay]);
 
   useEffect(() => {
     clearErrors();
-    if (pathName && pathName[2]) {
-      const groundId = pathName[2];
+    if (groundId) {
       setLoading(true);
       getGroundById(
         setLoading,
@@ -99,16 +99,16 @@ const Ground = ({
           // GET RATING
           getRatings(setLoading);
         });
+        document.getElementById("test-image").style.background = `url('${
+          getImageUrls()[0] || DEFAULT_GROUND_IMAGE
+        }')`;
+        document.getElementById("test-image").style.backgroundPosition = "center";
+        document.getElementById("test-image").style.backgroundRepeat =
+          "no-repeat";
+        document.getElementById("test-image").style.backgroundSize = "cover";
       });
-      document.getElementById("test-image").style.background = `url('${
-        getImageUrls()[0] || DEFAULT_GROUND_IMAGE
-      }')`;
-      document.getElementById("test-image").style.backgroundPosition = "center";
-      document.getElementById("test-image").style.backgroundRepeat =
-        "no-repeat";
-      document.getElementById("test-image").style.backgroundSize = "cover";
     }
-  }, [pathName[2]]);
+  }, [groundId]);
 
   useEffect(() => {
     if (ground && loading === false) {
@@ -120,7 +120,7 @@ const Ground = ({
         "no-repeat";
       document.getElementById("test-image").style.backgroundSize = "cover";
     }
-  }, [ground, loading]);
+  }, [groundId, loading]);
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
@@ -246,11 +246,6 @@ const Ground = ({
           <hr />
           <h5>Ground Map</h5>
           <ReactGoogleMaps address={getAddress(ground.address)} />
-          {/* <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7836.983714026452!2d106.78194775393679!3d10.850144971186923!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb838977f3d419d!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCBWaeG7hW4gdGjDtG5nIEPGoSBT4bufIFThuqFpIFRQLiBI4buTIENow60gTWluaMK3!5e0!3m2!1svi!2s!4v1604223922437!5m2!1svi!2s"
-            allowFullScreen
-            title="t"
-          ></iframe> */}
           <hr />
           <h5>Playground Images</h5>
           {/*list ground image  */}

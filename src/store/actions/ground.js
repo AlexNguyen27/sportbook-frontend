@@ -159,8 +159,8 @@ export const getGroundById = (setLoading, id, startDay) => async (
               }
           `,
     variables: {
-      id,
-      startDay,
+      id: id || "",
+      startDay: startDay || "",
       userId: userId || "",
     },
   });

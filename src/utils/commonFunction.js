@@ -82,6 +82,5 @@ export const formatThousandVND = (n, currency, toFixed = 2) => {
 
 export const isSameOrAfterNow = (startTime, selectedStartDay) => {
   const day = selectedStartDay + " " + startTime;
-  console.log("day----", day);
   return moment(day, "DD-MM-YYYY HH:mm:ss").isSameOrAfter(moment());
 };

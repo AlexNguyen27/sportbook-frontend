@@ -18,8 +18,8 @@ export default function (state = initialState, action) {
   switch (type) {
     case GET_GROUNDS:
       return {
+        ...state,
         grounds: { ...grounds },
-        selected_ground: {},
       };
     case SAVE_SELECTED_GROUND:
       return {
