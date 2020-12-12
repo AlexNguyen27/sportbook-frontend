@@ -186,7 +186,7 @@ const Ground = ({
                 className={classes.button}
                 endIcon={<ShareIcon />}
               >
-                Send
+                SHARE
               </Button>
             </Col>
             {/* <Col xs={3} style={{ alignSelf: "flex-end", textAlign: "right" }}>

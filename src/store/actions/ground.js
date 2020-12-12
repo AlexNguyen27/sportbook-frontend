@@ -201,6 +201,9 @@ export const getSearchGrounds = (setLoading, searchData) => async (
                   regionName: $regionName
                   wardName: $wardName
                   limit: $limit
+                  isAvailable: $isAvailable
+                  startTime: $startTime, 
+                  startDay: $startDay
                 ) {
                   id
                   title 
@@ -216,7 +219,6 @@ export const getSearchGrounds = (setLoading, searchData) => async (
                   image,
                   createdAt 
                   categoryId
-                  isAvailable
                   category {
                     id
                     name
@@ -230,6 +232,9 @@ export const getSearchGrounds = (setLoading, searchData) => async (
       districtName: searchData.districtName || "",
       wardName: searchData.wardName || "",
       limit: 0,
+      isAvailable: searchData.isAvailable || false,
+      startTime: searchData.startTime || "",
+      startDay: searchData.startDay || "",
     },
   });
   if (!errors) {
