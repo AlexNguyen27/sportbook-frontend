@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import moment from "moment";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { getGroundById } from "../../../store/actions/ground";
+import { getGroundById, getGrounds } from "../../../store/actions/ground";
 import PageLoader from "../../custom/PageLoader";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   row: {
     marginLeft: 0,
     marginRight: 0,
-    justifyContent: "center" 
+    justifyContent: "center",
   },
 }));
 
@@ -63,6 +63,7 @@ const Ground = ({
   clearErrors,
   selectedStartDay,
   ratings,
+  getGrounds,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -70,6 +71,11 @@ const Ground = ({
   const [loading, setLoading] = useState(false);
   const pathName = history.location.pathname.split("/");
   const [modelReview, setModelReview] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getGrounds(setLoading); // FOR RECOMMENT GROUND
+  }, []);
 
   useEffect(() => {
     if (selectedStartDay && selectedStartDay.trim()) {
@@ -204,7 +210,7 @@ const Ground = ({
           </Row>
         </div>
       </div>
-      <Row  className={classes.row}>
+      <Row className={classes.row}>
         <Col xs={6}>
           {/* SUB GROUND AND PRICING */}
           {!ground?.subGrounds?.length ? (
@@ -356,4 +362,5 @@ export default connect(mapStateToProps, {
   getBenefits,
   getRatings,
   clearErrors,
+  getGrounds,
 })(Ground);
