@@ -98,42 +98,32 @@ const SearchGround = ({
     e.preventDefault();
 
     setLoading(true);
-    const searchData = {
+    let searchData = {
       search: searchText,
       regionName: REGIONS[selectedRegionCode]?.name_with_type || "",
       districtName: DISTRICTS[selectedDistrictCode]?.name_with_type || "",
       wardName: WARDS[selectedWardCode]?.name_with_type || "",
     };
-    getSearchGrounds(setLoading, searchData);
-    // setSearchText(search);
-    // const dataArr = onShowAll
-    //   ? groundArr.filter((ground) => ground.isAvailable)
-    //   : groundArr;
-    // // if check and serach is empty => 4
-    // // if not check and serach => search on 11
-    // // if check and sreach then search on 4
-    // const newDataSource = dataArr.filter((ground) => {
-    //   const { title, phone } = ground;
-    //   const address = getAddress(ground.address);
-    //   return (
-    //     (title || "").toLowerCase().match(search.trim().toLowerCase()) ||
-    //     (phone || "").toLowerCase().match(search.trim().toLowerCase()) ||
-    //     (address || "").toLowerCase().match(search.trim().toLowerCase())
-    //   );
-    // });
 
-    // console.log(newDataSource, "newdata source");
-    // setDataSource([...newDataSource]);
+    if (onShowAll) {
+      searchData = {
+        ...searchData,
+        isAvailable: true,
+        startTime: moment().format("HH:mm:ss"),
+        startDay: moment().format("DD-MM-YYYY"),
+      };
+    }
+    getSearchGrounds(setLoading, searchData);
   };
 
   const onShowAllEmptyField = (checked) => {
     setOnShowAll(checked);
-    if (checked) {
-      const newDataSource = dataSource.filter((ground) => ground.isAvailable);
-      setDataSource([...newDataSource]);
-    } else {
-      setDataSource(groundArr);
-    }
+    // if (checked) {
+    //   const newDataSource = dataSource.filter((ground) => ground.isAvailable);
+    //   setDataSource([...newDataSource]);
+    // } else {
+    //   setDataSource(groundArr);
+    // }
   };
 
   const regionArr = Object.keys(REGIONS).map((key) => ({
@@ -206,12 +196,12 @@ const SearchGround = ({
     <>
       <Row className={classes.wrapper}>
         <Col xs={8}>
-          <Row style={{ justifyContent: "center" }}>
-            <Paper
-              elevation={3}
-              style={{ width: "100%", padding: "20px 20px 20px 20px" }}
-            >
-              <form onSubmit={(e) => onSearch(e)}>
+          <form onSubmit={(e) => onSearch(e)}>
+            <Row style={{ justifyContent: "center" }}>
+              <Paper
+                elevation={3}
+                style={{ width: "100%", padding: "20px 20px 20px 20px" }}
+              >
                 <Row style={{ justifyContent: "center" }}>
                   <Col xs={10}>
                     <Row style={{ justifyContent: "center" }}>
@@ -322,23 +312,23 @@ const SearchGround = ({
                     </Button>
                   </Col>
                 </Row>
-              </form>
-            </Paper>
-          </Row>
-          <Row>
-            <GreenCheckbox
-              checked={onShowAll}
-              onChange={(e) => onShowAllEmptyField(e.target.checked)}
-              color="primary"
-              inputProps={{ "aria-label": "secondary checkbox" }}
-            />
-            <span style={{ marginTop: "auto", marginBottom: "auto" }}>
-              Show all locations are available today{" "}
-              <span className="font-weight-bold">
-                ({moment().format("dddd DD-MM-YYYY")})
+              </Paper>
+            </Row>
+            <Row>
+              <GreenCheckbox
+                checked={onShowAll}
+                onChange={(e) => onShowAllEmptyField(e.target.checked)}
+                color="primary"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
+              <span style={{ marginTop: "auto", marginBottom: "auto" }}>
+                Show all locations are available today{" "}
+                <span className="font-weight-bold">
+                  ({moment().format("dddd DD-MM-YYYY")})
+                </span>
               </span>
-            </span>
-          </Row>
+            </Row>
+          </form>
           <hr></hr>
         </Col>
         <Col xs={8}>
