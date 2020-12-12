@@ -19,6 +19,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { GET_ERRORS } from "../../../store/actions/types";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
+import AddCommentForm from "./component/AddCommentForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,7 @@ const Comment = ({
   updateComment,
   deleteComment,
   auth: { user = {}, isAuthenticated },
+  ratings = [],
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -107,44 +109,15 @@ const Comment = ({
     setDeleteLoading(true);
     deleteComment(setDeleteLoading, commentId);
   };
+
+  const getRating = (userId) => {
+    const found = ratings.find((item) => (item.userId = userId));
+    if (found) return found.point;
+    return 0;
+  };
   return (
     <>
-      <Form className="mb-4" onSubmit={(e) => onAdd(e)}>
-        <Row>
-          <Col xs={9}>
-            <TextFieldInput
-              label="Give a comment here"
-              id="outlined-multiline-flexible"
-              name="comment"
-              fullWidth
-              value={comment || ""}
-              onChange={(e) => setComment(e.target.value)}
-              error={errors.comment || ""}
-              variant="outlined"
-              size="small"
-            />
-          </Col>
-          {loading ? (
-            <Col xs={3} className="text-center">
-              <CircularProgress color="secondary" size={30} />
-            </Col>
-          ) : (
-            <Col xs={3}>
-              <Button variant="contained" color="primary" type="submit">
-                Submit
-              </Button>
-
-              <Button
-                variant="contained"
-                className="ml-2"
-                onClick={() => setComment("")}
-              >
-                Cancel
-              </Button>
-            </Col>
-          )}
-        </Row>
-      </Form>
+      <AddCommentForm />
       <hr></hr>
       <h5>{`${comments.length} ${
         comments.length > 1 ? "Comments" : "Comment"
@@ -152,20 +125,20 @@ const Comment = ({
       {comments.map((item) => (
         <Row>
           <Col xs={1} className="pr-0">
-              <Avatar
-                alt="Remy Sharp"
-                src={item?.user?.avatar || "/static/images/avatar/1.jpg"}
-                className={classes.small}
-              />
+            <Avatar
+              alt="Remy Sharp"
+              src={item?.user?.avatar || "/static/images/avatar/1.jpg"}
+              className={classes.small}
+            />
           </Col>
-          <Col xs={8}  className="pl-0">
+          <Col xs={8} className="pl-0">
             <h6 className="mb-0">{getFullName(item.user)}</h6>
             <p>
               Comment at: {moment(item.createdAt).format("DD/MM/YYYY HH:mm A")}
             </p>
           </Col>
           {user && user?.id !== item.userId ? null : (
-            <Col xs={3} className='text-right'>
+            <Col xs={3} className="text-right">
               {isEdit === item.id ? (
                 <>
                   {editLoading ? (
@@ -226,7 +199,10 @@ const Comment = ({
             </Col>
           )}
           <Col xs={12}>
-            {/* <Rating name="read-only" size="small" value={5} readOnly /> */}
+            {!getRating(item.userId) ? null : (
+              <Rating name="read-only" size="small" value={5} readOnly />
+            )}
+
             {/* <h6>Very good</h6> */}
             {isEdit === item.id ? (
               <TextFieldInput
@@ -254,6 +230,7 @@ const Comment = ({
 
 const mapStateToProps = (state) => ({
   ground: state.ground.selected_ground,
+  rating: state.rating.ratings,
   comments: state.ground.selected_ground.comments,
   errors: state.errors,
   auth: state.auth,

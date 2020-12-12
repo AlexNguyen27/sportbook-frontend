@@ -159,9 +159,9 @@ export const getGroundById = (setLoading, id, startDay) => async (
               }
           `,
     variables: {
-      id,
-      startDay,
-      userId,
+      id: id || "",
+      startDay: startDay || "",
+      userId: userId || "",
     },
   });
   if (!errors) {
@@ -170,6 +170,7 @@ export const getGroundById = (setLoading, id, startDay) => async (
       selected_ground: data.getGroundById,
     });
   } else {
+    console.log("erer-----------------------------", errors);
     logoutDispatch(dispatch, errors);
     dispatch({
       type: GET_ERRORS,
