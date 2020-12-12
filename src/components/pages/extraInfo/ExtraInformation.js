@@ -134,6 +134,7 @@ const UserInfoForm = ({
             <ExtraInfoForm
               formData={extraInfoForm}
               onChange={onChangeExtraInfoForm}
+              setExtraInfoForm={setExtraInfoForm}
             />
             <SocialNetworkForm
               formData={socialNetworkForm}
@@ -170,5 +171,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   getUserInfo,
-  editExtraInfo
+  editExtraInfo,
 })(UserInfoForm);
