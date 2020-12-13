@@ -145,7 +145,7 @@ const Login = ({
             <p
               style={{ color: "#00bfd8", cursor: "pointer" }}
               className="mt-3 text-decoration-underline"
-              onClick={() => history.push("reset-password")}
+              onClick={() => {}}
             >
               Forgot password?
             </p>
