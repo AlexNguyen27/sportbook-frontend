@@ -8,7 +8,6 @@ import PageLoader from "../../custom/PageLoader";
 import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { Paper } from "@material-ui/core";
-import ShareIcon from "@material-ui/icons/Share";
 import StarIcon from "@material-ui/icons/Star";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -127,6 +126,7 @@ const Ground = ({
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
+  console.log("ground-----------------------", groundId);
   const { title, description, phone, image } = ground;
   const benefitArr = ground.benefit ? ground.benefit.split(",") : [];
 
