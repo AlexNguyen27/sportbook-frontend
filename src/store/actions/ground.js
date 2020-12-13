@@ -201,7 +201,6 @@ export const getSearchGrounds = (setLoading, searchData) => async (
                   districtName: $districtName,
                   regionName: $regionName
                   wardName: $wardName
-                  limit: $limit
                   isAvailable: $isAvailable
                   startTime: $startTime, 
                   startDay: $startDay
@@ -232,7 +231,6 @@ export const getSearchGrounds = (setLoading, searchData) => async (
       regionName: searchData.regionName || "",
       districtName: searchData.districtName || "",
       wardName: searchData.wardName || "",
-      limit: 0,
       isAvailable: searchData.isAvailable || false,
       startTime: searchData.startTime || "",
       startDay: searchData.startDay || "",
