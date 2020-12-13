@@ -27,6 +27,7 @@ import { getRatings } from "../../../store/actions/rating";
 import Swal from "sweetalert2";
 import Rating from "@material-ui/lab/Rating";
 import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
+import ShareFacebookButton from "./component/ShareFacebookButton";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -186,15 +187,8 @@ const Ground = ({
                   below)
                 </span>
               </h5>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                className={classes.button}
-                endIcon={<ShareIcon />}
-              >
-                SHARE
-              </Button>
+
+              <ShareFacebookButton groundId={ground.id} />
             </Col>
             {/* <Col xs={3} style={{ alignSelf: "flex-end", textAlign: "right" }}>
               <Button

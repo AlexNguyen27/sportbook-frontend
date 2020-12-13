@@ -20,6 +20,9 @@ import { GET_ERRORS } from "../../../store/actions/types";
 import AddCommentForm from "./component/AddCommentForm";
 import ReplyIcon from "@material-ui/icons/Reply";
 import Collapse from "@material-ui/core/Collapse";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +57,7 @@ const Comment = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [editLoading, setEditLoading] = useState(false);
   const [isEdit, setIsEdit] = useState("");
@@ -104,7 +108,7 @@ const Comment = ({
   const onEditComment = (commentId) => {
     if (!!editComment.trim()) {
       setEditLoading(true);
-      updateComment(setEditLoading, commentId, editComment);
+      updateComment(setEditLoading, commentId, editComment.trim());
       setIsEdit("");
     } else {
       dispatch({
@@ -122,6 +126,36 @@ const Comment = ({
     deleteComment(setDeleteLoading, commentId);
   };
 
+  const onAddReplyComment = (e) => {
+    e.preventDefault();
+    //   e.preventDefault();
+    if (!isAuthenticated) {
+      Swal.fire({
+        title: `Please login to continue?`,
+        text: "",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then((result) => {
+        if (result.value) {
+          history.push("/login");
+        }
+      });
+    } else {
+      if (replyComment.trim()) {
+        setReplyLoading(true);
+        addComment(setReplyLoading, replyComment.trim(), ground.id, parentReplyId);
+        setReplyData({
+          isReply: false,
+          parentReplyId: null,
+          replyComment: "",
+        });
+      }
+    }
+  };
+
   const getRating = (userId) => {
     const found = ratings.find((item) => item.userId === userId);
     if (found) return found.point;
@@ -134,14 +168,40 @@ const Comment = ({
     const childrenComment = comments.filter(
       (item) => item.parentId === viewCmtId
     );
-    console.log("chilre---------------", comments, viewCmtId);
     return (
       <>
         {childrenComment.map((child) => (
           <>
-            <Col style={{ borderLeft: "1px solid #e8e8e8" }}>
-              <p className="ml-2">{child.comment}</p>
-            </Col>
+            <Row className="mt-2">
+              <Col
+                style={{ borderLeft: "1px solid #e8e8e8", alignSelf: "center" }}
+              >
+                {isEdit === child.id ? (
+                  <Form
+                    className="mb-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      onEditComment(child.id);
+                    }}
+                  >
+                    <TextFieldInput
+                      label="Give a comment here"
+                      id="outlined-multiline-flexible"
+                      name="comment"
+                      fullWidth
+                      defaultValue={child.comment}
+                      value={editComment|| ""}
+                      onChange={(e) => setEditComment(e.target.value)}
+                      error={errors.editComment || ""}
+                      variant="outlined"
+                      size="small"
+                    />
+                  </Form>
+                ) : (
+                  <p className="ml-2 mb-0">{child.comment}</p>
+                )}
+              </Col>
+            </Row>
             <Row>
               <Col
                 xs={"auto"}
@@ -168,6 +228,17 @@ const Comment = ({
                       onClick={() => onDelete(child.id)}
                     >
                       <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Edit">
+                    <IconButton
+                      aria-label="edit"
+                      onClick={() => {
+                        setIsEdit(child.id);
+                        setEditComment(child.comment);
+                      }}
+                    >
+                      <EditIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </Col>
@@ -296,7 +367,7 @@ const Comment = ({
 
                 {/* REPLY COMMENT */}
                 {isReply ? (
-                  <Form className="mb-4" onSubmit={(e) => {}}>
+                  <Form className="mb-4" onSubmit={(e) => onAddReplyComment(e)}>
                     {parentReplyId === item.id && (
                       <>
                         {replyLoading ? (
@@ -305,28 +376,7 @@ const Comment = ({
                           </IconButton>
                         ) : (
                           <>
-                            <Button
-                              color="primary"
-                              type="submit"
-                              size="small"
-                              onClick={() => {
-                                // ADD COMMENT WITH PARENT ID
-                                if (replyComment.trim()) {
-                                  setReplyLoading(true);
-                                  addComment(
-                                    setReplyLoading,
-                                    replyComment,
-                                    ground.id,
-                                    parentReplyId
-                                  );
-                                  setReplyData({
-                                    isReply: false,
-                                    parentReplyId: null,
-                                    replyComment: "",
-                                  });
-                                }
-                              }}
-                            >
+                            <Button color="primary" type="submit" size="small">
                               Save
                             </Button>
                             <Button
@@ -381,7 +431,9 @@ const Comment = ({
                         setViewCmtId(item.id);
                       }}
                     >
-                      {viewMoreCmt && viewCmtId === item.id ? "Hide" : "View more"}
+                      {viewMoreCmt && viewCmtId === item.id
+                        ? "Hide"
+                        : "View more"}
                     </Button>
                     <Button
                       color="primary"
