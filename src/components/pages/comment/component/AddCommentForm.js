@@ -64,14 +64,20 @@ const AddCommentForm = ({
             <CircularProgress color="secondary" size={30} />
           </Col>
         ) : (
-          <Col xs={3}>
-            <Button variant="contained" color="primary" type="submit">
+          <Col xs={3} style={{ alignSelf: "center" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              type="submit"
+            >
               Submit
             </Button>
 
             <Button
               variant="contained"
               className="ml-2"
+              size="small"
               onClick={() => setComment("")}
             >
               Cancel
