@@ -4,6 +4,7 @@ import {
   BASE_URL,
   GET_GROUNDS,
   SAVE_SELECTED_GROUND,
+  GET_CATEGORIES,
 } from "./types";
 import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
@@ -66,6 +67,46 @@ export const getGrounds = (setLoading, isAvailable) => async (
       type: GET_GROUNDS,
       grounds,
     });
+
+    // GET CATEGORY FOR SEARCH
+    const { data: categoryData, errors: categoryError } = await hera({
+      options: {
+        url: BASE_URL,
+        headers: {
+          token,
+          "Content-Type": "application/json",
+        },
+      },
+      query: `
+              query {
+                  categories {
+                      id, 
+                      name,
+                      status
+                      createdAt,
+                      grounds {
+                        id
+                        title
+                      }
+                    }
+              }
+          `,
+      variables: {},
+    });
+    if (!errors) {
+      const categories = arrayToObject(categoryData.categories);
+  
+      dispatch({
+        type: GET_CATEGORIES,
+        categories,
+      });
+    } else {
+      logoutDispatch(dispatch, categoryError);
+      dispatch({
+        type: GET_ERRORS,
+        errors: categoryError[0].message,
+      });
+    }
     setLoading(false);
   } else {
     logoutDispatch(dispatch, errors);
@@ -204,6 +245,7 @@ export const getSearchGrounds = (setLoading, searchData) => async (
                   isAvailable: $isAvailable
                   startTime: $startTime, 
                   startDay: $startDay
+                  categoryId: $categoryId
                 ) {
                   id
                   title 
@@ -234,6 +276,7 @@ export const getSearchGrounds = (setLoading, searchData) => async (
       isAvailable: searchData.isAvailable || false,
       startTime: searchData.startTime || "",
       startDay: searchData.startDay || "",
+      categoryId: searchData.categoryId || ''
     },
   });
   if (!errors) {
