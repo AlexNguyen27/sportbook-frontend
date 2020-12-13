@@ -54,6 +54,7 @@ const SearchGround = ({
   getGrounds,
   grounds,
   getSearchGrounds,
+  categories,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,12 @@ const SearchGround = ({
     selectedWardCode,
   } = selectedDropdownData;
 
+  const categoryArr = Object.keys(categories).map((cateId) => ({
+    ...categories[cateId],
+  }));
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+
   useEffect(() => {
     setLoading(true);
     getGrounds(setLoading).then(() => {
@@ -81,6 +88,7 @@ const SearchGround = ({
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
+  // TODO : FIX PAGINATION
   const [dataSource, setDataSource] = useState(groundArr);
   const [searchText, setSearchText] = useState("");
 
@@ -103,6 +111,7 @@ const SearchGround = ({
       regionName: REGIONS[selectedRegionCode]?.name_with_type || "",
       districtName: DISTRICTS[selectedDistrictCode]?.name_with_type || "",
       wardName: WARDS[selectedWardCode]?.name_with_type || "",
+      categoryId: selectedCategoryId,
     };
 
     if (onShowAll) {
@@ -118,12 +127,6 @@ const SearchGround = ({
 
   const onShowAllEmptyField = (checked) => {
     setOnShowAll(checked);
-    // if (checked) {
-    //   const newDataSource = dataSource.filter((ground) => ground.isAvailable);
-    //   setDataSource([...newDataSource]);
-    // } else {
-    //   setDataSource(groundArr);
-    // }
   };
 
   const regionArr = Object.keys(REGIONS).map((key) => ({
@@ -205,25 +208,7 @@ const SearchGround = ({
                 <Row style={{ justifyContent: "center" }}>
                   <Col xs={10}>
                     <Row style={{ justifyContent: "center" }}>
-                      <Col xs={12} style={{ alignSelf: "center" }}>
-                        {/* <Autocomplete
-                        id="combo-box-demo"
-                        options={groundArr || []}
-                        size="small"
-                        getOptionLabel={(option) => option.title}
-                        onChange={(event, newValue) => {
-                          setGroundData(newValue);
-
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Enter ground name"
-                            variant="outlined"
-                          />
-                        )}
-                      /> */}
-
+                      <Col xs={8} style={{ alignSelf: "center" }}>
                         <TextFieldInput
                           id="outlined-multiline-flexible"
                           label="Search with playground name and phone"
@@ -234,6 +219,25 @@ const SearchGround = ({
                           variant="outlined"
                           size="small"
                           onChange={(e) => setSearchText(e.target.value)}
+                        />
+                      </Col>
+                      <Col xs={4} style={{ alignSelf: "center" }}>
+                        <Autocomplete
+                          id="combo-box-demo"
+                          options={categoryArr || []}
+                          size="small"
+                          onChange={(event, newValue) => {
+                            console.log(newValue);
+                            setSelectedCategoryId(newValue?.id || "");
+                          }}
+                          getOptionLabel={(option) => option.name}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Enter category name"
+                              variant="outlined"
+                            />
+                          )}
                         />
                       </Col>
                     </Row>
@@ -252,7 +256,7 @@ const SearchGround = ({
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              label="Enter city / province / region"
+                              label="Enter city name"
                               variant="outlined"
                             />
                           )}
@@ -373,6 +377,7 @@ const SearchGround = ({
 
 const mapStateToProps = (state) => ({
   grounds: state.ground.grounds,
+  categories: state.category.categories,
 });
 export default connect(mapStateToProps, {
   getBenefits,
