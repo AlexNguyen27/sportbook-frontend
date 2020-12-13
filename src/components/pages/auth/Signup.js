@@ -16,6 +16,7 @@ import TextFieldInputWithHeader from "../../custom/TextFieldInputWithheader";
 // ACTION
 import { signUpUser } from "../../../store/actions/auth";
 import { GET_ERRORS } from "../../../store/actions/types";
+import FacebookLoginCustom from "./component/FacebookLoginCustom";
 
 const useStyles = makeStyles((theme) => ({
   login: {
@@ -84,16 +85,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
           <PageTitle title="Create new account" center="true" />
           <Grid container type="flex" spacing={2}>
             <Grid item xs={6}>
-              <Button
-                className=" w-100"
-                variant="contained"
-                style={{ backgroundColor: "#3f72af", color: "white" }}
-                type="submit"
-                size="small"
-                startIcon={<i className="fab fa-facebook-f" />}
-              >
-                Singup with Facebook
-              </Button>
+              <FacebookLoginCustom title={"Siggup with facebook"} />
             </Grid>
             <Grid item xs={6}>
               <GoogleLoginCustom title={"Signup with google"} />

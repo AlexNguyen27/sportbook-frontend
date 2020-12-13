@@ -28,7 +28,7 @@ const LoginModal = ({
   userData,
   auth: { isAuthenticated, isUser },
   loginWithGoogle,
-  loginUser,
+  title = "Google",
 }) => {
   const dispatch = useDispatch();
 
@@ -113,7 +113,9 @@ const LoginModal = ({
   return (
     <Modal isOpen={modal} centered={true}>
       <PageLoader loading={loading} noPadding>
-        <ModalHeader toggle={() => closeModal()}>Login with google</ModalHeader>
+        <ModalHeader toggle={() => closeModal()}>
+          Login with {title}
+        </ModalHeader>
 
         {/** MODAL BODY */}
         <Form onSubmit={(e) => onSubmit(e)}>

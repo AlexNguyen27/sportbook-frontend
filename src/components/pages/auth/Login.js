@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { loginUser } from "../../../store/actions/auth";
 import { GET_ERRORS } from "../../../store/actions/types";
 import GoogleLoginCustom from "./component/GoogleLoginCustom";
+import FacebookLoginCustom from "./component/FacebookLoginCustom";
 
 const useStyles = makeStyles((theme) => ({
   login: {
@@ -80,8 +81,6 @@ const Login = ({
   if (isAuthenticated && isUser) {
     return <Redirect to="/user/info/yourInfo" />;
   }
-  //project-763384219926
-
   return (
     <Fragment>
       <Grid container justify="center" className={classes.login}>
@@ -89,7 +88,7 @@ const Login = ({
           <PageTitle title="Login to continue" center="true" />
           <Grid className="mt-3" container type="flex" spacing={2}>
             <Grid item xs={6}>
-              <Button
+              {/* <Button
                 className="w-100"
                 variant="contained"
                 style={{ backgroundColor: "#3f72af", color: "white" }}
@@ -98,7 +97,8 @@ const Login = ({
                 startIcon={<i className="fab fa-facebook-f" />}
               >
                 Login with Facebook
-              </Button>
+              </Button> */}
+              <FacebookLoginCustom />
             </Grid>
             <Grid item xs={6}>
               <GoogleLoginCustom />
