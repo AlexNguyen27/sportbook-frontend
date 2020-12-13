@@ -49,7 +49,9 @@ const GroundItem = ({ ground, benefits }) => {
           </p>
           <p className="mb-1">
             <PhoneIcon className="mr-2" fontSize="small" />
-            {phone || "No phone"}
+            <a href={`tel:${phone}`} alt="">
+                {phone || "No phone"}
+              </a>
           </p>
           <div>
             {benefitArr.map((key) => (

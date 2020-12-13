@@ -43,7 +43,12 @@ const UserInfoCard = ({ orderDetail }) => {
           </p>
           <p className={classes.pTag}>
             <span>Phone: </span>
-            <span>{phone}</span>
+            <span>
+              {" "}
+              <a href={`tel:${phone}`} alt="">
+                {phone || "No phone"}
+              </a>{" "}
+            </span>
           </p>
           <p className={classes.pTag}>
             <span>Address: </span>
