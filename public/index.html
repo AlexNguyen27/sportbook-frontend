@@ -1,68 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,700,700i&amp;subset=latin-ext"
-      rel="stylesheet"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="../src/js/scripts.js"></script>
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Love Sport</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/js/swiper.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <!-- <script src="../src//js/bootstrap.min.js"></script> -->
-    <script>
-      $(function () {
-        $(document).on("click", "a.page-scroll", function (event) {
-          var $anchor = $(this);
-          $("html, body")
-            .stop()
-            .animate(
-              {
-                scrollTop: $($anchor.attr("href")).offset().top,
-              },
-              600,
-              "easeInOutExpo"
-            );
-          event.preventDefault();
-        });
-      });
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-      $("body").prepend(
-        '<a href="body" class="back-to-top page-scroll">Back to Top</a>'
-      );
-      var amountScrolled = 700;
-      $(window).scroll(function () {
-        if ($(window).scrollTop() > amountScrolled) {
-          $("a.back-to-top").fadeIn("500");
-        } else {
-          $("a.back-to-top").fadeOut("500");
-        }
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,600,700,700i&amp;subset=latin-ext"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="../src/js/scripts.js"></script>
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Love Sport</title>
+</head>
+
+<body>
+
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v9.0'
       });
-    </script>
-  </body>
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Your Chat Plugin code -->
+  <div class="fb-customerchat" attribution=install_email page_id="101249571794837"
+    logged_in_greeting="Xin ch&#xe0;o, t&#xf4;i c&#xf3; th&#x1ec3; gi&#xfa;p g&#xec; cho b&#x1ea1;n?"
+    logged_out_greeting="Xin ch&#xe0;o, t&#xf4;i c&#xf3; th&#x1ec3; gi&#xfa;p g&#xec; cho b&#x1ea1;n?">
+  </div>
+
+
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/js/swiper.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+  <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <!-- <script src="../src//js/bootstrap.min.js"></script> -->
+  <script>
+    $(function () {
+      $(document).on("click", "a.page-scroll", function (event) {
+        var $anchor = $(this);
+        $("html, body")
+          .stop()
+          .animate(
+            {
+              scrollTop: $($anchor.attr("href")).offset().top,
+            },
+            600,
+            "easeInOutExpo"
+          );
+        event.preventDefault();
+      });
+    });
+
+    $("body").prepend(
+      '<a href="body" class="back-to-top page-scroll">Back to Top</a>'
+    );
+    var amountScrolled = 700;
+    $(window).scroll(function () {
+      if ($(window).scrollTop() > amountScrolled) {
+        $("a.back-to-top").fadeIn("500");
+      } else {
+        $("a.back-to-top").fadeOut("500");
+      }
+    });
+  </script>
+</body>
+
 </html>
