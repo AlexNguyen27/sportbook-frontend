@@ -74,6 +74,7 @@ export const addComment = (
       comment: newComment,
     });
   } else {
+    console.log("erher--------------------", errors);
     logoutDispatch(dispatch, errors);
     dispatch({
       type: GET_ERRORS,
