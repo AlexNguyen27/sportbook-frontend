@@ -100,27 +100,28 @@ const Ground = ({
           // GET RATING
           getRatings(setLoading);
         });
-        document.getElementById("test-image").style.background = `url('${
+        document.getElementById("ground-image").style.background = `url('${
           getImageUrls()[0] || DEFAULT_GROUND_IMAGE
         }')`;
-        document.getElementById("test-image").style.backgroundPosition =
+        document.getElementById("ground-image").style.backgroundPosition =
           "center";
-        document.getElementById("test-image").style.backgroundRepeat =
+        document.getElementById("ground-image").style.backgroundRepeat =
           "no-repeat";
-        document.getElementById("test-image").style.backgroundSize = "cover";
+        document.getElementById("ground-image").style.backgroundSize = "cover";
       });
     }
   }, [groundId]);
 
   useEffect(() => {
     if (ground && loading === false) {
-      document.getElementById("test-image").style.background = `url('${
+      document.getElementById("ground-image").style.background = `url('${
         getImageUrls()[0] || DEFAULT_GROUND_IMAGE
       }')`;
-      document.getElementById("test-image").style.backgroundPosition = "center";
-      document.getElementById("test-image").style.backgroundRepeat =
+      document.getElementById("ground-image").style.backgroundPosition =
+        "center";
+      document.getElementById("ground-image").style.backgroundRepeat =
         "no-repeat";
-      document.getElementById("test-image").style.backgroundSize = "cover";
+      document.getElementById("ground-image").style.backgroundSize = "cover";
     }
   }, [groundId, loading]);
 
@@ -165,7 +166,7 @@ const Ground = ({
 
   return (
     <PageLoader loading={loading}>
-      <div id="test-image" style={{ height: "500px", position: "relative" }}>
+      <div id="ground-image" style={{ height: "500px", position: "relative" }}>
         <div className={classes.title}>
           <Row style={{ justifyContent: "center" }}>
             <Col xs={9}>
@@ -300,7 +301,9 @@ const Ground = ({
             </p>
             <p>
               <PhoneIcon className="mr-2" />
-              {phone || "No phone"}
+              <a href={`tel:${phone}`} alt="">
+                {phone || "No phone"}
+              </a>
             </p>
             <p>
               <RoomIcon className="mr-2" />
