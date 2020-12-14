@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingRight: "14px",
     paddingLeft: "14px",
-    color: "#303F9F",
+    // color: "#303F9F",
   },
   btnGroup: {
     display: "flex",
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingRight: "14px",
     paddingLeft: "14px",
-    color: "#303F9F",
+    // color: "#303F9F",
   },
 }));
 const SubGround = ({ ground }) => {
@@ -71,34 +71,51 @@ const SubGround = ({ ground }) => {
   return (
     <div>
       <Paper elevation={3} className={classes.paper}>
-        <div className={classes.btnGroup}>
-          <ButtonGroup
+        {/* <div className={classes.btnGroup}> */}
+        {/* <ButtonGroup
             color="primary"
-            // size="small"
+            size="small"
             aria-label="outlined primary button group"
-          >
-            {[...Array(7)].map((item, index) => (
-              <Button onClick={() => onChangeSelectedStartDay(index)}>
-                <div>
-                  <p
-                    className={
-                      selectedDate === index ? classes.bold : classes.noMargin
-                    }
-                  >
-                    {moment().add(index, "days").format("dddd")}
-                  </p>
-                  <p
-                    className={
-                      selectedDate === index ? classes.bold : classes.noMargin
-                    }
-                  >
-                    {moment().add(index, "days").format("DD-MM")}
-                  </p>
-                </div>
+          > */}
+        <Row
+          style={{
+            justifyContent: 'center',
+          }}
+        >
+          {[...Array(7)].map((item, index) => (
+            <Col xs="auto" className="px-1 mb-2">
+              <Button
+                size="small"
+                color="primary"
+                variant={selectedDate === index ? "contained" : "outlined"}
+                onClick={() => onChangeSelectedStartDay(index)}
+              >
+                {/* <div>
+                    <p
+                      style={{ padding: "0" }}
+                      className={
+                        selectedDate === index ? classes.bold : classes.noMargin
+                      }
+                    > */}
+                {moment().add(index, "days").format("dddd")}
+                <br />
+                {/* </p> */}
+                {/* <p
+                      style={{ padding: "0" }}
+                      className={
+                        selectedDate === index ? classes.bold : classes.noMargin
+                      }
+                    > */}
+                {moment().add(index, "days").format("DD-MM")}
+                {/* </p> */}
+                {/* </div> */}
               </Button>
-            ))}
-          </ButtonGroup>
-        </div>
+            </Col>
+          ))}
+        </Row>
+
+        {/* </ButtonGroup> */}
+        {/* </div> */}
         <Row>
           <Col>
             {/*  SEARCH SUB GROUND*/}

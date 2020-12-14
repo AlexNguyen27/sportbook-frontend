@@ -46,7 +46,7 @@ const AddCommentForm = ({
   return (
     <Form className="mb-4" onSubmit={(e) => onAdd(e)}>
       <Row>
-        <Col xs={9}>
+        <Col xs={8} md={9}>
           <TextFieldInput
             label="Give a comment here"
             id="outlined-multiline-flexible"
@@ -60,11 +60,11 @@ const AddCommentForm = ({
           />
         </Col>
         {loading ? (
-          <Col xs={3} className="text-center">
+          <Col xs="auto" className="text-center">
             <CircularProgress color="secondary" size={30} />
           </Col>
         ) : (
-          <Col xs={3} style={{ alignSelf: "center" }}>
+          <Col xs="auto" style={{ alignSelf: "center" }}>
             <Button
               variant="contained"
               color="primary"

@@ -27,6 +27,7 @@ import Swal from "sweetalert2";
 import Rating from "@material-ui/lab/Rating";
 import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
 import ShareFacebookButton from "./component/ShareFacebookButton";
+import Colors from "../../../constants/Colors";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     marginRight: 0,
     justifyContent: "center",
+    background: Colors.background,
   },
 }));
 
@@ -170,23 +172,32 @@ const Ground = ({
         <div className={classes.title}>
           <Row style={{ justifyContent: "center" }}>
             <Col xs={9}>
-              <h2 className="text-capitalize" style={{ color: "" }}>
+              <h2 className="text-capitalize" style={{ color: "#fc8621" }}>
                 {title}
               </h2>
-              <h5 style={{ color: "" }}>{getAddress(ground.address)}</h5>
+              <h5 classNam="mb-4" style={{ color: Colors.white }}>
+                <RoomIcon className="mr-1" />
+                {getAddress(ground.address)}
+              </h5>
               <h5>
-                <Rating
-                  name="read-only"
-                  value={roundNumber(averageRate, 1)}
-                  readOnly
-                />
-                <span style={{ fontSize: "12px" }}>
-                  (View{" "}
-                  {`${ratings.length} ${
-                    ratings.length > 1 ? "reviews " : "review "
-                  }`}
-                  below)
-                </span>
+                {!ratings.length ? (
+                  "No review"
+                ) : (
+                  <>
+                    <Rating
+                      name="read-only"
+                      value={roundNumber(averageRate, 1)}
+                      readOnly
+                    />
+                    <span style={{ fontSize: "12px", color: "white" }}>
+                      (View{" "}
+                      {`${ratings.length} ${
+                        ratings.length > 1 ? "reviews " : "review "
+                      }`}
+                      below)
+                    </span>
+                  </>
+                )}
               </h5>
 
               <ShareFacebookButton groundId={ground.id} />
@@ -250,14 +261,18 @@ const Ground = ({
           <h5>Playground Images</h5>
           {/*list ground image  */}
 
-          <Row className="text-center">
+          <Row
+            className="text-center"
+            style={{ marginLeft: "-15px", marginRight: "-15px" }}
+          >
             {getImageUrls().length > 0 ? (
               getImageUrls().map((url) => (
-                <Col xs={6}>
+                <Col xs={6} className="mb-2">
                   <img
                     style={{ position: "relative" }}
                     width="100%"
                     height="100%"
+                    onClick={() => window.open(url)}
                     src={url}
                     alt={""}
                   />
@@ -281,7 +296,7 @@ const Ground = ({
           <hr />
         </Col>
         <Col xs={3}>
-          <div>
+          {/* <div>
             <Button
               variant="contained"
               color="secondary"
@@ -292,9 +307,9 @@ const Ground = ({
             >
               Contact
             </Button>
-          </div>
+          </div> */}
           <Paper elevation={3} className={classes.paper}>
-            <h6>CONTACT</h6>
+            <h6 className="text-center">CONTACT</h6>
             <p>
               <GroupWorkIcon className="mr-2" />
               {ground?.category?.name}
