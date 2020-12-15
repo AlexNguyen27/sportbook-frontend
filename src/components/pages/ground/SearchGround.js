@@ -219,9 +219,9 @@ const SearchGround = ({
 
   // TODO: ADD PAGINAGION LATER
   return (
-    <>
+    <div style={{ minHeight: "661px" }}>
       <Row className={classes.wrapper}>
-        <Col xs={8}>
+        <Col xs={9}>
           <form onSubmit={(e) => onSearch(e)}>
             <Row style={{ justifyContent: "center" }}>
               <Paper
@@ -394,7 +394,7 @@ const SearchGround = ({
           </PageLoader>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

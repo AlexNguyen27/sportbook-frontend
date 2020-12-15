@@ -103,7 +103,7 @@ const Main = ({ children, isHome, auth, logoutUser, match }) => {
         isHome={isHome}
       />
       {children}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
