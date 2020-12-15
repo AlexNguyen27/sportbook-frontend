@@ -85,7 +85,7 @@ const Signup = ({ errors, auth: { isAuthenticated }, history, signUpUser }) => {
           <PageTitle title="Create new account" center="true" />
           <Grid container type="flex" spacing={2}>
             <Grid item xs={6}>
-              <FacebookLoginCustom title={"Siggup with facebook"} />
+              <FacebookLoginCustom title={"Signup with facebook"} />
             </Grid>
             <Grid item xs={6}>
               <GoogleLoginCustom title={"Signup with google"} />

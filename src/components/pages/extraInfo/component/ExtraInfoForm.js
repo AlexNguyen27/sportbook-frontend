@@ -34,7 +34,7 @@ const ExtraInfoForm = ({ errors, formData, onChange, setExtraInfoForm }) => {
 
   return (
     <>
-      <h4 className="text-center mb-0">Extra information</h4>
+      <h4 className="text-center mb-0">Sport profile</h4>
       <Row className="mt-2">
         <Col xs={6}>
           <DropdownV2
