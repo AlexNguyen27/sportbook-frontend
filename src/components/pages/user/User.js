@@ -32,6 +32,7 @@ const useStyles = makeStyles({
     marginLeft: 0,
     marginRight: 0,
     background: Colors.background,
+    minHeight: "661px",
   },
 });
 

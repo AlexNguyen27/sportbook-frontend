@@ -109,7 +109,7 @@ const Order = ({
         price: orderData.price,
         discount: Number(orderData.discount),
       };
-      console.log('dsd-----ad order-----', data);
+      console.log("dsd-----ad order-----", data);
       addOrder(setLoading, data, setOnStep);
       setCloseOnlineModel(false);
     }
@@ -134,7 +134,7 @@ const Order = ({
         {
           {
             1: (
-              <>
+              <div className="mb-4">
                 <Button
                   variant="contained"
                   size="small"
@@ -154,12 +154,12 @@ const Order = ({
                   endIcon={<NavigateNextIcon />}
                   onClick={() => onContinue()}
                 >
-                  Continue  
+                  Continue
                 </ContinueButton>
                 {/* {true ? (
                   <CircularProgress color="secondary" size={20} />
                 ) : null} */}
-              </>
+              </div>
             ),
             2: (
               <Button
@@ -168,6 +168,7 @@ const Order = ({
                 color="default"
                 startIcon={<ArrowBackIosIcon />}
                 onClick={() => history.goBack()}
+                className="mb-4"
               >
                 Back to home
               </Button>

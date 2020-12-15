@@ -44,8 +44,7 @@ export default function OrderHistoryTable({ orderDetail }) {
               <TableCell align="right">
                 <div>
                   <Alert
-                    
-                    className="m-0 text-center"
+                    className="m-0 text-center py-2"
                     color={COLOR_ORDER_STATUS[item.orderStatus]}
                   >
                     {ORDER_CONTAINT[item.orderStatus]}

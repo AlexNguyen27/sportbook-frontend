@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Row, Col } from "reactstrap";
+import momoIcon from "../../images/momo.jpeg";
+import cashIcon from "../../images/cash.png";
+import webIcon from "../../images/webIcon.png";
+import emailIcon from "../../images/emailIcon.png";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -14,7 +19,104 @@ function Footer() {
   }, [window.location.pathname]);
   return (
     <>
-      <footer className={["footer", className].join(" ")}>
+      <Row
+        className="py-4"
+        style={{ justifyContent: "center", backgroundColor: "#e9ecef" }}
+      >
+        <Col xs={4}>
+          <h5>ABOUT LOVE SPORT</h5>
+          <p style={{ width: "70%" }}>
+            We're passionate about connecting user and owner while offering some
+            of the best business growth services for all playground owner
+          </p>
+        </Col>
+        <Col xs={2}>
+          <h5>PAYMENT</h5>
+          <p className="mb-3">
+            <img
+              src={momoIcon}
+              alt=""
+              width="25"
+              height="25"
+              className="mr-1"
+              style={{ borderRadius: "20%" }}
+            ></img>
+            Momo
+          </p>
+          <p className="mb-1">
+            <img
+              src={cashIcon}
+              alt=""
+              width="25"
+              height="25"
+              className="mr-1"
+              style={{ borderRadius: "20%" }}
+            ></img>
+            Cash
+          </p>
+        </Col>
+        <Col xs={3}>
+          <h5>CONTACT US</h5>
+          <p className="mb-3">
+            <img
+              src={webIcon}
+              alt=""
+              width="25"
+              height="25"
+              className="mr-1"
+              style={{ borderRadius: "20%" }}
+            ></img>
+            <a href="/" style={{ textDecoration: "none" }}>
+              lovesport.vn
+            </a>
+          </p>
+
+          <p className="mb-1">
+            <img
+              src={emailIcon}
+              alt=""
+              width="24"
+              height="24"
+              className="mr-1"
+              style={{ borderRadius: "20%" }}
+            ></img>
+            <a
+              href="mailto:lovesport@gmail.com"
+              style={{ textDecoration: "none" }}
+            >
+              lovesport@gmail.com
+            </a>
+          </p>
+        </Col>
+      </Row>
+      <Row
+        style={{
+          justifyContent: "center",
+          color: "white",
+          backgroundColor: "#343a40",
+        }}
+      >
+        <Col style={{ alignSelft: "center" }}>
+          <p
+            className="p-large mb-0 text-center py-4"
+            style={{ color: "white" }}
+          >
+            Copyright © {currentYear}{" "}
+            <a
+              href="/"
+              style={{
+                color: "#49CEE1",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              Love Sport
+            </a>{" "}
+            - All rights reserved
+          </p>
+        </Col>
+      </Row>
+      {/* <footer className={["footer", className].join(" ")}>
         <div className="container">
           <div className="row">
             <div className="col-md-4">
@@ -107,7 +209,7 @@ function Footer() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </>
   );
 }

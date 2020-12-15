@@ -472,7 +472,7 @@ const UserInfoForm = ({
                 <DropdownV2
                   fullWidth
                   size="small"
-                  label="City / Province / Region"
+                  label="City"
                   value={selectedRegionCode.toString()}
                   options={regionArr || []}
                   valueBasedOnProperty="code"

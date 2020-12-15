@@ -83,7 +83,7 @@ const SubGround = ({ ground }) => {
           }}
         >
           {[...Array(7)].map((item, index) => (
-            <Col xs="auto" className="px-1 mb-2">
+            <Col xs="auto" className="px-2 mb-2">
               <Button
                 size="small"
                 color="primary"

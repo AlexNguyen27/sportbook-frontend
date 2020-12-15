@@ -116,7 +116,13 @@ const PriceDetail = ({
                   <Tooltip title="Book this time">
                     <Button
                       variant="outlined"
-                      color={PRICE_STATUS_COLOR[price.status]}
+                      color={
+                        PRICE_STATUS_COLOR[
+                          !isSameOrAfterNow(price.startTime, selectedStartDay)
+                            ? "late"
+                            : price.status
+                        ]
+                      }
                       className="mb-3"
                       size="small"
                       style={{ minWidth: "112px", borderWidth: "2px" }}

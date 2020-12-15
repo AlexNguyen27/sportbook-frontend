@@ -118,7 +118,7 @@ const HistoryTable = ({
         render: (rowData) => {
           return (
             <Alert
-              className="m-0 text-center"
+              className="m-0 text-center py-0 px-2"
               color={COLOR_ORDER_STATUS[rowData.status]}
             >
               {ORDER_STATUS[rowData.status]}
@@ -177,35 +177,35 @@ const HistoryTable = ({
   return (
     <PageLoader loading={loading}>
       {/* <div className="history-order"> */}
-        <MaterialTable
-          icons={tableIcons}
-          title=""
-          columns={state.columns}
-          data={orderArr || []}
-          style={{ width: '100%', marginTop: '16px'}}
-          options={{
-            pageSize: 7,
-            pageSizeOptions: [5, 7, 10, 20],
-            headerStyle: {
-              fontWeight: "bold",
+      <MaterialTable
+        icons={tableIcons}
+        title=""
+        columns={state.columns}
+        data={orderArr || []}
+        style={{ width: "100%", marginTop: "16px" }}
+        options={{
+          pageSize: 7,
+          pageSizeOptions: [5, 7, 10, 20],
+          headerStyle: {
+            fontWeight: "bold",
+          },
+          rowStyle: {
+            width: "auto",
+            overflowX: "auto",
+          },
+          // search: false,
+          actionsColumnIndex: -1,
+        }}
+        actions={[
+          {
+            icon: () => <VisibilityIcon style={{ color: Colors.view }} />,
+            tooltip: "Order detail",
+            onClick: (event, rowData) => {
+              history.push(`/order-detail/${rowData.id}`);
             },
-            rowStyle: {
-              width: "auto",
-              overflowX: "auto",
-            },
-            // search: false,
-            actionsColumnIndex: -1,
-          }}
-          actions={[
-            {
-              icon: () => <VisibilityIcon style={{ color: Colors.view }} />,
-              tooltip: "Order detail",
-              onClick: (event, rowData) => {
-                history.push(`/order-detail/${rowData.id}`);
-              },
-            },
-          ]}
-        />
+          },
+        ]}
+      />
       {/* </div> */}
       {/* </div> */}
     </PageLoader>
