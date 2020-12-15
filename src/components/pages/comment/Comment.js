@@ -146,7 +146,12 @@ const Comment = ({
     } else {
       if (replyComment.trim()) {
         setReplyLoading(true);
-        addComment(setReplyLoading, replyComment.trim(), ground.id, parentReplyId);
+        addComment(
+          setReplyLoading,
+          replyComment.trim(),
+          ground.id,
+          parentReplyId
+        );
         setReplyData({
           isReply: false,
           parentReplyId: null,
@@ -190,7 +195,7 @@ const Comment = ({
                       name="comment"
                       fullWidth
                       defaultValue={child.comment}
-                      value={editComment|| ""}
+                      value={editComment || ""}
                       onChange={(e) => setEditComment(e.target.value)}
                       error={errors.editComment || ""}
                       variant="outlined"
@@ -426,19 +431,7 @@ const Comment = ({
                       color="primary"
                       size="small"
                       type="submit"
-                      onClick={() => {
-                        setViewMoreCmt(!viewMoreCmt);
-                        setViewCmtId(item.id);
-                      }}
-                    >
-                      {viewMoreCmt && viewCmtId === item.id
-                        ? "Hide"
-                        : "View more"}
-                    </Button>
-                    <Button
-                      color="primary"
-                      size="small"
-                      type="submit"
+                      style={{ fontWeight: "bold" }}
                       startIcon={<ReplyIcon />}
                       onClick={() => {
                         setReplyData({
@@ -449,6 +442,21 @@ const Comment = ({
                       }}
                     >
                       Reply
+                    </Button>
+                    <span>|</span>
+                    <Button
+                      color="primary"
+                      size="small"
+                      type="submit"
+                      style={{ textTransform: "initial", fontWeight: "bold" }}
+                      onClick={() => {
+                        setViewMoreCmt(!viewMoreCmt);
+                        setViewCmtId(item.id);
+                      }}
+                    >
+                      {viewMoreCmt && viewCmtId === item.id
+                        ? "Hide"
+                        : "View more"}
                     </Button>
                   </>
                 )}

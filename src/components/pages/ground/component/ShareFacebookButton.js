@@ -2,6 +2,18 @@ import React from "react";
 import { FacebookProvider, Share } from "react-facebook";
 import { Button } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
+import { withStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
+
+const ShareButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: green[500],
+    "&:hover": {
+      backgroundColor: green[700],
+    },
+  },
+}))(Button);
 
 const ShareFacebookButton = ({ groundId }) => {
   return (
@@ -13,7 +25,7 @@ const ShareFacebookButton = ({ groundId }) => {
         className="rounded p-0 border-0 bg-none"
       >
         {({ handleClick, loading }) => (
-          <Button
+          <ShareButton
             variant="contained"
             color="primary"
             size="small"
@@ -21,7 +33,7 @@ const ShareFacebookButton = ({ groundId }) => {
             onClick={handleClick}
           >
             SHARE
-          </Button>
+          </ShareButton>
         )}
       </Share>
     </FacebookProvider>
