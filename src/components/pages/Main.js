@@ -7,7 +7,7 @@ import { logoutUser } from "../../store/actions/auth";
 import { useHistory } from "react-router-dom";
 import { WEB_MANAGER_DOMAIN } from "../../store/actions/types";
 
-const Main = ({ children, isHome, auth, logoutUser, match }) => {
+const Main = ({ children, isHome, auth, logoutUser }) => {
   const history = useHistory();
   const logout = () => {
     Swal.fire({
@@ -43,6 +43,10 @@ const Main = ({ children, isHome, auth, logoutUser, match }) => {
       to: "/playground",
     },
     {
+      name: "Your Orders",
+      to: "/user/info/history",
+    },
+    {
       name: "Your Account",
       to: "/login",
       // children: [
@@ -61,13 +65,14 @@ const Main = ({ children, isHome, auth, logoutUser, match }) => {
 
     {
       name: "Log out",
-      to: "/",
+      to: window.location.pathname,
       onClick: () => {
         logout();
       },
     },
   ];
 
+  console.log("match00000000---------------", window.location);
   const navLinks = [
     {
       name: "Home",

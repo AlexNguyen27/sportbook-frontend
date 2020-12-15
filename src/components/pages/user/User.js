@@ -49,12 +49,12 @@ const User = ({ user, tabKey, getUserInfo }) => {
     {
       key: "extraInfo",
       icon: <SportsSoccerIcon fontSize="small" />,
-      name: "Extra information",
+      name: "Sport profile",
     },
     {
       key: "history",
       icon: <WatchLaterIcon fontSize="small" />,
-      name: "Order History",
+      name: "Order Managament",
     },
     {
       key: "notification",

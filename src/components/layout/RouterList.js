@@ -24,66 +24,82 @@ const RouterList = (props) => {
       <Route
         exact
         path="/"
-        component={() => <Main isHome={true} children={<HomePageUser />} />}
+        component={() => (
+          <Main {...props} isHome={true} children={<HomePageUser />} />
+        )}
       />
       <Route
         exact
         path="/login"
-        component={() => <Main children={<Login />} />}
+        component={() => <Main {...props} children={<Login />} />}
       />
       <Route
         exact
         path="/signup"
-        component={() => <Main children={<Signup />} />}
+        component={() => <Main {...props} children={<Signup />} />}
       />
       <ProtectedRoute
         exact
         path="/user/info/yourInfo"
-        component={() => <Main children={<User tabKey="yourInfo" />} />}
+        component={() => (
+          <Main {...props} children={<User tabKey="yourInfo" />} />
+        )}
       />
       <ProtectedRoute
         exact
         path="/user/info/changePassword"
-        component={() => <Main children={<User tabKey="changePassword" />} />}
+        component={() => (
+          <Main {...props} children={<User tabKey="changePassword" />} />
+        )}
       />
 
       <ProtectedRoute
         exact
         path="/user/info/history"
-        component={() => <Main children={<User tabKey="history" />} />}
+        component={() => (
+          <Main {...props} children={<User tabKey="history" />} />
+        )}
       />
 
       <ProtectedRoute
         exact
         path="/user/info/notification"
-        component={() => <Main children={<User tabKey="notification" />} />}
+        component={() => (
+          <Main {...props} children={<User tabKey="notification" />} />
+        )}
       />
 
       <ProtectedRoute
         exact
         path="/user/info/extraInfo"
-        component={() => <Main children={<User tabKey="extraInfo" />} />}
+        component={() => (
+          <Main {...props} children={<User tabKey="extraInfo" />} />
+        )}
       />
 
       <Route
         exact
         path="/playground"
-        component={() => <Main children={<SearchGround />} />}
+        component={() => <Main {...props} children={<SearchGround />} />}
       />
       <ProtectedRoute
         exact
         path="/order"
-        component={() => <Main children={<Order />} />}
+        component={() => <Main {...props} children={<Order />} />}
       />
       <ProtectedRoute
         exact
         path="/order-detail/:id"
-        component={(props) => <Main children={<OrderDetail {...props} />} />}
+        component={(props) => (
+          <Main {...props} children={<OrderDetail {...props} />} />
+        )}
       />
       <Route
         exact
         path="/ground/:id"
-        component={(props) => <Main children={<Ground {...props} />} />}
+        component={(props) => (
+          <Main {...props} match={props.match} children={<Ground {...props} />} />
+        )}
       />
       <ProtectedRoute component={() => <NotFound center />} />
     </Switch>

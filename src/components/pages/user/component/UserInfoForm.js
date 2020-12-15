@@ -338,11 +338,9 @@ const UserInfoForm = ({
                 src={avatar || imageUrl}
                 alt="Girl in a jacket"
                 width="100%"
-                height={200}
+                height={160}
                 className={classes.iamge}
               />
-              {/* <Tooltip title="Upload new avatar" aria-label="image"> */}
-              {/* <div> */}
               <input
                 accept="image/*"
                 className={classes.inputFile}
@@ -351,17 +349,6 @@ const UserInfoForm = ({
                 type="file"
                 onChange={handleUpload}
               />
-              {/* <label htmlFor="icon-button-file">
-                    <IconButton
-                      aria-label="upload"
-                      className={classes.btnUpload}
-                      component="span"
-                    >
-                      <CloudUploadIcon fontSize="large" />
-                    </IconButton>
-                  </label> */}
-              {/* </div> */}
-              {/* </Tooltip> */}
               <h6 className="mb-0 font-weight-bold">
                 {firstName} {lastName}
               </h6>

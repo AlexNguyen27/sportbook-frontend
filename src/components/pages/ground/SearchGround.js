@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginLeft: 0,
     marginRight: 0,
-    backgroundColor: Colors.background,
   },
   paper: {
     padding: theme.spacing(2),
@@ -219,7 +218,7 @@ const SearchGround = ({
 
   // TODO: ADD PAGINAGION LATER
   return (
-    <div style={{ minHeight: "661px" }}>
+    <div style={{ minHeight: "661px", background: Colors.background }}>
       <Row className={classes.wrapper}>
         <Col xs={9}>
           <form onSubmit={(e) => onSearch(e)}>
