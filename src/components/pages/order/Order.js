@@ -14,9 +14,19 @@ import "rc-steps/assets/index.css";
 import { useDispatch } from "react-redux";
 import { GET_ERRORS } from "../../../store/actions/types";
 import { addOrder } from "../../../store/actions/order";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import MomoPayment from "./component/MomoPayment";
+import { blue } from "@material-ui/core/colors";
+import { withStyles } from "@material-ui/core/styles";
 
+const ContinueButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: blue[500],
+    "&:hover": {
+      backgroundColor: blue[700],
+    },
+  },
+}))(Button);
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     paddingTop: "100px",
@@ -137,7 +147,7 @@ const Order = ({
                 >
                   Go Back
                 </Button>
-                <Button
+                <ContinueButton
                   variant="contained"
                   size="small"
                   color="secondary"
@@ -145,7 +155,7 @@ const Order = ({
                   onClick={() => onContinue()}
                 >
                   Continue  
-                </Button>
+                </ContinueButton>
                 {/* {true ? (
                   <CircularProgress color="secondary" size={20} />
                 ) : null} */}

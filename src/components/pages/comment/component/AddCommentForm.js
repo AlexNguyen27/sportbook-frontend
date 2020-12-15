@@ -6,7 +6,19 @@ import Button from "@material-ui/core/Button";
 import TextFieldInput from "../../../custom/TextFieldInputWithheader";
 import { addComment } from "../../../../store/actions/comment";
 import Swal from "sweetalert2";
+import { blue } from "@material-ui/core/colors";
+import { withStyles } from "@material-ui/core/styles";
+
 import { useHistory } from "react-router-dom";
+const SaveButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: blue[500],
+    "&:hover": {
+      backgroundColor: blue[700],
+    },
+  },
+}))(Button);
 
 const AddCommentForm = ({
   ground,
@@ -46,9 +58,9 @@ const AddCommentForm = ({
   return (
     <Form className="mb-4" onSubmit={(e) => onAdd(e)}>
       <Row>
-        <Col xs={9}>
+        <Col xs={2} sm={4} md={5} lg={8} xl={9} className="mb-2">
           <TextFieldInput
-            label="Give a comment here"
+            label="Add a public comment..."
             id="outlined-multiline-flexible"
             name="comment"
             fullWidth
@@ -60,19 +72,19 @@ const AddCommentForm = ({
           />
         </Col>
         {loading ? (
-          <Col xs={3} className="text-center">
+          <Col xs="auto" className="text-center">
             <CircularProgress color="secondary" size={30} />
           </Col>
         ) : (
-          <Col xs={3} style={{ alignSelf: "center" }}>
-            <Button
+          <Col xs="auto" style={{ alignSelf: "center" }} className="mb-2">
+            <SaveButton
               variant="contained"
               color="primary"
               size="small"
               type="submit"
             >
               Submit
-            </Button>
+            </SaveButton>
 
             <Button
               variant="contained"

@@ -18,11 +18,33 @@ import DISTRICTS from "../../locales/districts.json";
 import WARDS from "../../locales/wards.json";
 import TextFieldInput from "../../custom/TextFieldInputWithheader";
 import Checkbox from "@material-ui/core/Checkbox";
-import { getAddress } from "../../../utils/commonFunction";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import moment from "moment";
+import Colors from "../../../constants/Colors";
+
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: green[500],
+    "&:hover": {
+      backgroundColor: green[700],
+    },
+  },
+}))(Button);
+
+const ColorPagination = withStyles((theme) => ({
+  root: {
+    "& .Mui-selected": {
+      color: "white",
+      backgroundColor: green[500],
+      "&:hover": {
+        backgroundColor: green[700],
+      },
+    },
+  },
+}))(Pagination);
 
 const GreenCheckbox = withStyles({
   root: {
@@ -39,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginLeft: 0,
     marginRight: 0,
+    backgroundColor: Colors.background,
   },
   paper: {
     padding: theme.spacing(2),
@@ -47,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DEFAULT_PAGE_SIZE = 8;
+const DEFAULT_PAGE_SIZE = 2;
 
 const SearchGround = ({
   getBenefits,
@@ -211,7 +234,7 @@ const SearchGround = ({
                       <Col xs={8} style={{ alignSelf: "center" }}>
                         <TextFieldInput
                           id="outlined-multiline-flexible"
-                          label="Search with playground name and phone"
+                          label="Search with playground name and phone..."
                           type="search"
                           fullWidth
                           value={searchText}
@@ -234,7 +257,7 @@ const SearchGround = ({
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              label="Enter category name"
+                              label="Select category"
                               variant="outlined"
                             />
                           )}
@@ -256,7 +279,7 @@ const SearchGround = ({
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              label="Enter city name"
+                              label="Select city"
                               variant="outlined"
                             />
                           )}
@@ -276,7 +299,7 @@ const SearchGround = ({
                             <TextField
                               {...params}
                               value={selectedDistrictCode}
-                              label="Enter district name"
+                              label="Select district"
                               variant="outlined"
                             />
                           )}
@@ -294,7 +317,7 @@ const SearchGround = ({
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              label="Enter ward name"
+                              label="Select ward"
                               variant="outlined"
                             />
                           )}
@@ -303,17 +326,17 @@ const SearchGround = ({
                     </Row>
                   </Col>
                   <Col xs={2} style={{ alignSelf: "center" }}>
-                    <Button
+                    <ColorButton
                       type="submit"
                       variant="contained"
                       size="small"
                       style={{ width: "100%", alignSelf: "center" }}
-                      color="secondary"
+                      color="#4caf50"
                       className={classes.margin}
                       startIcon={<SearchIcon />}
                     >
-                      search
-                    </Button>
+                      SEARCH
+                    </ColorButton>
                   </Col>
                 </Row>
               </Paper>
@@ -347,7 +370,7 @@ const SearchGround = ({
           <Row>
             <Col xs={12} style={{ alignSelf: "center" }}>
               <div>
-                <Pagination
+                <ColorPagination
                   count={Math.ceil(groundArr.length / DEFAULT_PAGE_SIZE)}
                   onChange={(e, pageNumber) =>
                     onChangePagination(e, pageNumber)

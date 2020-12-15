@@ -55,7 +55,7 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
   return (
     <Card
       className={classes.root}
-      onClick={() => window.open(`/ground/${ground.id}`)}
+      onClick={() => history.push(`/ground/${ground.id}`)}
       elevation={3}
     >
       {/* <CardHeader

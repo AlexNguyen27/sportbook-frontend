@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { Paper } from "@material-ui/core";
 import StarIcon from "@material-ui/icons/Star";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PhoneIcon from "@material-ui/icons/Phone";
 import RoomIcon from "@material-ui/icons/Room";
@@ -27,6 +26,19 @@ import Swal from "sweetalert2";
 import Rating from "@material-ui/lab/Rating";
 import ReactGoogleMaps from "../../custom/ReactGoogleMaps";
 import ShareFacebookButton from "./component/ShareFacebookButton";
+import Colors from "../../../constants/Colors";
+import { withStyles } from "@material-ui/core/styles";
+import { orange } from "@material-ui/core/colors";
+
+const ReviewButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: orange[500],
+    "&:hover": {
+      backgroundColor: orange[700],
+    },
+  },
+}))(Button);
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     marginRight: 0,
     justifyContent: "center",
+    background: Colors.background,
   },
 }));
 
@@ -159,6 +172,22 @@ const Ground = ({
     }
   };
 
+  const loginQuestion = () => {
+    Swal.fire({
+      title: `Please login to continue?`,
+      text: "",
+      type: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Login!",
+    }).then((result) => {
+      if (result.value) {
+        history.push("/login");
+      }
+    });
+  };
+
   const averageRate =
     ratings.length > 0
       ? ratings.reduce((acc, curr) => acc + curr.point, 0) / ratings.length
@@ -170,39 +199,36 @@ const Ground = ({
         <div className={classes.title}>
           <Row style={{ justifyContent: "center" }}>
             <Col xs={9}>
-              <h2 className="text-capitalize" style={{ color: "" }}>
+              <h2 className="text-capitalize" style={{ color: "#fc8621" }}>
                 {title}
               </h2>
-              <h5 style={{ color: "" }}>{getAddress(ground.address)}</h5>
+              <h5 classNam="mb-4" style={{ color: Colors.white }}>
+                <RoomIcon className="mr-1" />
+                {getAddress(ground.address)}
+              </h5>
               <h5>
-                <Rating
-                  name="read-only"
-                  value={roundNumber(averageRate, 1)}
-                  readOnly
-                />
-                <span style={{ fontSize: "12px" }}>
-                  (View{" "}
-                  {`${ratings.length} ${
-                    ratings.length > 1 ? "reviews " : "review "
-                  }`}
-                  below)
-                </span>
+                {!ratings.length ? (
+                  "No review"
+                ) : (
+                  <>
+                    <Rating
+                      name="read-only"
+                      value={roundNumber(averageRate, 1)}
+                      readOnly
+                    />
+                    <span style={{ fontSize: "12px", color: "white" }}>
+                      (View{" "}
+                      {`${ratings.length} ${
+                        ratings.length > 1 ? "reviews " : "review "
+                      }`}
+                      below)
+                    </span>
+                  </>
+                )}
               </h5>
 
               <ShareFacebookButton groundId={ground.id} />
             </Col>
-            {/* <Col xs={3} style={{ alignSelf: "flex-end", textAlign: "right" }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                className={classes.button}
-                endIcon={<CreditCardIcon />}
-                onClick={() => {}}
-              >
-                Book Online
-              </Button>
-            </Col> */}
           </Row>
         </div>
       </div>
@@ -250,14 +276,18 @@ const Ground = ({
           <h5>Playground Images</h5>
           {/*list ground image  */}
 
-          <Row className="text-center">
+          <Row
+            className="text-center"
+            style={{ marginLeft: "-15px", marginRight: "-15px" }}
+          >
             {getImageUrls().length > 0 ? (
               getImageUrls().map((url) => (
-                <Col xs={6}>
+                <Col xs={6} className="mb-2">
                   <img
                     style={{ position: "relative" }}
                     width="100%"
                     height="100%"
+                    onClick={() => window.open(url)}
                     src={url}
                     alt={""}
                   />
@@ -281,36 +311,30 @@ const Ground = ({
           <hr />
         </Col>
         <Col xs={3}>
-          <div>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ width: "100%" }}
-              className={classes.button}
-              size="small"
-              endIcon={<CreditCardIcon />}
-            >
-              Contact
-            </Button>
-          </div>
           <Paper elevation={3} className={classes.paper}>
-            <h6>CONTACT</h6>
+            <h6 className="text-center">CONTACT</h6>
             <p>
               <GroupWorkIcon className="mr-2" />
               {ground?.category?.name}
             </p>
             <p>
               <PhoneIcon className="mr-2" />
-              <a href={`tel:${phone}`} alt="">
-                {phone || "No phone"}
-              </a>
+              {!isAuthenticated ? (
+                <a href="/" onClick={() => loginQuestion()} alt="">
+                  Login to view phone number
+                </a>
+              ) : (
+                <a href={`tel:${phone}`} alt="">
+                  {phone || "No phone"}
+                </a>
+              )}
             </p>
             <p>
               <RoomIcon className="mr-2" />
               {getAddress(ground.address) || "No address"}
             </p>
             <div className="text-center">
-              <Button
+              <ReviewButton
                 variant="contained"
                 color="primary"
                 className={classes.button}
@@ -319,7 +343,7 @@ const Ground = ({
                 onClick={() => onClickReview()}
               >
                 Review
-              </Button>
+              </ReviewButton>
             </div>
             <ReviewModel modal={modelReview} setModal={setModelReview} />
           </Paper>

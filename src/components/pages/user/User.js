@@ -21,7 +21,7 @@ import History from "./component/History";
 import { useHistory } from "react-router-dom";
 import ExtraInformation from "../extraInfo/ExtraInformation";
 import { getUserInfo } from "../../../store/actions/user";
-import PageLoader from "../../custom/PageLoader";
+import Colors from "../../../constants/Colors";
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +31,7 @@ const useStyles = makeStyles({
     padding: "100px 0 40px 0",
     marginLeft: 0,
     marginRight: 0,
+    background: Colors.background,
   },
 });
 
@@ -128,7 +129,9 @@ const User = ({ user, tabKey, getUserInfo }) => {
           </Col>
         </Paper>
       </Col>
-      <Col xs={12} md={7}>{renderContent[selectedItem]}</Col>
+      <Col xs={12} md={7}>
+        {renderContent[selectedItem]}
+      </Col>
     </Row>
   );
 };

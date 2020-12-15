@@ -14,6 +14,7 @@ import { SAVE_ORDER_DATA } from "../../../../store/actions/types";
 import { getAddress, isSameOrAfterNow } from "../../../../utils/commonFunction";
 import { SUB_GROUND_STATUS } from "../../../../utils/common";
 import Swal from "sweetalert2";
+import { PRICE_STATUS_COLOR } from "../../../../constants/constant";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,50 +112,45 @@ const PriceDetail = ({
           <AccordionDetails>
             <Row style={{ width: "100%" }}>
               {item.prices.map((price) => (
-                <Col xs={12} sm={6} md={4} lg={2} className="text-center">
+                <Col xs="auto" className="text-center ">
                   <Tooltip title="Book this time">
                     <Button
                       variant="outlined"
-                      color="primary"
+                      color={PRICE_STATUS_COLOR[price.status]}
                       className="mb-3"
                       size="small"
                       style={{ minWidth: "112px", borderWidth: "2px" }}
-                      disabled={
-                        price.status !== SUB_GROUND_STATUS.ready ||
-                        !isSameOrAfterNow(
-                          price.startTime,
-                          selectedStartDay
-                        )
-                      }
-                      onClick={() => onClickPriceCard(price, item)}
+                      // disabled={
+                      //   price.status !== SUB_GROUND_STATUS.ready ||
+                      //   !isSameOrAfterNow(price.startTime, selectedStartDay)
+                      // }
+                      onClick={() => {
+                        if (
+                          price.status === SUB_GROUND_STATUS.ready &&
+                          isSameOrAfterNow(price.startTime, selectedStartDay)
+                        ) {
+                          onClickPriceCard(price, item);
+                        }
+                      }}
                     >
-                      <div>
-                        <p className={classes.noMargin}>{`${moment(
-                          price.startTime,
-                          "HH:mm:ss"
-                        ).format("HH:mm")} - ${moment(
-                          price.endTime,
-                          "HH:mm:ss"
-                        ).format("HH:mm")}`}</p>
-                        <p className={classes.text}>
-                          {isSameOrAfterNow(
-                            price.startTime,
-                            selectedStartDay
-                          )
-                            ? price.status
-                            : "LATE"}
-                        </p>
-                        <p className={classes.noMargin}>
-                          {price.price}$
-                          {price.discount > 0 ? (
-                            <span
-                              style={{ fontSize: "12px", fontWeight: "normal" }}
-                            >
-                              -{price.discount}%
-                            </span>
-                          ) : null}
-                        </p>
-                      </div>
+                      {`${moment(price.startTime, "HH:mm:ss").format(
+                        "HH:mm"
+                      )} - ${moment(price.endTime, "HH:mm:ss").format(
+                        "HH:mm"
+                      )}`}
+                      <br />
+                      {isSameOrAfterNow(price.startTime, selectedStartDay)
+                        ? price.status
+                        : "LATE"}
+                      <br />
+                      {price.price}$
+                      {price.discount > 0 ? (
+                        <span
+                          style={{ fontSize: "12px", fontWeight: "normal" }}
+                        >
+                          -{price.discount}%
+                        </span>
+                      ) : null}
                     </Button>
                   </Tooltip>
                 </Col>

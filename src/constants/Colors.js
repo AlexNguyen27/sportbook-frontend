@@ -20,6 +20,6 @@ export default {
   comment: "#776d8a",
   background: '#fafafa',
   statistic: '#a6dcef',
-  report: '#421b9b'
-
+  report: '#421b9b',
+  greenBtn: "#4caf5",
 };

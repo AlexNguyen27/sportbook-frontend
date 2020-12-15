@@ -9,6 +9,19 @@ import { DEFAULT_GROUND_IMAGE } from "../../../../utils/common";
 import { getAddress } from "../../../../utils/commonFunction";
 import { useHistory } from "react-router-dom";
 import { truncateMultilineString } from "../../../../utils/formatString";
+import Colors from "../../../../constants/Colors";
+import { withStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
+
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: "white",
+    backgroundColor: green[500],
+    "&:hover": {
+      backgroundColor: green[700],
+    },
+  },
+}))(Button);
 
 const GroundItem = ({ ground, benefits }) => {
   const benefitArr = ground.benefit ? ground.benefit.split(",") : [];
@@ -50,8 +63,8 @@ const GroundItem = ({ ground, benefits }) => {
           <p className="mb-1">
             <PhoneIcon className="mr-2" fontSize="small" />
             <a href={`tel:${phone}`} alt="">
-                {phone || "No phone"}
-              </a>
+              {phone || "No phone"}
+            </a>
           </p>
           <div>
             {benefitArr.map((key) => (
@@ -71,19 +84,20 @@ const GroundItem = ({ ground, benefits }) => {
               </>
             ))}
           </div>
-            <p className="mt-2 mb-2">{truncateMultilineString(description, 95)}</p>
+          <p className="mt-2 mb-2">
+            {truncateMultilineString(description, 95)}
+          </p>
         </Col>
         <Col xs={2} style={{ alignSelf: "center" }}>
           {/* open ground */}
-          <Button
+          <ColorButton
             variant="contained"
-            color="primary"
-            style={{ width: "100%" }}
+            style={{ width: "100%", backgroundColor: Colors.greenBtn }}
             size="small"
             onClick={() => history.push(`/ground/${ground.id}`)}
           >
             DETAIL
-          </Button>
+          </ColorButton>
         </Col>
       </Row>
     </Paper>
