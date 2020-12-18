@@ -17,6 +17,7 @@ const FacebookLoginCustom = ({
   const [exitEmail, setIsExitEmail] = useState({});
 
   const handleError = (response) => {
+    console.log("error----------------------", response);
     if (response?.error !== "popup_closed_by_user") {
       Swal.fire({
         position: "center",
@@ -61,8 +62,8 @@ const FacebookLoginCustom = ({
         <LoginButton
           className="w-100 border-0 bg-white"
           scope="email"
-          onCompleted={handleResponse}
-          onError={handleError}
+          onCompleted={(res) => handleResponse(res)}
+          onError={(error) => handleError(error)}
         >
           <Button
             className=" w-100"

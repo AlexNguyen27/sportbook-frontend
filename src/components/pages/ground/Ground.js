@@ -45,8 +45,6 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "150px",
     width: "100%",
-    // marginLeft: 0,
-    // marginRight: 0,
   },
   button: {
     marginTop: theme.spacing(1),
@@ -83,11 +81,10 @@ const Ground = ({
   const classes = useStyles();
   const history = useHistory();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modelReview, setModelReview] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     getGrounds(setLoading); // FOR RECOMMENT GROUND
   }, []);
 
@@ -112,20 +109,13 @@ const Ground = ({
           // GET RATING
           getRatings(setLoading);
         });
-        document.getElementById("ground-image").style.background = `url('${
-          getImageUrls()[0] || DEFAULT_GROUND_IMAGE
-        }')`;
-        document.getElementById("ground-image").style.backgroundPosition =
-          "center";
-        document.getElementById("ground-image").style.backgroundRepeat =
-          "no-repeat";
-        document.getElementById("ground-image").style.backgroundSize = "cover";
       });
     }
   }, [groundId]);
 
   useEffect(() => {
-    if (ground && loading === false) {
+    if (!loading) {
+      console.log(groundId, loading);
       document.getElementById("ground-image").style.background = `url('${
         getImageUrls()[0] || DEFAULT_GROUND_IMAGE
       }')`;
@@ -135,11 +125,10 @@ const Ground = ({
         "no-repeat";
       document.getElementById("ground-image").style.backgroundSize = "cover";
     }
-  }, [groundId, loading]);
+  }, [loading]);
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
-  console.log("ground-----------------------", groundId);
   const { title, description, phone, image } = ground;
   const benefitArr = ground.benefit ? ground.benefit.split(",") : [];
 
@@ -172,21 +161,21 @@ const Ground = ({
     }
   };
 
-  const loginQuestion = () => {
-    Swal.fire({
-      title: `Please login to continue?`,
-      text: "",
-      type: "success",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Login!",
-    }).then((result) => {
-      if (result.value) {
-        history.push("/login");
-      }
-    });
-  };
+  // const loginQuestion = () => {
+  //   Swal.fire({
+  //     title: `Please login to continue?`,
+  //     text: "",
+  //     type: "success",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Login!",
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       history.push("/login");
+  //     }
+  //   });
+  // };
 
   const averageRate =
     ratings.length > 0
@@ -319,15 +308,9 @@ const Ground = ({
             </p>
             <p>
               <PhoneIcon className="mr-2" />
-              {!isAuthenticated ? (
-                <a href="/" onClick={() => loginQuestion()} alt="">
-                  Login to view phone number
-                </a>
-              ) : (
-                <a href={`tel:${phone}`} alt="">
-                  {phone || "No phone"}
-                </a>
-              )}
+              <a href={`tel:${phone}`} alt="">
+                {phone || "No phone"}
+              </a>
             </p>
             <p>
               <RoomIcon className="mr-2" />

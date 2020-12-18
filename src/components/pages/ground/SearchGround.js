@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DEFAULT_PAGE_SIZE = 2;
+const DEFAULT_PAGE_SIZE = 10;
 
 const SearchGround = ({
   getBenefits,
@@ -105,14 +105,11 @@ const SearchGround = ({
     getGrounds(setLoading).then(() => {
       setLoading(true);
       getBenefits(setLoading);
+      onChangePagination(0, 1);
     });
   }, []);
 
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
-
-  // TODO : FIX PAGINATION
-  const [dataSource, setDataSource] = useState(groundArr);
-  const [searchText, setSearchText] = useState("");
 
   const onChangePagination = (e, pageNumber) => {
     console.log("page", pageNumber, e);
@@ -123,6 +120,9 @@ const SearchGround = ({
 
     setDataSource([...getPageData]);
   };
+  // TODO : FIX PAGINATION
+  const [dataSource, setDataSource] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const onSearch = (e) => {
     e.preventDefault();
@@ -144,7 +144,7 @@ const SearchGround = ({
         startDay: moment().format("DD-MM-YYYY"),
       };
     }
-    getSearchGrounds(setLoading, searchData);
+    getSearchGrounds(setLoading, searchData, setDataSource);
   };
 
   const onShowAllEmptyField = (checked) => {
@@ -216,6 +216,7 @@ const SearchGround = ({
     });
   };
 
+  console.log(dataSource, groundArr);
   // TODO: ADD PAGINAGION LATER
   return (
     <div style={{ minHeight: "661px", background: Colors.background }}>
@@ -383,11 +384,8 @@ const SearchGround = ({
           </Row>
           <PageLoader loading={loading}>
             <Row className="mb-4">
-              {Object.keys(grounds).map((groundId) => (
-                <GroundItem
-                  key={grounds[groundId].id}
-                  ground={grounds[groundId]}
-                />
+              {dataSource.map((ground) => (
+                <GroundItem key={ground.id} ground={ground} />
               ))}
             </Row>
           </PageLoader>
