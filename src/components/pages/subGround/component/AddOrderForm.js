@@ -6,7 +6,7 @@ import moment from "moment";
 import _ from "lodash";
 import Button from "@material-ui/core/Button";
 import { Row, Col, Form } from "reactstrap";
-import { GET_ERRORS, SAVE_ORDER_DATA } from "../../../../store/actions/types";
+import { GET_ERRORS, SAVE_ORDER_DATA, SELECTED_START_DAY } from "../../../../store/actions/types";
 import PageLoader from "../../../custom/PageLoader";
 import DropdownV2 from "../../../custom/DropdownV2";
 import DateFnsUtils from "@date-io/date-fns";
@@ -114,6 +114,12 @@ const AddOrderForm = ({
     setSelectedDate({
       ...selectedDate,
       [fieldName]: date,
+    });
+
+    //  SAVE TO REDUX
+    dispatch({
+      type: SELECTED_START_DAY,
+      startDay: moment(date).format("DD-MM-YYYY"),
     });
   };
 

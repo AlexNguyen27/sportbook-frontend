@@ -95,7 +95,7 @@ export const getGrounds = (setLoading, isAvailable) => async (
     });
     if (!errors) {
       const categories = arrayToObject(categoryData.categories);
-  
+
       dispatch({
         type: GET_CATEGORIES,
         categories,
@@ -221,11 +221,16 @@ export const getGroundById = (setLoading, id, startDay) => async (
   setLoading(false);
 };
 
-export const getSearchGrounds = (setLoading, searchData) => async (
-  dispatch,
-  getState
-) => {
-  const { token } = getState().auth;
+export const getSearchGrounds = (
+  setLoading,
+  searchData,
+  setDataSource
+) => async (dispatch, getState) => {
+  const { token, user } = getState().auth;
+
+  if(user.id) {
+    // MAP WITH USER LOCAL ADDRESS
+  }
 
   const { data, errors } = await hera({
     options: {
@@ -276,12 +281,15 @@ export const getSearchGrounds = (setLoading, searchData) => async (
       isAvailable: searchData.isAvailable || false,
       startTime: searchData.startTime || "",
       startDay: searchData.startDay || "",
-      categoryId: searchData.categoryId || ''
+      categoryId: searchData.categoryId || "",
     },
   });
   if (!errors) {
     const grounds = arrayToObject(data.searchGrounds);
 
+    const getPageData = data.searchGrounds.slice(0, 10);
+
+    setDataSource([...getPageData]);
     dispatch({
       type: GET_GROUNDS,
       grounds,
