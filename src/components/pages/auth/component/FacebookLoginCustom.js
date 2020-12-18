@@ -58,6 +58,8 @@ const FacebookLoginCustom = ({
 
   return (
     <>
+      {/* FIX LATER */}
+      {/* https://github.com/facebook/facebook-ios-sdk/issues/152 */}
       <FacebookProvider appId="399575068135183">
         <LoginButton
           className="w-100 border-0 bg-white"
