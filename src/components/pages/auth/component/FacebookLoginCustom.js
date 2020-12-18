@@ -18,7 +18,7 @@ const FacebookLoginCustom = ({
 
   const handleError = (response) => {
     console.log("error----------------------", response);
-    if (response?.error !== "popup_closed_by_user") {
+    if (response?.error) {
       Swal.fire({
         position: "center",
         type: "Warning",
@@ -58,7 +58,7 @@ const FacebookLoginCustom = ({
 
   return (
     <>
-      <FacebookProvider appId="685323535689330">
+      <FacebookProvider appId="399575068135183">
         <LoginButton
           className="w-100 border-0 bg-white"
           scope="email"
