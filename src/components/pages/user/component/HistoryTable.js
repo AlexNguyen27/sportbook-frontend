@@ -159,12 +159,6 @@ const HistoryTable = ({
     ],
   });
 
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    getOrderHistory(setLoading, status, fromDate, toDate);
-  }, [status, fromDate, toDate]);
-
   const getDateTime = (date) => moment(date).format(DATE_TIME);
   const orderArr = Object.keys(orders).map((orderId) => ({
     ...orders[orderId],
@@ -174,9 +168,8 @@ const HistoryTable = ({
     discount: orders[orderId].discount.toString(),
     createdAt: getDateTime(orders[orderId].createdAt),
   }));
+  
   return (
-    <PageLoader loading={loading}>
-      {/* <div className="history-order"> */}
       <MaterialTable
         icons={tableIcons}
         title=""
@@ -206,9 +199,6 @@ const HistoryTable = ({
           },
         ]}
       />
-      {/* </div> */}
-      {/* </div> */}
-    </PageLoader>
   );
 };
 const mapStateToProps = (state) => ({
