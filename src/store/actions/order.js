@@ -12,7 +12,7 @@ import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 import Swal from "sweetalert2";
 
-export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
+export const getOrderHistory = (setLoading, filter) => async (
   dispatch,
   getState
 ) => {
@@ -57,9 +57,9 @@ export const getOrderHistory = (setLoading, status, fromDate, toDate) => async (
           }
             `,
     variables: {
-      status,
-      fromDate,
-      toDate,
+      status: filter.status || "",
+      fromDate: filter.fromDate || "",
+      toDate: filter.toDate || "",
     },
   });
   if (!errors) {
