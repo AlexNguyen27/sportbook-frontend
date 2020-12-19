@@ -24,7 +24,7 @@ const StepTwo = ({ paymentMethod }) => {
         <h4>
           {paymentMethod === "offline"
             ? "Your booking is confirmed successfully"
-            : "Your payment is successfull"}
+            : "Your order is successfull"}
         </h4>
       </Col>
       <Col>

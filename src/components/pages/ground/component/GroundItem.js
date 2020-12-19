@@ -40,12 +40,14 @@ const GroundItem = ({ ground, benefits }) => {
 
   return (
     <Paper elevation={3} className="mt-4 mb-2 p-3" style={{ width: "100%" }}>
-      <Row>
+      <Row >
         <Col xs={3}>
           <img
-            style={{ position: "relative", maxHeight: "200px" }}
+            style={{
+              position: "relative",
+            }}
             width="100%"
-            height="100%"
+            height="160px"
             src={getImageUrls()[0] || DEFAULT_GROUND_IMAGE}
             alt={""}
             onClick={() => {}}
