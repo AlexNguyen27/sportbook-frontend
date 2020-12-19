@@ -267,15 +267,20 @@ const Ground = ({
 
           <Row
             className="text-center"
-            style={{ marginLeft: "-15px", marginRight: "-15px" }}
+            style={{
+              marginLeft: "-15px !important",
+              marginRight: "-15px !important",
+              maxHeight: "400px",
+              overflowY: "auto",
+            }}
           >
             {getImageUrls().length > 0 ? (
               getImageUrls().map((url) => (
-                <Col xs={6} className="mb-2">
+                <Col xs={6} className="mb-4">
                   <img
                     style={{ position: "relative" }}
                     width="100%"
-                    height="100%"
+                    height="200px"
                     onClick={() => window.open(url)}
                     src={url}
                     alt={""}
