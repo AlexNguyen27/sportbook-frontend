@@ -160,23 +160,6 @@ const Ground = ({
       setModelReview(true);
     }
   };
-
-  // const loginQuestion = () => {
-  //   Swal.fire({
-  //     title: `Please login to continue?`,
-  //     text: "",
-  //     type: "success",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Login!",
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       history.push("/login");
-  //     }
-  //   });
-  // };
-
   const averageRate =
     ratings.length > 0
       ? ratings.reduce((acc, curr) => acc + curr.point, 0) / ratings.length
@@ -191,7 +174,7 @@ const Ground = ({
               <h2 className="text-capitalize" style={{ color: "#fc8621" }}>
                 {title}
               </h2>
-              <h5 classNam="mb-4" style={{ color: Colors.white }}>
+              <h5 classNam="mb-4" style={{ color: Colors.white  }}>
                 <RoomIcon className="mr-1" />
                 {getAddress(ground.address)}
               </h5>
@@ -263,8 +246,6 @@ const Ground = ({
           <ReactGoogleMaps address={getAddress(ground.address)} />
           <hr />
           <h5>Playground Images</h5>
-          {/*list ground image  */}
-
           <Row
             className="text-center"
             style={{

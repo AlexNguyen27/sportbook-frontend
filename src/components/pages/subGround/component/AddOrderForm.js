@@ -6,7 +6,11 @@ import moment from "moment";
 import _ from "lodash";
 import Button from "@material-ui/core/Button";
 import { Row, Col, Form } from "reactstrap";
-import { GET_ERRORS, SAVE_ORDER_DATA, SELECTED_START_DAY } from "../../../../store/actions/types";
+import {
+  GET_ERRORS,
+  SAVE_ORDER_DATA,
+  SELECTED_START_DAY,
+} from "../../../../store/actions/types";
 import PageLoader from "../../../custom/PageLoader";
 import DropdownV2 from "../../../custom/DropdownV2";
 import DateFnsUtils from "@date-io/date-fns";
@@ -55,10 +59,7 @@ const AddOrderForm = ({
     Object.keys(prices).map((key) => {
       if (
         !startTimes.find((item) => item.compare === prices[key].startTime) &&
-        isSameOrAfterNow(
-          prices[key].startTime,
-          selectedStartDay
-        )
+        isSameOrAfterNow(prices[key].startTime, selectedStartDay)
       ) {
         startTimes.push({
           compare: prices[key].startTime,
@@ -90,7 +91,7 @@ const AddOrderForm = ({
     }
   }, [selectedStartDay]);
 
-  const getEndTimes = (startTime = '') => {
+  const getEndTimes = (startTime = "") => {
     let selectedStartTime = startTime || selectedDate.startTime;
     let endTimes = [];
     if (!selectedStartTime.trim()) {
@@ -225,11 +226,13 @@ const AddOrderForm = ({
           <Col xs="6" className="mt-2">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
+                disableToolbar
                 margin="normal"
                 size="small"
+                variant="inline"
                 disablePast={true}
                 inputVariant="outlined"
-                id="date-picker-dialog"
+                id="date-picker-inline"
                 label="Select date"
                 style={{ margin: 0, width: "100%" }}
                 format="dd/MM/yyyy"
@@ -292,7 +295,7 @@ const AddOrderForm = ({
             type="submit"
             size="small"
           >
-            BOOK
+            SEARCH
           </Button>
         </Row>
         <hr />
