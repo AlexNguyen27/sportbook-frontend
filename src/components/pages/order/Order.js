@@ -121,7 +121,7 @@ const Order = ({
         <Steps current={onStep}>
           <Step title="Login" description="Step 1" />
           <Step title="Confirm order" description="Step 2" />
-          <Step title="Payment Success" description="Step 3" />
+          <Step title="Order Success" description="Step 3" />
         </Steps>
         {
           {

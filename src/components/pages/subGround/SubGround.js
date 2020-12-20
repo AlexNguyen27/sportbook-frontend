@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { Col, Row } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
 import PriceDetail from "./component/PriceDetail";
-import AddOrderForm from "./component/AddOrderForm";
 import { SELECTED_START_DAY } from "../../../store/actions/types";
+import SearchForm from "./component/SearchForm";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -79,7 +78,7 @@ const SubGround = ({ ground }) => {
           > */}
         <Row
           style={{
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
         >
           {[...Array(7)].map((item, index) => (
@@ -90,36 +89,17 @@ const SubGround = ({ ground }) => {
                 variant={selectedDate === index ? "contained" : "outlined"}
                 onClick={() => onChangeSelectedStartDay(index)}
               >
-                {/* <div>
-                    <p
-                      style={{ padding: "0" }}
-                      className={
-                        selectedDate === index ? classes.bold : classes.noMargin
-                      }
-                    > */}
                 {moment().add(index, "days").format("dddd")}
                 <br />
-                {/* </p> */}
-                {/* <p
-                      style={{ padding: "0" }}
-                      className={
-                        selectedDate === index ? classes.bold : classes.noMargin
-                      }
-                    > */}
                 {moment().add(index, "days").format("DD-MM")}
-                {/* </p> */}
-                {/* </div> */}
               </Button>
             </Col>
           ))}
         </Row>
-
-        {/* </ButtonGroup> */}
-        {/* </div> */}
         <Row>
           <Col>
             {/*  SEARCH SUB GROUND*/}
-            <AddOrderForm subGrounds={ground.subGrounds} ground={ground} />
+            <SearchForm subGrounds={ground.subGrounds} ground={ground} />
 
             {/* PRICE DETAIL */}
             <PriceDetail />

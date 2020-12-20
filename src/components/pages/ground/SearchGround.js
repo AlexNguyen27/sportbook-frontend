@@ -362,8 +362,8 @@ const SearchGround = ({
           <Row>
             <Col style={{ alignSelf: "flex-end" }} xs={7}>
               <h5>
-                {groundArr.length} {groundArr.length > 1 ? "Results" : "Result"}{" "}
-                Found
+                {groundArr.length}{" "}
+                {groundArr.length > 1 ? "Playgrounds" : "Playground"}{" "}
               </h5>
             </Col>
           </Row>
