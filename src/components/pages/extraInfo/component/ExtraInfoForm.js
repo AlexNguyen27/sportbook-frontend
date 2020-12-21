@@ -5,7 +5,7 @@ import { Row, Col } from "reactstrap";
 import { EXTRA_INFO_LABEL, FAVORITE_FOOT } from "../../../../utils/common";
 import DropdownV2 from "../../../custom/DropdownV2";
 
-// todo SAVE TO JSON
+//SAVE TO JSON
 const ExtraInfoForm = ({ errors, formData, onChange, setExtraInfoForm }) => {
   const {
     favoriteFoot,
@@ -35,7 +35,7 @@ const ExtraInfoForm = ({ errors, formData, onChange, setExtraInfoForm }) => {
   return (
     <>
       <h4 className="text-center mb-0">Sport profile</h4>
-      <Row className="mt-2">
+      <Row>
         <Col xs={6}>
           <DropdownV2
             header="Farovite Foot"

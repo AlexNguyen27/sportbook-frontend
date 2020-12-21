@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import TextFieldInput from "../../../custom/TextFieldInputWithheader";
 import { Row, Col } from "reactstrap";
@@ -8,7 +8,7 @@ const SocialNetworkForm = ({ errors, formData, onChange }) => {
   return (
     <>
       <h4 className="text-center mt-4 mb-0">Social network</h4>
-      <Row>
+      <Row style={{ marginTop: "-1px" }}>
         {Object.keys(formData).map((key) => (
           <Col xs={12}>
             <TextFieldInput
