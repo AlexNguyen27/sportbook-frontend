@@ -9,7 +9,7 @@ const responsive = {
       max: 3000,
       min: 1300,
     },
-    items: 3,
+    items: 4,
     partialVisibilityGutter: 30,
   },
   tablet: {
