@@ -326,25 +326,24 @@ const UserInfoForm = ({
 
   // VALIDATE PHONE WITH FIREBASE
   const handleValidatePhone = () => {
-    // console.log(
-    //   "connect---------",
-    //   JSON.stringify(firebase.apps[0].options, null, 2)
-    // );
     try {
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible", // invisible
-          callback: function (response) {
-            console.log("response----------", response);
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-          },
-          "expired-callback": function () {
-            console.log("ex---------");
-            // Response expired. Ask user to solve reCAPTCHA again.
-          },
-        }
-      );
+      if (!window.recaptchaVerifier) {
+        console.log("herer-----------------------", window.recaptchaVerifier);
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+          "recaptcha-container",
+          {
+            size: "invisible", // invisible
+            callback: function (response) {
+              console.log("response----------", response);
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+            },
+            "expired-callback": function () {
+              console.log("ex---------");
+              // Response expired. Ask user to solve reCAPTCHA again.
+            },
+          }
+        );
+      }
 
       const appVerifier = window.recaptchaVerifier;
       const formatPhone = "+84" + phone.slice(1);
