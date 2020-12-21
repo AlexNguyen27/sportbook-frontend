@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Button, IconButton, Tooltip } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 import Paper from "@material-ui/core/Paper";
 import _ from "lodash";
@@ -31,7 +31,10 @@ import DISTRICTS from "../../../locales/districts.json";
 import WARDS from "../../../locales/wards.json";
 
 import { validateEmail } from "../../../../utils/commonFunction";
-import { storage } from "../../../../constants/firebase";
+import firebase, { storage } from "../../../../constants/firebase";
+import "firebase/auth";
+import VerifyPhoneModal from "./VerifyPhoneModal";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -60,9 +63,8 @@ const useStyles = makeStyles((theme) => ({
     top: "155px",
   },
   inputFile: {
-    // display: "none",
     marginTop: "5px",
-    width: '-webkit-fill-available'
+    width: "-webkit-fill-available",
   },
 }));
 
@@ -81,7 +83,6 @@ const UserInfoForm = ({
 
   const imageUrl = BASE_IMAGE_URL;
   const [avatar, setAvatar] = useState("");
-  // const [loading, setLoading] = useState(true);
 
   const [formData, setformData] = useState({
     firstName: "",
@@ -90,7 +91,6 @@ const UserInfoForm = ({
     phone: "",
     address: "",
     gender: "",
-    // playRole: "",
     createdAt: "",
     updatedAt: "",
   });
@@ -100,14 +100,8 @@ const UserInfoForm = ({
     value: GENDER[key],
   }));
 
-  // const favoriteFootArr = Object.keys(FAVORITE_FOOT).map((key) => ({
-  //   key: key,
-  //   value: FAVORITE_FOOT[key],
-  // }));
-
   const [selectedDropdownData, setSelectedDropdownData] = useState({
     selectedGenderKey: "",
-    // selectedFavoriteFootKey: "",
     selectedRegionCode: "",
     selectedDistrictCode: "",
     selectedWardCode: "",
@@ -118,7 +112,6 @@ const UserInfoForm = ({
     selectedRegionCode,
     selectedDistrictCode,
     selectedWardCode,
-    // selectedFavoriteFootKey,
   } = selectedDropdownData;
 
   const regionArr = Object.keys(REGIONS).map((key) => ({
@@ -168,7 +161,6 @@ const UserInfoForm = ({
     email,
     phone,
     address,
-    // playRole,
     createdAt,
     updatedAt,
   } = formData;
@@ -197,7 +189,6 @@ const UserInfoForm = ({
         email: user.email || "",
         phone: user.phone || "",
         address: user.address ? address.address : "",
-        // playRole: user.playRole || "",
         createdAt: moment(user.createdAt).format("DD/MM/YYYY HH:mm A") || "",
         updatedAt: moment(user.updatedAt).format("DD/MM/YYYY HH:mm A") || "",
       });
@@ -205,7 +196,6 @@ const UserInfoForm = ({
         selectedRegionCode: _.get(address, "regionCode") || "",
         selectedDistrictCode: _.get(address, "districtCode") || "",
         selectedWardCode: _.get(address, "wardCode") || "",
-        // selectedFavoriteFootKey: _.get(user, "favoriteFoot") || "",
         selectedGenderKey: _.get(user, "gender", "") || "",
       });
       setAvatar(user.avatar || imageUrl);
@@ -213,12 +203,29 @@ const UserInfoForm = ({
   };
 
   useEffect(() => {
-    // getUserInfo(setLoading);
     setInit();
   }, []);
 
-  const onSubmit = (e) => {
+  const [validatePhoneSuccess, setValidatePhoneSuccess] = useState(false);
+
+  const [modalPhone, setModalPhone] = useState(false);
+  const onSubmit = async (e) => {
     const formatData = trimObjProperties(formData);
+
+    if (errors.confirmPhone) {
+      return;
+    }
+    // CHECK CONFIRM CODE
+    if (
+      (user.phone && user.phone !== phone && !validatePhoneSuccess) ||
+      (!user.phone && !!phone.trim() && !validatePhoneSuccess) // first time update phone
+    ) {
+      // NOW CAN NOT RESEND THE VALIDATE CODE
+      handleValidatePhone();
+      return;
+    }
+
+    // IF DONE OR DONT HAVE VALIDATE CODE
     let dob = moment(selectedDate || "").format("DD/MM/YYYY");
     let error = {};
     Object.keys(formatData).map((key) => {
@@ -230,9 +237,6 @@ const UserInfoForm = ({
     if (JSON.stringify(error) === "{}" && !validateEmail(email)) {
       error.email = "Email is invalid!";
     }
-    // if (!selectedFavoriteFootKey.trim()) {
-    //   error.favoriteFoot = "This field is required";
-    // }
     if (!selectedGenderKey.trim()) {
       error.gender = "This field is required";
     }
@@ -253,7 +257,6 @@ const UserInfoForm = ({
     formatData.regionCode = selectedRegionCode;
     formatData.districtCode = selectedDistrictCode;
     formatData.wardCode = selectedWardCode;
-    // formatData.favoriteFoot = selectedFavoriteFootKey;
 
     if (JSON.stringify(error) === "{}") {
       setLoading(true);
@@ -296,13 +299,6 @@ const UserInfoForm = ({
     });
   };
 
-  // const onChangeFavoriteFoot = (code) => {
-  //   setSelectedDropdownData({
-  //     ...selectedDropdownData,
-  //     selectedFavoriteFootKey: code,
-  //   });
-  // };
-
   const [loadingUpload, setLoadingUpload] = useState(false);
 
   const handleUpload = (e) => {
@@ -328,8 +324,71 @@ const UserInfoForm = ({
     }
   };
 
+  // VALIDATE PHONE WITH FIREBASE
+  const handleValidatePhone = () => {
+    // console.log(
+    //   "connect---------",
+    //   JSON.stringify(firebase.apps[0].options, null, 2)
+    // );
+    try {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible", // invisible
+          callback: function (response) {
+            console.log("response----------", response);
+            // reCAPTCHA solved, allow signInWithPhoneNumber.
+          },
+          "expired-callback": function () {
+            console.log("ex---------");
+            // Response expired. Ask user to solve reCAPTCHA again.
+          },
+        }
+      );
+
+      const appVerifier = window.recaptchaVerifier;
+      const formatPhone = "+84" + phone.slice(1);
+      firebase
+        .auth()
+        .signInWithPhoneNumber(formatPhone, appVerifier)
+        .then(function (confirmationResult) {
+          console.log("Success", confirmationResult);
+          // setVarificationId(confirmationResult.verificationId);
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          setModalPhone(true);
+        })
+        .catch(function (error) {
+          // window.recaptchaVerifier.render().then(function(widgetId) {
+          //   window.grecaptcha.reset(widgetId);
+          // });
+          console.log("Error:" + error.code, error);
+          appVerifier.reset();
+
+          if (error.code && error.code.includes("invalid-phone-number")) {
+            dispatch({
+              type: GET_ERRORS,
+              errors: {
+                ...errors,
+                phone: "Invalid phone number",
+              },
+            });
+          }
+        });
+    } catch (error) {
+      console.log("error------------------", error);
+    }
+  };
   return (
     <PageLoader loading={loading}>
+      <VerifyPhoneModal
+        setModal={setModalPhone}
+        modal={modalPhone}
+        phone={phone}
+        onResend={handleValidatePhone}
+        setValidatePhoneSuccess={setValidatePhoneSuccess}
+      />
       <Row className="justify-content-center">
         <Col xs="3">
           <Paper className={classes.paper}>
@@ -387,7 +446,7 @@ const UserInfoForm = ({
                   variant="outlined"
                 />
               </Col>
-              <Col>
+              <Col xs={12}>
                 <TextFieldInputWithHeader
                   id="outlined-multiline-flexible"
                   name="email"
@@ -402,7 +461,25 @@ const UserInfoForm = ({
                   variant="outlined"
                 />
               </Col>
-              <Col className="mt-4">
+              <Col xs={12}>
+                <TextFieldInputWithHeader
+                  id="outlined-multiline-flexible"
+                  name="phone"
+                  label="Phone"
+                  fullWidth
+                  className="mt-4"
+                  size="small"
+                  value={phone}
+                  onChange={onChange}
+                  placeHolder="Enter Phone"
+                  error={errors.phone}
+                  variant="outlined"
+                />
+                <div id="recaptcha-container"></div>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col xs={6}>
                 <DropdownV2
                   fullWidth
                   label="Gender"
@@ -413,22 +490,6 @@ const UserInfoForm = ({
                   displayProperty="value"
                   onChange={(genderKey) => onSelectGender(genderKey)}
                   error={errors.gender || ""}
-                  variant="outlined"
-                />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col xs={6}>
-                <TextFieldInputWithHeader
-                  id="outlined-multiline-flexible"
-                  name="phone"
-                  label="Phone"
-                  fullWidth
-                  size="small"
-                  value={phone}
-                  onChange={onChange}
-                  placeHolder="Enter Phone"
-                  error={errors.phone}
                   variant="outlined"
                 />
               </Col>
@@ -453,6 +514,7 @@ const UserInfoForm = ({
                 </MuiPickersUtilsProvider>
               </Col>
             </Row>
+
             {/* ADDRESS */}
             <Row className="mt-4">
               <Col xs={4}>
@@ -505,38 +567,6 @@ const UserInfoForm = ({
                 />
               </Col>
             </Row>
-            {/* Extra information */}
-            {/* <Row className="mt-2"> */}
-            {/* <Col xs={6}>
-                      <DropdownV2
-                        fullWidth
-                        label="Farovite Foot"
-                        variant="outlined"
-                        size="small"
-                        disabledPlaceholder="None"
-                        value={selectedFavoriteFootKey.toString()}
-                        options={favoriteFootArr || []}
-                        valueBasedOnProperty="key"
-                        displayProperty="value"
-                        onChange={(code) => onChangeFavoriteFoot(code)}
-                        error={errors.favoriteFoot || ""}
-                      />
-                    </Col>
-                    <Col xs={6}>
-                      <TextFieldInputWithHeader
-                        id="outlined-multiline-flexible"
-                        name="playRole"
-                        label="Play role"
-                        fullWidth
-                        value={playRole}
-                        size="small"
-                        onChange={onChange}
-                        placeHolder="Enter play role"
-                        error={errors.playRole}
-                        variant="outlined"
-                      />
-                    </Col> */}
-            {/* </Row> */}
             <Row className="mt-4">
               <Col xs={6}>
                 <TextFieldInputWithHeader

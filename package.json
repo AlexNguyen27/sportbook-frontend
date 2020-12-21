@@ -16,6 +16,7 @@
     "chart.js": "^2.9.3",
     "file-loader": "^6.2.0",
     "firebase": "^8.1.1",
+    "firebaseui": "^4.7.1",
     "gh-pages": "^2.2.0",
     "hera-js": "^0.4.0",
     "jquery": "^3.5.0",
