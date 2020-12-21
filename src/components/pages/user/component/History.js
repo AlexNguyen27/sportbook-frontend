@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { Col, Row, Button } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import DropdownV2 from "../../../custom/DropdownV2";
 import { ORDER_STATUS } from "../../../../utils/common";
 import moment from "moment";
+import { Button } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -14,6 +15,7 @@ import HistoryTable from "./HistoryTable";
 import { connect } from "react-redux";
 import PageLoader from "../../../custom/PageLoader";
 import { useEffect } from "react";
+import SearchIcon from "@material-ui/icons/Search";
 
 const History = ({ getOrderHistory }) => {
   const STATUS = { ...ORDER_STATUS, all: "All" };
@@ -52,7 +54,7 @@ const History = ({ getOrderHistory }) => {
       <h4 className="text-center mb-4">Your orders</h4>
       <form onSubmit={(e) => onSubmit(e)}>
         <Row style={{ justifyContent: "center" }}>
-          <Col xs={3}>
+          <Col xs={2}>
             <DropdownV2
               fullWidth
               label="Order status"
@@ -65,7 +67,7 @@ const History = ({ getOrderHistory }) => {
               variant="outlined"
             />
           </Col>
-          <Col xs={3}>
+          <Col xs={4}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -86,7 +88,7 @@ const History = ({ getOrderHistory }) => {
               />
             </MuiPickersUtilsProvider>
           </Col>
-          <Col xs={3}>
+          <Col xs={4}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -109,9 +111,16 @@ const History = ({ getOrderHistory }) => {
             </MuiPickersUtilsProvider>
           </Col>
           <Col xs="auto">
-            <Button type="submit" variant="contained" color="primary">
-              Submit
+            <Button
+              type="submit"
+              startIcon={<SearchIcon />}
+              variant="contained"
+            >
+              Search
             </Button>
+          </Col>
+          <Col xs={12}>
+            <hr />
           </Col>
         </Row>
       </form>

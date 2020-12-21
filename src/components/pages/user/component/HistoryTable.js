@@ -175,10 +175,10 @@ const HistoryTable = ({
         title=""
         columns={state.columns}
         data={orderArr || []}
-        style={{ width: "100%", marginTop: "16px" }}
+        style={{ width: "100%" }}
         options={{
-          pageSize: 7,
-          pageSizeOptions: [5, 7, 10, 20],
+          pageSize: 5,
+          pageSizeOptions: [5, 10, 20],
           headerStyle: {
             fontWeight: "bold",
           },

@@ -16,6 +16,7 @@ const DEFAULT_GROUND_IMAGE =
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 280,
+    marginRight: "30px",
   },
   media: {
     paddingTop: "56.25%", // 16:9
@@ -33,10 +34,7 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
   const classes = useStyles();
 
   const history = useHistory();
-  const {
-    title,
-    image = "[]",
-  } = ground;
+  const { title, image = "[]" } = ground;
   const formatImages = JSON.parse(image);
 
   return (
