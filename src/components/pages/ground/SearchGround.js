@@ -81,6 +81,8 @@ const SearchGround = ({
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [onShowAll, setOnShowAll] = useState(false);
+  const [isNearLocation, setNearLocation] = useState(false);
+  const [userLocation, setUserLocation] = useState("");
 
   const [selectedDropdownData, setSelectedDropdownData] = useState({
     selectedRegionCode: "",
@@ -112,7 +114,6 @@ const SearchGround = ({
   const groundArr = Object.keys(grounds).map((groundId) => grounds[groundId]);
 
   const onChangePagination = (e, pageNumber) => {
-    console.log("page", pageNumber, e);
     const getPageData = groundArr.slice(
       DEFAULT_PAGE_SIZE * (pageNumber - 1),
       DEFAULT_PAGE_SIZE * pageNumber
@@ -128,12 +129,24 @@ const SearchGround = ({
     e.preventDefault();
 
     setLoading(true);
+
+    // ["Acb", " Xo Viet Nghe Tinh Road", " Phường 21", " Ho Chi Minh City", " Vietnam"]
+    console.log("hear-------------", userLocation);
+    let location = {};
+    if (isNearLocation) {
+      const locationData = userLocation.split(",");
+      location = {
+        regionName: locationData[3].replace("City", "").trim(),
+      };
+    }
+
     let searchData = {
       search: searchText,
       regionName: REGIONS[selectedRegionCode]?.name_with_type || "",
       districtName: DISTRICTS[selectedDistrictCode]?.name_with_type || "",
       wardName: WARDS[selectedWardCode]?.name_with_type || "",
       categoryId: selectedCategoryId,
+      ...location,
     };
 
     if (onShowAll) {
@@ -216,7 +229,27 @@ const SearchGround = ({
     });
   };
 
-  console.log(dataSource, groundArr);
+  const hanleOnCheckNearLocation = (checked) => {
+    setNearLocation(checked);
+    if (window.navigator.geolocation) {
+      const successfulLookup = (position) => {
+        const { latitude, longitude } = position.coords;
+        fetch(
+          `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=0b605467d7da49cc9ebbefc0991aea71`
+        )
+          .then((response) => response.json())
+          .then(({ results }) => {
+            setUserLocation(results[0].formatted);
+          });
+      };
+      // Geolocation available
+      window.navigator.geolocation.getCurrentPosition(
+        successfulLookup,
+        console.log
+      );
+    }
+  };
+
   // TODO: ADD PAGINAGION LATER
   return (
     <div style={{ minHeight: "661px", background: Colors.background }}>
@@ -342,18 +375,31 @@ const SearchGround = ({
               </Paper>
             </Row>
             <Row>
-              <GreenCheckbox
-                checked={onShowAll}
-                onChange={(e) => onShowAllEmptyField(e.target.checked)}
-                color="primary"
-                inputProps={{ "aria-label": "secondary checkbox" }}
-              />
-              <span style={{ marginTop: "auto", marginBottom: "auto" }}>
-                Show all locations are available today{" "}
-                <span className="font-weight-bold">
-                  ({moment().format("dddd DD-MM-YYYY")})
+              <Col xs={6}>
+                <GreenCheckbox
+                  checked={onShowAll}
+                  onChange={(e) => onShowAllEmptyField(e.target.checked)}
+                  color="primary"
+                  inputProps={{ "aria-label": "secondary checkbox" }}
+                />
+                <span style={{ marginTop: "auto", marginBottom: "auto" }}>
+                  Show all locations are available today{" "}
+                  <span className="font-weight-bold">
+                    ({moment().format("dddd DD-MM-YYYY")})
+                  </span>
                 </span>
-              </span>
+              </Col>
+              <Col xs={6}>
+                <GreenCheckbox
+                  checked={isNearLocation}
+                  onChange={(e) => hanleOnCheckNearLocation(e.target.checked)}
+                  color="primary"
+                  inputProps={{ "aria-label": "secondary checkbox" }}
+                />
+                <span style={{ marginTop: "auto", marginBottom: "auto" }}>
+                  Find playground near your location
+                </span>
+              </Col>
             </Row>
           </form>
           <hr></hr>
