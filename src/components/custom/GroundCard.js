@@ -15,7 +15,7 @@ const DEFAULT_GROUND_IMAGE =
   "https://daily.jstor.org/wp-content/uploads/2018/06/soccer_europe_1050x700.jpg";
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 280,
+    maxWidth: 300,
     marginRight: "30px",
   },
   media: {
@@ -54,7 +54,7 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
           component="p"
           style={{ fontWeight: "bold" }}
         >
-          {title}
+          {truncateMultilineString(title, 28)}
         </Typography>
         <Typography variant="caption" color="textSecondary" component="p">
           <RoomIcon className="mr-1" />
