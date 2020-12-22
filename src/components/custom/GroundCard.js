@@ -58,7 +58,7 @@ const GroundCard = ({ ground, onDelete, onEdit }) => {
         </Typography>
         <Typography variant="caption" color="textSecondary" component="p">
           <RoomIcon className="mr-1" />
-          {truncateMultilineString(getAddress(ground.address), 60) ||
+          {truncateMultilineString(getAddress(ground.address), 55) ||
             "No address"}
         </Typography>
       </CardContent>

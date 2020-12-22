@@ -34,7 +34,7 @@ const History = ({ getOrderHistory }) => {
   }));
 
   const [selectedStartDate, setSelectedStartDate] = React.useState(
-    moment().subtract(7, "days")
+    moment().startOf("month")
   );
 
   const onSubmit = (e) => {
@@ -47,7 +47,9 @@ const History = ({ getOrderHistory }) => {
     });
   };
 
-  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = React.useState(
+    moment().endOf("month")
+  );
 
   return (
     <div>
