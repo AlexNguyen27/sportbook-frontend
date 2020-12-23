@@ -9,10 +9,9 @@ import Typography from "@material-ui/core/Typography";
 // import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 // import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 // import SkipNextIcon from "@material-ui/icons/SkipNext";
-import { Button, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 
-import FiveStars from "../custom/FiveStars";
 import AddLectureModal from "../pages/lectures/AddLectureModal";
 import { BASE_URL } from "../../store/actions/types";
 
@@ -43,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ControlCard = ({ course, auth: { user, isAdmin } }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const { course: courseDetail, teacher } = course;
 

@@ -70,12 +70,6 @@ const SubGround = ({ ground }) => {
   return (
     <div>
       <Paper elevation={3} className={classes.paper}>
-        {/* <div className={classes.btnGroup}> */}
-        {/* <ButtonGroup
-            color="primary"
-            size="small"
-            aria-label="outlined primary button group"
-          > */}
         <Row
           style={{
             justifyContent: "center",

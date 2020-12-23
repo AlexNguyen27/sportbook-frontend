@@ -80,31 +80,6 @@ const Comment = ({
     return userData.firstName + " " + userData.lastName;
   };
 
-  // const onAdd = (e) => {
-  //   e.preventDefault();
-  //   if (!isAuthenticated) {
-  //     Swal.fire({
-  //       title: `Please login to continue?`,
-  //       text: "",
-  //       type: "success",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Login!",
-  //     }).then((result) => {
-  //       if (result.value) {
-  //         history.push("/login");
-  //       }
-  //     });
-  //   } else {
-  //     if (!!comment.trim()) {
-  //       setLoading(true);
-  //       addComment(setLoading, comment, ground.id);
-  //       setComment("");
-  //     }
-  //   }
-  // };
-
   const onEditComment = (commentId) => {
     if (!!editComment.trim()) {
       setEditLoading(true);

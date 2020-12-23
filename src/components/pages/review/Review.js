@@ -43,8 +43,6 @@ const PrettoSlider = withStyles({
 
 const Review = ({ ratings = [] }) => {
   const classes = useStyles();
-  // get trung binh cong cua review
-
   const averageRate =
     ratings.length > 0
       ? ratings.reduce((acc, curr) => acc + curr.point, 0) / ratings.length

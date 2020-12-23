@@ -250,7 +250,6 @@ const SearchGround = ({
     }
   };
 
-  // TODO: ADD PAGINAGION LATER
   return (
     <div style={{ minHeight: "661px", background: Colors.background }}>
       <Row className={classes.wrapper}>

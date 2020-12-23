@@ -1,11 +1,7 @@
 import React from "react";
 import alternative from "../../images/header-teamwork.svg";
-import header from "../../images/background-header.png";
-import { useHistory } from "react-router-dom";
-// import landing from '../../images/landing-img.png';
 
 const Header = () => {
-  const history = useHistory();
   return (
     <header id="header" className="header">
       <div className="header-content">

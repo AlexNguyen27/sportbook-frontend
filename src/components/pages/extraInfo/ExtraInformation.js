@@ -1,47 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import { Row, Col } from "reactstrap";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 
-import { GET_ERRORS, CLEAR_ERRORS } from "../../../store/actions/types";
+import { CLEAR_ERRORS } from "../../../store/actions/types";
 import PageLoader from "../../custom/PageLoader";
-import {
-  editUserInfo,
-  getUserInfo,
-  editExtraInfo,
-} from "../../../store/actions/user";
-import { FAVORITE_FOOT } from "../../../utils/common";
+import { editExtraInfo } from "../../../store/actions/user";
 import ExtraInfoForm from "./component/ExtraInfoForm";
 import SocialNetworkForm from "./component/SocialNetworkForm";
 
-const useStyles = makeStyles((theme) => ({}));
-
-const UserInfoForm = ({
-  user,
-  errors,
-  getUserInfo,
-  editExtraInfo,
-  loading,
-  setLoading,
-}) => {
-  const classes = useStyles();
+const UserInfoForm = ({ user, editExtraInfo, loading, setLoading }) => {
   const dispatch = useDispatch();
 
-  // const [loading, setLoading] = useState(true);
-
-  // const favoriteFootArr = Object.keys(FAVORITE_FOOT).map((key) => ({
-  //   key: key,
-  //   value: FAVORITE_FOOT[key],
-  // }));
-
-  // const [selectedDropdownData, setSelectedDropdownData] = useState({
-  //   selectedFavoriteFootKey: "",
-  // });
-
-  // const { selectedFavoriteFootKey } = selectedDropdownData;
   const [socialNetworkForm, setSocialNetworkForm] = useState({
     facebook: "",
     zalo: "",
@@ -85,31 +57,12 @@ const UserInfoForm = ({
   };
 
   useEffect(() => {
-    console.log("erer---------------------");
-    // getUserInfo(user.id, setLoading);
     setInit();
   }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // const formatData = trimObjProperties(formData);
-
-    // let error = {};
-    // Object.keys(formatData).map((key) => {
-    //   if (formatData[key].trim() === "") {
-    //     error[key] = "This field is required";
-    //   }
-    // });
-
-    // dispatch({
-    //   type: GET_ERRORS,
-    //   errors: error,
-    // });
     editExtraInfo(setLoading, socialNetworkForm, extraInfoForm);
-    // if (JSON.stringify(error) === "{}") {
-    //   setLoading(true);
-    //   editUserInfo(setLoading, formatData, user.id);
-    // }
   };
 
   const onCancel = () => {
@@ -118,13 +71,6 @@ const UserInfoForm = ({
       type: CLEAR_ERRORS,
     });
   };
-
-  // const onChangeFavoriteFoot = (code) => {
-  //   setSelectedDropdownData({
-  //     ...selectedDropdownData,
-  //     selectedFavoriteFootKey: code,
-  //   });
-  // };
 
   return (
     <PageLoader loading={loading}>
@@ -170,6 +116,5 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 export default connect(mapStateToProps, {
-  getUserInfo,
   editExtraInfo,
 })(UserInfoForm);

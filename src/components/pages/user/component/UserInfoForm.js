@@ -359,9 +359,6 @@ const UserInfoForm = ({
           setModalPhone(true);
         })
         .catch(function (error) {
-          // window.recaptchaVerifier.render().then(function(widgetId) {
-          //   window.grecaptcha.reset(widgetId);
-          // });
           console.log("Error:" + error.code, error);
           appVerifier.reset();
 

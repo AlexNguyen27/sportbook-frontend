@@ -7,18 +7,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Rating from "@material-ui/lab/Rating";
 import { Row, Col, Modal, ModalBody, ModalFooter, Form } from "reactstrap";
 import { addOrUpdateRating } from "../../../../store/actions/rating";
-import { makeStyles } from "@material-ui/core/styles";
 import { orange } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    "& > * + *": {
-      marginLeft: theme.spacing(2),
-    },
-  },
-}));
 
 const ReviewButton = withStyles((theme) => ({
   root: {
@@ -49,7 +39,6 @@ const ReviewModel = ({
   const closeModal = () => {
     setModal(false);
   };
-  const classes = useStyles();
   // HANDLE ON SUBMIT FROM ADD NEW GROUP
   const onSubmit = (e) => {
     e.preventDefault();
@@ -57,8 +46,6 @@ const ReviewModel = ({
     // TODO call add review here
     addOrUpdateRating(setLoading, point, ground.id);
   };
-
-  // Save on change input value
 
   return (
     <Modal isOpen={modal} toggle={() => closeModal()} centered={true}>
@@ -85,7 +72,6 @@ const ReviewModel = ({
                   }}
                   size="large"
                 />
-                <span></span>
               </div>
             </Col>
           </Row>

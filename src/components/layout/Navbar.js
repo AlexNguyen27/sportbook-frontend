@@ -1,14 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../store/actions/auth";
-// import logo from '../../images/logo.svg';
-
-import Landing from "../pages/homePage/component/Landing";
-import Swal from "sweetalert2";
 
 const Navbar = ({ logoutUser, navLinks = [], isHome }) => {
-  const history = useHistory();
   const [activeClass, setActiveClass] = useState("");
 
   useEffect(() => {
