@@ -25,11 +25,11 @@ const UserInfoCard = ({ orderDetail }) => {
   return (
     <Paper elevation={3} className="p-4">
       <Row>
-        <Col xs={2}>
+        <Col xs={3}>
           <img
             src={BASE_IMAGE_URL}
             alt="Girl in a jacket"
-            width="140"
+            width="auto"
             height={140}
           />
         </Col>
