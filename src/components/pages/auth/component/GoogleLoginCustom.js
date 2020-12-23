@@ -18,13 +18,14 @@ const GoogleLoginCustom = ({
   const [exitEmail, setIsExitEmail] = useState({});
 
   const onFailure = (response) => {
+    console.log('error------------------', response)
     if (response?.error !== "popup_closed_by_user") {
-      Swal.fire({
-        position: "center",
-        type: "Warning",
-        title: "An error occurred!\n Please try again!",
-        showConfirmButton: true,
-      });
+      // Swal.fire({
+      //   position: "center",
+      //   type: "Warning",
+      //   title: "An error occurred!\n Please try again!",
+      //   showConfirmButton: true,
+      // });
     }
   };
 

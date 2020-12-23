@@ -19,12 +19,12 @@ const FacebookLoginCustom = ({
   const handleError = (response) => {
     console.log("error----------------------", response);
     if (response?.error) {
-      Swal.fire({
-        position: "center",
-        type: "Warning",
-        title: "An error occurred!\n Please try again!",
-        showConfirmButton: true,
-      });
+      // Swal.fire({
+      //   position: "center",
+      //   type: "Warning",
+      //   title: "An error occurred!\n Please try again!",
+      //   showConfirmButton: true,
+      // });
     }
   };
 
