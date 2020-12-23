@@ -7,7 +7,7 @@ import { Button } from "@material-ui/core";
 // COMPONENT
 import PageTitle from "../../custom/PageTitle";
 import TextFieldInputWithHeader from "../../custom/TextFieldInputWithheader";
-import Landing from "../../layout/Landing";
+// import Landing from "../../layout/Landing";
 
 // ACTION
 import { loginUser } from "../../../store/actions/auth";
@@ -65,7 +65,7 @@ const ResetPassword = ({
 
   return (
     <Fragment>
-      <Landing />
+      {/* <Landing /> */}
       <Grid container justify="center">
         <Grid item xs={12} sm={4}>
           <form onSubmit={(e) => onSubmit(e)}>

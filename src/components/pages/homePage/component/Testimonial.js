@@ -1,8 +1,6 @@
 import React from "react";
 import manTalk from "../../../../images/testimonials-2-men-talking.svg";
 import test1 from "../../../../images/testimonial-1.svg";
-import test2 from "../../../../images/testimonial-2.svg";
-import test3 from "../../../../images/testimonial-3.svg";
 
 function Testimonial(props) {
   return (
@@ -36,46 +34,6 @@ function Testimonial(props) {
                         </p>
                         <p className="testimonial-author">
                           Jude Thorn - Designer
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="swiper-slide">
-                    <div className="card">
-                      <img
-                        className="card-image"
-                        src={test2}
-                        alt="alternative"
-                      />
-                      <div className="card-body">
-                        <p className="testimonial-text">
-                          Evolo has always helped or startup to position itself
-                          in the highly competitive market of mobile
-                          applications. You will not regret using it!
-                        </p>
-                        <p className="testimonial-author">
-                          Marsha Singer - Developer
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="swiper-slide">
-                    <div className="card">
-                      <img
-                        className="card-image"
-                        src={test3}
-                        alt="alternative"
-                      />
-                      <div className="card-body">
-                        <p className="testimonial-text">
-                          Love their services and was so amazed with the support
-                          and results that I purchased Evolo for two years in a
-                          row. They are awesome.
-                        </p>
-                        <p className="testimonial-author">
-                          Roy Smith - Marketer
                         </p>
                       </div>
                     </div>
