@@ -20,7 +20,6 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
       confirmButtonText: "Yes, Sure",
     }).then((result) => {
       if (result.value) {
-        console.log("herer000000000000000000");
         logoutUser();
         history.push("/");
       }
@@ -49,18 +48,6 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     {
       name: "Your Account",
       to: "/login",
-      // children: [
-      //   {
-      //     name: "Your account",
-      //     to: "/your-account",
-      //     onClick: () => {},
-      //   },
-      //   {
-      //     name: "Order management",
-      //     to: "/your-account",
-      //     onClick: () => {},
-      //   },
-      // ],
     },
 
     {
@@ -72,7 +59,6 @@ const Main = ({ children, isHome, auth, logoutUser }) => {
     },
   ];
 
-  console.log("match00000000---------------", window.location);
   const navLinks = [
     {
       name: "Home",

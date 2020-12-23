@@ -17,7 +17,6 @@ function Testimonial(props) {
           <div className="col-lg-6">
             <h2>Loyal customers</h2>
 
-            {/* TODO: FIX LATER */}
             {/* GET TOP 3 OWNER HAVE GROUND HAVE ORDER */}
             <div className="slider-container">
               <div className="swiper-container card-slider">

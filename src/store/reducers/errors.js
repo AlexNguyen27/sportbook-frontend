@@ -1,6 +1,7 @@
 import { GET_ERRORS, CLEAR_ERRORS, UNAUTHENTICATE } from "../actions/types";
 
 const initialState = {};
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   const { errors, type } = action;
   switch (type) {

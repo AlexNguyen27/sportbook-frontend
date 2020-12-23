@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MaterialTable from "material-table";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -28,7 +28,6 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { Alert } from "reactstrap";
 import Colors from "../../../../constants/Colors";
-import PageLoader from "../../../custom/PageLoader";
 import { capitalizeFirstLetter } from "../../../../utils/commonFunction";
 import {
   getOrderHistory,
@@ -61,13 +60,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const HistoryTable = ({
-  getOrderHistory,
-  orders,
-  status,
-  fromDate,
-  toDate,
-}) => {
+const HistoryTable = ({ orders }) => {
   const history = useHistory();
   const [state, setState] = useState({
     columns: [
@@ -168,37 +161,36 @@ const HistoryTable = ({
     discount: orders[orderId].discount.toString(),
     createdAt: getDateTime(orders[orderId].createdAt),
   }));
-  
+
   return (
-      <MaterialTable
-        icons={tableIcons}
-        title=""
-        columns={state.columns}
-        data={orderArr || []}
-        style={{ width: "100%" }}
-        options={{
-          pageSize: 5,
-          pageSizeOptions: [5, 10, 20],
-          headerStyle: {
-            fontWeight: "bold",
+    <MaterialTable
+      icons={tableIcons}
+      title=""
+      columns={state.columns}
+      data={orderArr || []}
+      style={{ width: "100%" }}
+      options={{
+        pageSize: 5,
+        pageSizeOptions: [5, 10, 20],
+        headerStyle: {
+          fontWeight: "bold",
+        },
+        rowStyle: {
+          width: "auto",
+          overflowX: "auto",
+        },
+        actionsColumnIndex: -1,
+      }}
+      actions={[
+        {
+          icon: () => <VisibilityIcon style={{ color: Colors.view }} />,
+          tooltip: "Order detail",
+          onClick: (event, rowData) => {
+            history.push(`/order-detail/${rowData.id}`);
           },
-          rowStyle: {
-            width: "auto",
-            overflowX: "auto",
-          },
-          // search: false,
-          actionsColumnIndex: -1,
-        }}
-        actions={[
-          {
-            icon: () => <VisibilityIcon style={{ color: Colors.view }} />,
-            tooltip: "Order detail",
-            onClick: (event, rowData) => {
-              history.push(`/order-detail/${rowData.id}`);
-            },
-          },
-        ]}
-      />
+        },
+      ]}
+    />
   );
 };
 const mapStateToProps = (state) => ({

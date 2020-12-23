@@ -16,7 +16,6 @@ import {
   Form,
 } from "reactstrap";
 import { GET_ERRORS } from "../../../../store/actions/types";
-// import * as firebase from "firebase";
 import "firebase/auth";
 import Swal from "sweetalert2";
 
@@ -28,7 +27,6 @@ const VerifyPhoneModal = ({
   setModal,
   onResend,
   phone,
-  //   setVarificationId,
   setValidatePhoneSuccess,
 }) => {
   const dispatch = useDispatch();
@@ -61,7 +59,6 @@ const VerifyPhoneModal = ({
         // User signed in successfully.
         console.log("result=------------------", result);
         setValidatePhoneSuccess(true);
-        // setVarificationId(null); // success
         if (errors.confirmPhone) {
           delete errors.confirmPhone;
         }

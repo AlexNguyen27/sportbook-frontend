@@ -24,9 +24,8 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
     numberOfPlayers,
     groundBenefit = [],
   } = orderData;
-  console.log('here-------------------', startDay)
 
-  // todo CHECK START DATE HERE
+  // CHECK START DATE HERE
   const getDiffDate = () => {
     const diff = moment(startDay).diff(moment());
     if (diff) {

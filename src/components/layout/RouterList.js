@@ -1,15 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-// import Container from "@material-ui/core/Container";
 
 // Route
 import NotFound from "../layout/NotFound";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
-// import Courses from '../pages/courses/Courses';
 import ProtectedRoute from "../custom/ProtectedRoute";
-// import ResetPassword from "../pages/auth/ResetPassword";
 import HomePageUser from "../pages/homePage/HomePageUser";
 import User from "../pages/user/User";
 import SearchGround from "../pages/ground/SearchGround";
