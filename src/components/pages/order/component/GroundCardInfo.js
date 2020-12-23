@@ -78,7 +78,7 @@ const GroundCardInfo = ({ order: { orderData = {} }, benefits }) => {
         {` To ${moment(endTime, "HH:mm:ss").format("HH:mm")}`}
       </p>
       <p>
-        {moment(startDay).format("dddd, DD-MM-YYYY")} {getDiffDate()}
+        {moment(startDay, 'DD-MM-YYYY').format("dddd, DD-MM-YYYY")} {getDiffDate()}
       </p>
       <hr />
       <Row>
