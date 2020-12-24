@@ -79,7 +79,7 @@ export const getGrounds = (setLoading, isAvailable) => async (
       },
       query: `
               query {
-                  categories {
+                  categories(status: "enabled") {
                       id, 
                       name,
                       status
@@ -228,7 +228,7 @@ export const getSearchGrounds = (
 ) => async (dispatch, getState) => {
   const { token, user } = getState().auth;
 
-  if(user.id) {
+  if (user.id) {
     // MAP WITH USER LOCAL ADDRESS
   }
 
