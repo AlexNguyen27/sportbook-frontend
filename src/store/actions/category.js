@@ -1,16 +1,11 @@
 import logoutDispatch from "../../utils/logoutDispatch";
-import {
-  GET_ERRORS,
-  BASE_URL,
-  GET_CATEGORIES,
-} from "./types";
+import { GET_ERRORS, BASE_URL, GET_CATEGORIES } from "./types";
 import { hera } from "hera-js";
 import { arrayToObject } from "../../utils/commonFunction";
 
 // DONT NEED TO USE AT USE
 export const getCategories = (setLoading) => async (dispatch, getState) => {
   const { token } = getState().auth;
-
   const { data, errors } = await hera({
     options: {
       url: BASE_URL,
@@ -21,7 +16,7 @@ export const getCategories = (setLoading) => async (dispatch, getState) => {
     },
     query: `
             query {
-                categories {
+                categories(status: "enable") {
                     id, 
                     name,
                     status
