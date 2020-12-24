@@ -136,7 +136,7 @@ const SearchGround = ({
     if (isNearLocation) {
       const locationData = userLocation.split(",");
       location = {
-        regionName: locationData[3].replace("City", "").trim(),
+        regionName: locationData[4].replace("City", "").trim(),
       };
     }
 
