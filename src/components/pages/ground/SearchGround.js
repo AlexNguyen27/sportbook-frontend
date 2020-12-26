@@ -121,7 +121,6 @@ const SearchGround = ({
 
     setDataSource([...getPageData]);
   };
-  // TODO : FIX PAGINATION
   const [dataSource, setDataSource] = useState([]);
   const [searchText, setSearchText] = useState("");
 
@@ -131,15 +130,20 @@ const SearchGround = ({
     setLoading(true);
 
     // ["Acb", " Xo Viet Nghe Tinh Road", " Phường 21", " Ho Chi Minh City", " Vietnam"]
-    console.log("hear-------------", userLocation);
+    // 13, Bến Nguyễn Duy, District 8, Ho Chi Minh City, Vietnam
+    console.log("your location-------------", userLocation);
     let location = {};
     if (isNearLocation) {
       const locationData = userLocation.split(",");
+      const city = locationData.find((item) => item.includes("City"));
+      const district = locationData.find((item) => item.includes("District"));
       location = {
-        regionName: locationData[4].replace("City", "").trim(),
+        regionName: !city ? "" : city.replace("City", "").trim(),
+        districtName: !district ? "" : district.replace("District", "").trim(),
       };
     }
 
+    console.log("location-------------", location);
     let searchData = {
       search: searchText,
       regionName: REGIONS[selectedRegionCode]?.name_with_type || "",

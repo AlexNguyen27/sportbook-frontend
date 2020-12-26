@@ -130,7 +130,6 @@ const PriceDetail = ({
     return formatSubGrounds;
   };
 
-  console.log(subGroundData(), subGrounds);
   return (
     <div className={classes.root}>
       {!subGroundData().length ? (
@@ -156,7 +155,10 @@ const PriceDetail = ({
             </AccordionSummary>
             <AccordionDetails>
               <Row style={{ width: "100%" }}>
-                {(item.formatPrices ? item.formatPrices : item.prices).map(
+                {console.log(item.prices)}
+                {(item.formatPrices ? item.formatPrices : item.prices)
+                .sort((a, b) => a.startTime.localeCompare(b.startTime))
+                .map(
                   (price) => (
                     <Col xs="auto" className="text-center ">
                       <Tooltip title="Book this time">
